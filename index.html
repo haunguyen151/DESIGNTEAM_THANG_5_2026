@@ -100,6 +100,32 @@
         .pulse-circle { animation: pulse-ring 3s infinite ease-in-out; }
         .animate-spin-slow { animation: spin 12s linear infinite; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        /* Nút Upload nhỏ cách điệu chuẩn PNJ */
+        .admin-upload-btn {
+            position: absolute !important;
+            top: 6px !important;
+            right: 6px !important;
+            width: 26px !important;
+            height: 26px !important;
+            border-radius: 9999px !important;
+            background-color: rgba(255, 255, 255, 0.95) !important;
+            border: 1.5px solid rgba(184, 134, 11, 0.5) !important;
+            color: #9A161F !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
+            cursor: pointer !important;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            z-index: 45 !important;
+        }
+        .admin-upload-btn:hover {
+            transform: scale(1.15) !important;
+            background-color: #003366 !important;
+            color: #ffffff !important;
+            border-color: #003366 !important;
+        }
     </style>
 </head>
 <body class="min-h-screen bg-[#FCF9F2] font-sans selection:bg-[#B8860B] selection:text-white pb-12 overflow-x-hidden animate-fade-in">
@@ -114,15 +140,21 @@
     <nav class="bg-white shadow-sm px-4 md:px-6 lg:px-8 py-3 md:py-4 flex justify-between items-center border-b-2 border-[#B8860B] sticky top-0 z-50">
         <div class="flex items-center gap-3 md:gap-4 select-none">
             <!-- LOGO KHỐI KHBL - Nhấp đúp để kích hoạt trạng thái Backend -->
-            <img 
-                id="brand-logo"
-                src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776075291/d2evwb1jzgaizbo91wfc.png" 
-                alt="Logo KHBL" 
-                class="h-9 sm:h-12 md:h-14 lg:h-16 w-auto object-contain shrink-0 cursor-pointer active:scale-95 transition-transform"
-                title="Double click để mở chế độ chỉnh sửa Backend"
-                ondblclick="promptAdminAccess()"
-                onerror="this.onerror=null; this.src='https://placehold.co/120x60/003366/FFFFFF?text=KHBL&font=Montserrat';"
-            />
+            <div class="relative group/media inline-block shrink-0">
+                <img 
+                    id="brand-logo"
+                    src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776075291/d2evwb1jzgaizbo91wfc.png" 
+                    alt="Logo KHBL" 
+                    class="h-9 sm:h-12 md:h-14 lg:h-16 w-auto object-contain shrink-0 cursor-pointer active:scale-95 transition-transform"
+                    title="Double click để mở chế độ chỉnh sửa Backend"
+                    ondblclick="promptAdminAccess()"
+                    onerror="this.onerror=null; this.src='https://placehold.co/120x60/003366/FFFFFF?text=KHBL&font=Montserrat';"
+                />
+                <!-- Upload button cho logo chính -->
+                <button onclick="triggerMediaUpload('brand-logo')" class="admin-upload-btn hidden" title="Thay thế Logo thương hiệu">
+                    <i data-lucide="image" class="w-3.5 h-3.5"></i>
+                </button>
+            </div>
             
             <div class="border-l-2 border-gray-200 pl-3 md:pl-4 cursor-pointer" ondblclick="promptAdminAccess()">
                 <h1 class="font-bold text-[#003366] text-sm md:text-lg lg:text-xl tracking-wider leading-tight uppercase">CREATIVE HUB</h1>
@@ -131,6 +163,12 @@
         </div>
         
         <div class="flex items-center gap-2">
+            <!-- Huy hiệu chỉ định trạng thái môi trường (GitHub vs Sandbox) -->
+            <div id="env-status-badge" class="flex items-center gap-1.5 text-xs font-bold text-gray-500 bg-gray-100 px-3 py-1.5 rounded-full border border-gray-200 shadow-sm">
+                <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+                <span id="env-status-text">CHẾ ĐỘ XEM TRÊN GITHUB</span>
+            </div>
+
             <!-- Admin indicator tag -->
             <div id="admin-badge" class="hidden items-center gap-1.5 text-xs font-bold text-white bg-[#9A161F] px-3.5 py-1.5 rounded-full shadow-md animate-pulse">
                 <i data-lucide="lock-open" class="w-3.5 h-3.5"></i>
@@ -242,14 +280,14 @@
                                 Video giới thiệu ZMP <br class="hidden sm:block"> Trợ thủ số đắc lực cho chi nhánh
                             </p>
                         </div>
-                        <div class="relative group/vid rounded-[1.25rem] overflow-hidden shadow-lg border-2 border-[#F9F1E5] p-1.5 bg-[#F9F1E5] h-[280px] sm:h-[320px] w-full">
+                        <div class="relative group/media rounded-[1.25rem] overflow-hidden shadow-lg border-2 border-[#F9F1E5] p-1.5 bg-[#F9F1E5] h-[280px] sm:h-[320px] w-full">
                             <video id="video-zmp" controls autoplay muted loop playsinline class="w-full h-full object-cover rounded-xl bg-black shadow-sm">
                                 <source src="https://res.cloudinary.com/dhe7uziws/video/upload/v1776226195/qkblj54tkrwjd3bn2x7l.mp4" type="video/mp4">
                             </video>
                             
                             <!-- Backend Upload Button -->
-                            <button onclick="triggerMediaUpload('video-zmp')" class="admin-upload-btn hidden absolute top-4 right-4 bg-white text-[#9A161F] hover:bg-gray-100 p-2.5 rounded-full shadow-lg transition-all hover:scale-110 z-20 border border-gray-200 flex items-center justify-center cursor-pointer" title="Thay thế video (Chỉ dành cho Backend)">
-                                <i data-lucide="video" class="w-5 h-5"></i>
+                            <button onclick="triggerMediaUpload('video-zmp')" class="admin-upload-btn hidden" title="Thay thế video giới thiệu ZMP">
+                                <i data-lucide="video" class="w-3.5 h-3.5"></i>
                             </button>
                         </div>
                     </div>
@@ -265,7 +303,7 @@
                         </div>
                     </div>
 
-                    <!-- THỐNG KÊ SỐ LIỆU SANG TRỌNG THAY THẾ CHO CLICK XEM NGAY -->
+                    <!-- THỐNG KÊ SỐ LIỆU SANG TRỌNG -->
                     <div class="flex-1 flex flex-col justify-center py-6 space-y-4">
                         <!-- Thống kê lượt xem -->
                         <div class="bg-[#F9F1E5]/40 rounded-2xl p-4 border border-[#B8860B]/10 flex items-center gap-4 hover:bg-amber-50/40 transition-colors shadow-sm">
@@ -279,7 +317,7 @@
                         </div>
                         
                         <!-- Thống kê tỷ lệ click -->
-                        <div class="bg-[#F9F1E5]/40 rounded-2xl p-4 border border-[#B8860B]/10 flex items-center gap-4 hover:bg-amber-50/40 transition-colors shadow-sm">
+                        <div class="bg-[#F9F1E5]/40 rounded-2xl p-4 border border-[#003366]/10 flex items-center gap-4 hover:bg-amber-50/40 transition-colors shadow-sm">
                             <div class="w-10 h-10 rounded-xl bg-[#003366]/10 flex items-center justify-center text-[#003366] shrink-0">
                                 <i data-lucide="mouse-pointer-click" class="w-5 h-5"></i>
                             </div>
@@ -322,7 +360,7 @@
                             </p>
                         </div>
                         
-                        <div class="rounded-[1.25rem] shadow-lg border-2 border-[#F9F1E5] p-1.5 bg-[#F9F1E5] h-[280px] sm:h-[320px] w-full relative group/img">
+                        <div class="rounded-[1.25rem] shadow-lg border-2 border-[#F9F1E5] p-1.5 bg-[#F9F1E5] h-[280px] sm:h-[320px] w-full relative group/media">
                             <div class="h-full w-full overflow-y-auto rounded-xl bg-white shadow-inner custom-scrollbar-container">
                                 <img 
                                     id="img-ebrochure-1"
@@ -332,8 +370,8 @@
                                 >
                             </div>
                             <!-- Backend Upload Button -->
-                            <button onclick="triggerMediaUpload('img-ebrochure-1')" class="admin-upload-btn hidden absolute top-4 right-4 bg-white text-[#9A161F] hover:bg-gray-100 p-2.5 rounded-full shadow-lg transition-all hover:scale-110 z-20 border border-gray-200 flex items-center justify-center cursor-pointer" title="Thay thế hình ảnh (Chỉ dành cho Backend)">
-                                <i data-lucide="image" class="w-5 h-5"></i>
+                            <button onclick="triggerMediaUpload('img-ebrochure-1')" class="admin-upload-btn hidden" title="Thay thế hình ảnh Preview E-Brochure">
+                                <i data-lucide="image" class="w-3.5 h-3.5"></i>
                             </button>
                         </div>
                     </div>
@@ -363,7 +401,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-8 items-stretch">
                     
                     <!-- Box 1: KHCS -->
-                    <div class="bg-white rounded-2xl shadow-lg border-t-4 border-[#003366] p-5 sm:p-6 lg:p-8 hover:-translate-y-2 transition-transform duration-300 flex flex-col h-full">
+                    <div class="bg-white rounded-2xl shadow-lg border-t-4 border-[#003366] p-5 sm:p-6 lg:p-8 hover:-translate-y-2 transition-transform duration-300 flex flex-col h-full relative">
                         <div class="flex items-center gap-3 md:gap-4 mb-5 pb-5 border-b border-gray-100">
                             <div class="w-10 h-10 md:w-14 md:h-14 rounded-full bg-[#003366] flex items-center justify-center text-white shadow-md shrink-0">
                                 <i data-lucide="store" class="w-5 h-5 md:w-7 md:h-7"></i>
@@ -389,33 +427,33 @@
                                 </button>
 
                                 <div id="khcs-scroll-container" class="w-full overflow-x-auto flex gap-4 pb-3 pt-1 px-1 custom-scrollbar-container scroll-smooth snap-x snap-mandatory">
-                                    <div class="relative shrink-0 snap-center group/img">
+                                    <div class="relative shrink-0 snap-center group/media">
                                         <img id="img-khcs-1" src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776233778/rqkvyjn21kwt5iikizqk.png" alt="KHCS 1" class="w-[90vw] sm:w-auto h-auto sm:h-24 md:h-28 rounded-lg shadow-sm border border-gray-200 object-cover block">
-                                        <button onclick="triggerMediaUpload('img-khcs-1')" class="admin-upload-btn hidden absolute top-2 right-2 bg-white text-[#9A161F] hover:bg-gray-100 p-1.5 rounded-full shadow-lg transition-all hover:scale-110 z-20 border border-gray-200 flex items-center justify-center cursor-pointer" title="Thay thế hình ảnh">
+                                        <button onclick="triggerMediaUpload('img-khcs-1')" class="admin-upload-btn hidden" title="Thay thế hình ảnh KHCS 1">
                                             <i data-lucide="image" class="w-3.5 h-3.5"></i>
                                         </button>
                                     </div>
-                                    <div class="relative shrink-0 snap-center group/img">
+                                    <div class="relative shrink-0 snap-center group/media">
                                         <img id="img-khcs-2" src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776231540/ujdka8rxz5qvknmjjlwh.jpg" alt="KHCS 2" class="w-[90vw] sm:w-auto h-auto sm:h-24 md:h-28 rounded-lg shadow-sm border border-gray-200 object-cover block">
-                                        <button onclick="triggerMediaUpload('img-khcs-2')" class="admin-upload-btn hidden absolute top-2 right-2 bg-white text-[#9A161F] hover:bg-gray-100 p-1.5 rounded-full shadow-lg transition-all hover:scale-110 z-20 border border-gray-200 flex items-center justify-center cursor-pointer" title="Thay thế hình ảnh">
+                                        <button onclick="triggerMediaUpload('img-khcs-2')" class="admin-upload-btn hidden" title="Thay thế hình ảnh KHCS 2">
                                             <i data-lucide="image" class="w-3.5 h-3.5"></i>
                                         </button>
                                     </div>
-                                    <div class="relative shrink-0 snap-center group/img">
+                                    <div class="relative shrink-0 snap-center group/media">
                                         <img id="img-khcs-3" src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776231540/zlm0z25hrwm6yndrikql.jpg" alt="KHCS 3" class="w-[90vw] sm:w-auto h-auto sm:h-24 md:h-28 rounded-lg shadow-sm border border-gray-200 object-cover block">
-                                        <button onclick="triggerMediaUpload('img-khcs-3')" class="admin-upload-btn hidden absolute top-2 right-2 bg-white text-[#9A161F] hover:bg-gray-100 p-1.5 rounded-full shadow-lg transition-all hover:scale-110 z-20 border border-gray-200 flex items-center justify-center cursor-pointer" title="Thay thế hình ảnh">
+                                        <button onclick="triggerMediaUpload('img-khcs-3')" class="admin-upload-btn hidden" title="Thay thế hình ảnh KHCS 3">
                                             <i data-lucide="image" class="w-3.5 h-3.5"></i>
                                         </button>
                                     </div>
-                                    <div class="relative shrink-0 snap-center group/img">
+                                    <div class="relative shrink-0 snap-center group/media">
                                         <img id="img-khcs-4" src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776231540/tkzby2mwihz5wb2koivy.jpg" alt="KHCS 4" class="w-[90vw] sm:w-auto h-auto sm:h-24 md:h-28 rounded-lg shadow-sm border border-gray-200 object-cover block">
-                                        <button onclick="triggerMediaUpload('img-khcs-4')" class="admin-upload-btn hidden absolute top-2 right-2 bg-white text-[#9A161F] hover:bg-gray-100 p-1.5 rounded-full shadow-lg transition-all hover:scale-110 z-20 border border-gray-200 flex items-center justify-center cursor-pointer" title="Thay thế hình ảnh">
+                                        <button onclick="triggerMediaUpload('img-khcs-4')" class="admin-upload-btn hidden" title="Thay thế hình ảnh KHCS 4">
                                             <i data-lucide="image" class="w-3.5 h-3.5"></i>
                                         </button>
                                     </div>
-                                    <div class="relative shrink-0 snap-center group/img">
+                                    <div class="relative shrink-0 snap-center group/media">
                                         <img id="img-khcs-5" src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776231540/vjsx0sqt6493hf4rc6wy.jpg" alt="KHCS 5" class="w-[90vw] sm:w-auto h-auto sm:h-24 md:h-28 rounded-lg shadow-sm border border-gray-200 object-cover block">
-                                        <button onclick="triggerMediaUpload('img-khcs-5')" class="admin-upload-btn hidden absolute top-2 right-2 bg-white text-[#9A161F] hover:bg-gray-100 p-1.5 rounded-full shadow-lg transition-all hover:scale-110 z-20 border border-gray-200 flex items-center justify-center cursor-pointer" title="Thay thế hình ảnh">
+                                        <button onclick="triggerMediaUpload('img-khcs-5')" class="admin-upload-btn hidden" title="Thay thế hình ảnh KHCS 5">
                                             <i data-lucide="image" class="w-3.5 h-3.5"></i>
                                         </button>
                                     </div>
@@ -429,13 +467,13 @@
                         </div>
                         
                         <div class="mt-auto pt-2 border-t border-gray-100">
-                            <div class="relative group/vid rounded-xl overflow-hidden shadow-sm border border-[#B8860B]/20 bg-[#F9F1E5] p-1 mt-2">
+                            <div class="relative group/media rounded-xl overflow-hidden shadow-sm border border-[#B8860B]/20 bg-[#F9F1E5] p-1 mt-2">
                                 <video id="video-khcs" controls autoplay muted loop playsinline class="w-full h-auto max-h-[160px] sm:max-h-[180px] object-cover rounded-lg">
                                     <source src="https://res.cloudinary.com/dhe7uziws/video/upload/v1776233837/kxpc9ncmzm7tgxgcppus.mp4" type="video/mp4">
                                 </video>
                                 
                                 <!-- Backend Upload Button -->
-                                <button onclick="triggerMediaUpload('video-khcs')" class="admin-upload-btn hidden absolute top-3 right-3 bg-white text-[#9A161F] hover:bg-gray-100 p-1.5 rounded-full shadow-lg transition-all hover:scale-110 z-20 border border-gray-200 flex items-center justify-center cursor-pointer" title="Thay thế video (Chỉ dành cho Backend)">
+                                <button onclick="triggerMediaUpload('video-khcs')" class="admin-upload-btn hidden" title="Thay thế video KHCS">
                                     <i data-lucide="video" class="w-3.5 h-3.5"></i>
                                 </button>
                             </div>
@@ -443,7 +481,7 @@
                     </div>
 
                     <!-- Box 2: OMNI MKT -->
-                    <div class="bg-white rounded-2xl shadow-lg border-t-4 border-[#B8860B] p-5 sm:p-6 lg:p-8 hover:-translate-y-2 transition-transform duration-300 flex flex-col h-full">
+                    <div class="bg-white rounded-2xl shadow-lg border-t-4 border-[#B8860B] p-5 sm:p-6 lg:p-8 hover:-translate-y-2 transition-transform duration-300 flex flex-col h-full relative">
                         <div class="flex items-center gap-3 md:gap-4 mb-5 pb-5 border-b border-gray-100">
                             <div class="w-10 h-10 md:w-14 md:h-14 rounded-full bg-[#B8860B] flex items-center justify-center text-white shadow-md shrink-0">
                                 <i data-lucide="megaphone" class="w-5 h-5 md:w-7 md:h-7"></i>
@@ -469,27 +507,27 @@
                                 </button>
 
                                 <div id="omni-scroll-container" class="w-full overflow-x-auto flex gap-4 pb-3 pt-1 px-1 custom-scrollbar-container scroll-smooth snap-x snap-mandatory font-sans">
-                                    <div class="relative shrink-0 snap-center group/img">
+                                    <div class="relative shrink-0 snap-center group/media">
                                         <img id="img-omni-1" src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776234673/duduzjuzku8t3atle8aj.jpg" alt="OMNI MKT 1" class="w-[90vw] sm:w-auto h-auto sm:h-24 md:h-28 rounded-lg shadow-sm border border-gray-200 object-cover block">
-                                        <button onclick="triggerMediaUpload('img-omni-1')" class="admin-upload-btn hidden absolute top-2 right-2 bg-white text-[#9A161F] hover:bg-gray-100 p-1.5 rounded-full shadow-lg transition-all hover:scale-110 z-20 border border-gray-200 flex items-center justify-center cursor-pointer" title="Thay thế hình ảnh">
+                                        <button onclick="triggerMediaUpload('img-omni-1')" class="admin-upload-btn hidden" title="Thay thế hình ảnh OMNI 1">
                                             <i data-lucide="image" class="w-3.5 h-3.5"></i>
                                         </button>
                                     </div>
-                                    <div class="relative shrink-0 snap-center group/img">
+                                    <div class="relative shrink-0 snap-center group/media">
                                         <img id="img-omni-2" src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776234673/gcbgpgv9cfhpwfsrvukg.jpg" alt="OMNI MKT 2" class="w-[90vw] sm:w-auto h-auto sm:h-24 md:h-28 rounded-lg shadow-sm border border-gray-200 object-cover block">
-                                        <button onclick="triggerMediaUpload('img-omni-2')" class="admin-upload-btn hidden absolute top-2 right-2 bg-white text-[#9A161F] hover:bg-gray-100 p-1.5 rounded-full shadow-lg transition-all hover:scale-110 z-20 border border-gray-200 flex items-center justify-center cursor-pointer" title="Thay thế hình ảnh">
+                                        <button onclick="triggerMediaUpload('img-omni-2')" class="admin-upload-btn hidden" title="Thay thế hình ảnh OMNI 2">
                                             <i data-lucide="image" class="w-3.5 h-3.5"></i>
                                         </button>
                                     </div>
-                                    <div class="relative shrink-0 snap-center group/img">
+                                    <div class="relative shrink-0 snap-center group/media">
                                         <img id="img-omni-3" src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776234673/j1mevyvr46oww50m5doo.png" alt="OMNI MKT 3" class="w-[90vw] sm:w-auto h-auto sm:h-24 md:h-28 rounded-lg shadow-sm border border-gray-200 object-cover block">
-                                        <button onclick="triggerMediaUpload('img-omni-3')" class="admin-upload-btn hidden absolute top-2 right-2 bg-white text-[#9A161F] hover:bg-gray-100 p-1.5 rounded-full shadow-lg transition-all hover:scale-110 z-20 border border-gray-200 flex items-center justify-center cursor-pointer" title="Thay thế hình ảnh">
+                                        <button onclick="triggerMediaUpload('img-omni-3')" class="admin-upload-btn hidden" title="Thay thế hình ảnh OMNI 3">
                                             <i data-lucide="image" class="w-3.5 h-3.5"></i>
                                         </button>
                                     </div>
-                                    <div class="relative shrink-0 snap-center group/img">
+                                    <div class="relative shrink-0 snap-center group/media">
                                         <img id="img-omni-4" src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776234673/udidjvedowqyq7aaackq.jpg" alt="OMNI MKT 4" class="w-[90vw] sm:w-auto h-auto sm:h-24 md:h-28 rounded-lg shadow-sm border border-gray-200 object-cover block">
-                                        <button onclick="triggerMediaUpload('img-omni-4')" class="admin-upload-btn hidden absolute top-2 right-2 bg-white text-[#9A161F] hover:bg-gray-100 p-1.5 rounded-full shadow-lg transition-all hover:scale-110 z-20 border border-gray-200 flex items-center justify-center cursor-pointer" title="Thay thế hình ảnh">
+                                        <button onclick="triggerMediaUpload('img-omni-4')" class="admin-upload-btn hidden" title="Thay thế hình ảnh OMNI 4">
                                             <i data-lucide="image" class="w-3.5 h-3.5"></i>
                                         </button>
                                     </div>
@@ -504,23 +542,23 @@
                         
                         <div class="mt-auto pt-2 border-t border-gray-100">
                             <div class="grid grid-cols-2 gap-2 mt-2">
-                                <div class="relative group/vid rounded-xl overflow-hidden shadow-sm border border-[#B8860B]/20 bg-[#F9F1E5] p-1">
+                                <div class="relative group/media rounded-xl overflow-hidden shadow-sm border border-[#B8860B]/20 bg-[#F9F1E5] p-1">
                                     <video id="video-omni1" controls autoplay muted loop playsinline class="w-full h-[160px] sm:h-[180px] object-cover rounded-lg">
                                         <source src="https://res.cloudinary.com/dhe7uziws/video/upload/v1776235016/t6df2rnnhlbu9sr5nsew.mp4" type="video/mp4">
                                     </video>
                                     
                                     <!-- Backend Upload Button -->
-                                    <button onclick="triggerMediaUpload('video-omni1')" class="admin-upload-btn hidden absolute top-3 right-3 bg-white text-[#9A161F] hover:bg-gray-100 p-1.5 rounded-full shadow-lg transition-all hover:scale-110 z-20 border border-gray-200 flex items-center justify-center cursor-pointer" title="Thay thế video (Chỉ dành cho Backend)">
+                                    <button onclick="triggerMediaUpload('video-omni1')" class="admin-upload-btn hidden" title="Thay thế video OMNI 1">
                                         <i data-lucide="video" class="w-3.5 h-3.5"></i>
                                     </button>
                                 </div>
-                                <div class="relative group/vid rounded-xl overflow-hidden shadow-sm border border-[#B8860B]/20 bg-[#F9F1E5] p-1">
+                                <div class="relative group/media rounded-xl overflow-hidden shadow-sm border border-[#B8860B]/20 bg-[#F9F1E5] p-1">
                                     <video id="video-omni2" controls autoplay muted loop playsinline class="w-full h-[160px] sm:h-[180px] object-cover rounded-lg">
                                         <source src="https://res.cloudinary.com/dhe7uziws/video/upload/v1776234997/mq6kblmtqt15vmeqmmba.mp4" type="video/mp4">
                                     </video>
                                     
                                     <!-- Backend Upload Button -->
-                                    <button onclick="triggerMediaUpload('video-omni2')" class="admin-upload-btn hidden absolute top-3 right-3 bg-white text-[#9A161F] hover:bg-gray-100 p-1.5 rounded-full shadow-lg transition-all hover:scale-110 z-20 border border-gray-200 flex items-center justify-center cursor-pointer" title="Thay thế video (Chỉ dành cho Backend)">
+                                    <button onclick="triggerMediaUpload('video-omni2')" class="admin-upload-btn hidden" title="Thay thế video OMNI 2">
                                         <i data-lucide="video" class="w-3.5 h-3.5"></i>
                                     </button>
                                 </div>
@@ -529,7 +567,7 @@
                     </div>
 
                     <!-- Box 3: CLHH -->
-                    <div class="bg-white rounded-2xl shadow-lg border-t-4 border-[#9A161F] p-5 sm:p-6 lg:p-8 hover:-translate-y-2 transition-transform duration-300 flex flex-col h-full">
+                    <div class="bg-white rounded-2xl shadow-lg border-t-4 border-[#9A161F] p-5 sm:p-6 lg:p-8 hover:-translate-y-2 transition-transform duration-300 flex flex-col h-full relative">
                         <div class="flex items-center gap-3 md:gap-4 mb-5 pb-5 border-b border-gray-100">
                             <div class="w-10 h-10 md:w-14 md:h-14 rounded-full bg-[#9A161F] flex items-center justify-center text-white shadow-md shrink-0">
                                 <i data-lucide="star" class="w-5 h-5 md:w-7 md:h-7"></i>
@@ -544,12 +582,12 @@
                             </ul>
                             
                             <div class="mt-auto pt-2 border-t border-gray-100">
-                                <div class="rounded-xl overflow-hidden shadow-sm border border-[#B8860B]/20 bg-[#F9F1E5] p-1 mt-2 h-[270px] sm:h-[310px] md:h-[330px] relative">
+                                <div class="rounded-xl overflow-hidden shadow-sm border border-[#B8860B]/20 bg-[#F9F1E5] p-1 mt-2 h-[270px] sm:h-[310px] md:h-[330px] relative group/media">
                                     <div class="h-full w-full overflow-y-auto rounded-lg bg-white shadow-inner custom-scrollbar-container">
                                         <img id="img-clhh-ebrochure" src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776227288/gqy8fgmobbspgdt1pl1h.png" alt="E-Brochure CLHH" class="w-full h-auto block">
                                     </div>
                                     <!-- Admin Upload Button -->
-                                    <button onclick="triggerMediaUpload('img-clhh-ebrochure')" class="admin-upload-btn hidden absolute top-3 right-3 bg-white text-[#9A161F] hover:bg-gray-100 p-1.5 rounded-full shadow-lg transition-all hover:scale-110 z-20 border border-gray-200 flex items-center justify-center cursor-pointer" title="Thay thế hình ảnh (Chỉ dành cho Backend)">
+                                    <button onclick="triggerMediaUpload('img-clhh-ebrochure')" class="admin-upload-btn hidden" title="Thay thế hình ảnh E-Brochure CLHH">
                                         <i data-lucide="image" class="w-3.5 h-3.5"></i>
                                     </button>
                                 </div>
@@ -558,7 +596,7 @@
                     </div>
 
                     <!-- Box 4: PNS -->
-                    <div class="bg-white rounded-2xl shadow-lg border-t-4 border-[#003366] p-5 sm:p-6 lg:p-8 hover:-translate-y-2 transition-transform duration-300 flex flex-col h-full">
+                    <div class="bg-white rounded-2xl shadow-lg border-t-4 border-[#003366] p-5 sm:p-6 lg:p-8 hover:-translate-y-2 transition-transform duration-300 flex flex-col h-full relative">
                         <div class="flex items-center gap-3 md:gap-4 mb-5 pb-5 border-b border-gray-100">
                             <div class="w-10 h-10 md:w-14 md:h-14 rounded-full bg-[#003366] flex items-center justify-center text-white shadow-md shrink-0">
                                 <i data-lucide="handshake" class="w-5 h-5 md:w-7 md:h-7"></i>
@@ -572,7 +610,7 @@
                                     <span>Adapt <strong> trên 30 hạng mục</strong> Chương trình 8.3 : standee Gitfzone, viettel,...</span>
                                 </li>
                                 <li class="flex items-start gap-3 md:gap-4 text-xs sm:text-sm lg:text-base text-gray-700 bg-gray-50 p-4 rounded-xl border border-gray-100 text-balance uppercase tracking-tight">
-                                    <i data-lucide="image" class="w-5 h-5 md:w-6 md:h-6 text-[#B8860B] shrink-0 mt-0.5"></i>
+                                    <i data-lucide="image" class="w-5 h-5 md:w-6 md:h-6 text-[#B8860B] shrink-0 mt-1"></i>
                                     <span>Design banner, Voucher Chương trình 8.3 năm thông qua ZMP</span>
                                 </li>
                             </ul>
@@ -584,27 +622,27 @@
                                 </button>
 
                                 <div id="pns-scroll-container" class="w-full overflow-x-auto flex gap-4 pb-3 pt-1 px-1 custom-scrollbar-container scroll-smooth snap-x snap-mandatory">
-                                    <div class="relative shrink-0 snap-center group/img">
+                                    <div class="relative shrink-0 snap-center group/media">
                                         <img id="img-pns-1" src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776237274/hgwpan5fzxsh5adnggqd.png" alt="PNS 1" class="w-[90vw] sm:w-auto h-auto sm:h-24 md:h-28 rounded-lg shadow-sm border border-gray-200 object-cover block">
-                                        <button onclick="triggerMediaUpload('img-pns-1')" class="admin-upload-btn hidden absolute top-2 right-2 bg-white text-[#9A161F] hover:bg-gray-100 p-1.5 rounded-full shadow-lg transition-all hover:scale-110 z-20 border border-gray-200 flex items-center justify-center cursor-pointer" title="Thay thế hình ảnh">
+                                        <button onclick="triggerMediaUpload('img-pns-1')" class="admin-upload-btn hidden" title="Thay thế hình ảnh PNS 1">
                                             <i data-lucide="image" class="w-3.5 h-3.5"></i>
                                         </button>
                                     </div>
-                                    <div class="relative shrink-0 snap-center group/img">
+                                    <div class="relative shrink-0 snap-center group/media">
                                         <img id="img-pns-2" src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776237272/gmrj3zqgm5nenbwozdpm.png" alt="PNS 2" class="w-[90vw] sm:w-auto h-auto sm:h-24 md:h-28 rounded-lg shadow-sm border border-gray-200 object-cover block">
-                                        <button onclick="triggerMediaUpload('img-pns-2')" class="admin-upload-btn hidden absolute top-2 right-2 bg-white text-[#9A161F] hover:bg-gray-100 p-1.5 rounded-full shadow-lg transition-all hover:scale-110 z-20 border border-gray-200 flex items-center justify-center cursor-pointer" title="Thay thế hình ảnh">
+                                        <button onclick="triggerMediaUpload('img-pns-2')" class="admin-upload-btn hidden" title="Thay thế hình ảnh PNS 2">
                                             <i data-lucide="image" class="w-3.5 h-3.5"></i>
                                         </button>
                                     </div>
-                                    <div class="relative shrink-0 snap-center group/img">
+                                    <div class="relative shrink-0 snap-center group/media">
                                         <img id="img-pns-3" src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776237272/rbe50nu8mlqjlzmkzyes.png" alt="PNS 3" class="w-[90vw] sm:w-auto h-auto sm:h-24 md:h-28 rounded-lg shadow-sm border border-gray-200 object-cover block">
-                                        <button onclick="triggerMediaUpload('img-pns-3')" class="admin-upload-btn hidden absolute top-2 right-2 bg-white text-[#9A161F] hover:bg-gray-100 p-1.5 rounded-full shadow-lg transition-all hover:scale-110 z-20 border border-gray-200 flex items-center justify-center cursor-pointer" title="Thay thế hình ảnh">
+                                        <button onclick="triggerMediaUpload('img-pns-3')" class="admin-upload-btn hidden" title="Thay thế hình ảnh PNS 3">
                                             <i data-lucide="image" class="w-3.5 h-3.5"></i>
                                         </button>
                                     </div>
-                                    <div class="relative shrink-0 snap-center group/img">
+                                    <div class="relative shrink-0 snap-center group/media">
                                         <img id="img-pns-4" src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776237273/rsofnruaztrerkkj8s5q.png" alt="PNS 4" class="w-[90vw] sm:w-auto h-auto sm:h-24 md:h-28 rounded-lg shadow-sm border border-gray-200 object-cover block">
-                                        <button onclick="triggerMediaUpload('img-pns-4')" class="admin-upload-btn hidden absolute top-2 right-2 bg-white text-[#9A161F] hover:bg-gray-100 p-1.5 rounded-full shadow-lg transition-all hover:scale-110 z-20 border border-gray-200 flex items-center justify-center cursor-pointer" title="Thay thế hình ảnh">
+                                        <button onclick="triggerMediaUpload('img-pns-4')" class="admin-upload-btn hidden" title="Thay thế hình ảnh PNS 4">
                                             <i data-lucide="image" class="w-3.5 h-3.5"></i>
                                         </button>
                                     </div>
@@ -619,7 +657,7 @@
                     </div>
 
                     <!-- Box 5: RETAIL -->
-                    <div class="bg-white rounded-2xl shadow-lg border-t-4 border-[#003366] p-5 sm:p-6 lg:p-8 hover:-translate-y-2 transition-transform duration-300 flex flex-col h-full">
+                    <div class="bg-white rounded-2xl shadow-lg border-t-4 border-[#003366] p-5 sm:p-6 lg:p-8 hover:-translate-y-2 transition-transform duration-300 flex flex-col h-full relative">
                         <div class="flex items-center gap-3 md:gap-4 mb-5 pb-5 border-b border-gray-100">
                             <div class="w-10 h-10 md:w-14 md:h-14 rounded-full bg-[#003366] flex items-center justify-center text-white shadow-md shrink-0">
                                 <i data-lucide="shopping-bag" class="w-5 h-5 md:w-7 md:h-7"></i>
@@ -641,33 +679,33 @@
                                 </button>
 
                                 <div id="retail-scroll-container" class="w-full overflow-x-auto flex gap-4 pb-3 pt-1 px-1 custom-scrollbar-container scroll-smooth snap-x snap-mandatory">
-                                    <div class="relative shrink-0 snap-center group/img">
+                                    <div class="relative shrink-0 snap-center group/media">
                                         <img id="img-retail-1" src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776229692/fgzphmxwqxxv37xrmtrs.jpg" alt="Retail POSM 1" class="w-[90vw] sm:w-auto h-auto sm:h-24 md:h-28 rounded-lg shadow-sm border border-gray-200 object-cover block">
-                                        <button onclick="triggerMediaUpload('img-retail-1')" class="admin-upload-btn hidden absolute top-2 right-2 bg-white text-[#9A161F] hover:bg-gray-100 p-1.5 rounded-full shadow-lg transition-all hover:scale-110 z-20 border border-gray-200 flex items-center justify-center cursor-pointer" title="Thay thế hình ảnh">
+                                        <button onclick="triggerMediaUpload('img-retail-1')" class="admin-upload-btn hidden" title="Thay thế hình ảnh Retail 1">
                                             <i data-lucide="image" class="w-3.5 h-3.5"></i>
                                         </button>
                                     </div>
-                                    <div class="relative shrink-0 snap-center group/img">
+                                    <div class="relative shrink-0 snap-center group/media">
                                         <img id="img-retail-2" src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776229692/gamu9bx1v79jnsr8djle.jpg" alt="Retail POSM 2" class="w-[90vw] sm:w-auto h-auto sm:h-24 md:h-28 rounded-lg shadow-sm border border-gray-200 object-cover block">
-                                        <button onclick="triggerMediaUpload('img-retail-2')" class="admin-upload-btn hidden absolute top-2 right-2 bg-white text-[#9A161F] hover:bg-gray-100 p-1.5 rounded-full shadow-lg transition-all hover:scale-110 z-20 border border-gray-200 flex items-center justify-center cursor-pointer" title="Thay thế hình ảnh">
+                                        <button onclick="triggerMediaUpload('img-retail-2')" class="admin-upload-btn hidden" title="Thay thế hình ảnh Retail 2">
                                             <i data-lucide="image" class="w-3.5 h-3.5"></i>
                                         </button>
                                     </div>
-                                    <div class="relative shrink-0 snap-center group/img">
+                                    <div class="relative shrink-0 snap-center group/media">
                                         <img id="img-retail-3" src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776229692/mfcchmyas9mh2xc45chf.jpg" alt="Retail POSM 3" class="w-[90vw] sm:w-auto h-auto sm:h-24 md:h-28 rounded-lg shadow-sm border border-gray-200 object-cover block">
-                                        <button onclick="triggerMediaUpload('img-retail-3')" class="admin-upload-btn hidden absolute top-2 right-2 bg-white text-[#9A161F] hover:bg-gray-100 p-1.5 rounded-full shadow-lg transition-all hover:scale-110 z-20 border border-gray-200 flex items-center justify-center cursor-pointer" title="Thay thế hình ảnh">
+                                        <button onclick="triggerMediaUpload('img-retail-3')" class="admin-upload-btn hidden" title="Thay thế hình ảnh Retail 3">
                                             <i data-lucide="image" class="w-3.5 h-3.5"></i>
                                         </button>
                                     </div>
-                                    <div class="relative shrink-0 snap-center group/img">
+                                    <div class="relative shrink-0 snap-center group/media">
                                         <img id="img-retail-4" src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776229692/u3wwx6elgekf6lvzcwkx.jpg" alt="Retail POSM 4" class="w-[90vw] sm:w-auto h-auto sm:h-24 md:h-28 rounded-lg shadow-sm border border-gray-200 object-cover block">
-                                        <button onclick="triggerMediaUpload('img-retail-4')" class="admin-upload-btn hidden absolute top-2 right-2 bg-white text-[#9A161F] hover:bg-gray-100 p-1.5 rounded-full shadow-lg transition-all hover:scale-110 z-20 border border-gray-200 flex items-center justify-center cursor-pointer" title="Thay thế hình ảnh">
+                                        <button onclick="triggerMediaUpload('img-retail-4')" class="admin-upload-btn hidden" title="Thay thế hình ảnh Retail 4">
                                             <i data-lucide="image" class="w-3.5 h-3.5"></i>
                                         </button>
                                     </div>
-                                    <div class="relative shrink-0 snap-center group/img">
+                                    <div class="relative shrink-0 snap-center group/media">
                                         <img id="img-retail-5" src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776229692/cagvzw95wqgs4wrf4wil.jpg" alt="Retail POSM 5" class="w-[90vw] sm:w-auto h-auto sm:h-24 md:h-28 rounded-lg shadow-sm border border-gray-200 object-cover block">
-                                        <button onclick="triggerMediaUpload('img-retail-5')" class="admin-upload-btn hidden absolute top-2 right-2 bg-white text-[#9A161F] hover:bg-gray-100 p-1.5 rounded-full shadow-lg transition-all hover:scale-110 z-20 border border-gray-200 flex items-center justify-center cursor-pointer" title="Thay thế hình ảnh">
+                                        <button onclick="triggerMediaUpload('img-retail-5')" class="admin-upload-btn hidden" title="Thay thế hình ảnh Retail 5">
                                             <i data-lucide="image" class="w-3.5 h-3.5"></i>
                                         </button>
                                     </div>
@@ -682,7 +720,7 @@
                     </div>
 
                     <!-- Box 6: CX-CS -->
-                    <div class="bg-white rounded-2xl shadow-lg border-t-4 border-[#B8860B] p-5 sm:p-6 lg:p-8 hover:-translate-y-2 transition-transform duration-300 flex flex-col h-full">
+                    <div class="bg-white rounded-2xl shadow-lg border-t-4 border-[#B8860B] p-5 sm:p-6 lg:p-8 hover:-translate-y-2 transition-transform duration-300 flex flex-col h-full relative font-sans">
                         <div class="flex items-center gap-3 md:gap-4 mb-5 pb-5 border-b border-gray-100">
                             <div class="w-10 h-10 md:w-14 md:h-14 rounded-full bg-[#B8860B] flex items-center justify-center text-white shadow-md shrink-0">
                                 <i data-lucide="heart-handshake" class="w-5 h-5 md:w-7 md:h-7"></i>
@@ -706,26 +744,26 @@
                                 </button>
 
                                 <div id="cxcs-scroll-container" class="w-full overflow-x-auto flex gap-4 pb-3 pt-1 px-1 custom-scrollbar-container scroll-smooth snap-x snap-mandatory">
-                                    <div class="relative group/vid w-[90%] sm:w-auto shrink-0 snap-center">
+                                    <div class="relative group/media w-[90%] sm:w-auto shrink-0 snap-center">
                                         <video id="video-cxcs" controls autoplay muted loop playsinline class="w-full h-[160px] sm:h-24 md:h-28 object-cover rounded-lg border border-gray-200">
                                             <source src="https://res.cloudinary.com/dhe7uziws/video/upload/v1776236765/fxv8fj0pv75rnvxmj4yr.mp4" type="video/mp4">
                                         </video>
                                         
                                         <!-- Backend Upload Button -->
-                                        <button onclick="triggerMediaUpload('video-cxcs')" class="admin-upload-btn hidden absolute top-2 right-2 bg-white text-[#9A161F] hover:bg-gray-100 p-1.5 rounded-full shadow-lg transition-all hover:scale-110 z-20 border border-gray-200 flex items-center justify-center cursor-pointer" title="Thay thế video (Chỉ dành cho Backend)">
+                                        <button onclick="triggerMediaUpload('video-cxcs')" class="admin-upload-btn hidden" title="Thay thế video CXCS">
                                             <i data-lucide="video" class="w-3 h-3"></i>
                                         </button>
                                     </div>
-                                    <div class="relative shrink-0 snap-center group/img">
+                                    <div class="relative shrink-0 snap-center group/media">
                                         <img id="img-cxcs-1" src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776236668/dbte4gcksk5p65qyynpe.png" alt="CXCS 1" class="w-[90vw] sm:w-auto h-auto sm:h-24 md:h-28 rounded-lg shadow-sm border border-gray-200 object-cover block">
-                                        <button onclick="triggerMediaUpload('img-cxcs-1')" class="admin-upload-btn hidden absolute top-2 right-2 bg-white text-[#9A161F] hover:bg-gray-100 p-1.5 rounded-full shadow-lg transition-all hover:scale-110 z-20 border border-gray-200 flex items-center justify-center cursor-pointer" title="Thay thế hình ảnh">
-                                            <i data-lucide="image" class="w-3 h-3"></i>
+                                        <button onclick="triggerMediaUpload('img-cxcs-1')" class="admin-upload-btn hidden" title="Thay thế hình ảnh CXCS 1">
+                                            <i data-lucide="image" class="w-3.5 h-3.5"></i>
                                         </button>
                                     </div>
-                                    <div class="relative shrink-0 snap-center group/img">
+                                    <div class="relative shrink-0 snap-center group/media">
                                         <img id="img-cxcs-2" src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776237280/umztrcdhhdzuabahq89g.jpg" alt="CXCS 2" class="w-[90vw] sm:w-auto h-auto sm:h-24 md:h-28 rounded-lg shadow-sm border border-gray-200 object-cover block">
-                                        <button onclick="triggerMediaUpload('img-cxcs-2')" class="admin-upload-btn hidden absolute top-2 right-2 bg-white text-[#9A161F] hover:bg-gray-100 p-1.5 rounded-full shadow-lg transition-all hover:scale-110 z-20 border border-gray-200 flex items-center justify-center cursor-pointer" title="Thay thế hình ảnh">
-                                            <i data-lucide="image" class="w-3 h-3"></i>
+                                        <button onclick="triggerMediaUpload('img-cxcs-2')" class="admin-upload-btn hidden" title="Thay thế hình ảnh CXCS 2">
+                                            <i data-lucide="image" class="w-3.5 h-3.5"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -1007,21 +1045,21 @@
                                         <i data-lucide="chevron-left" class="w-5 h-5"></i>
                                     </button>
                                     <div id="card-slider" class="flex gap-3 overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-smooth">
-                                        <div class="min-w-full snap-center relative group/img">
+                                        <div class="min-w-full snap-center relative group/media">
                                             <img id="img-zalo-card-1" src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776249186/gt8vvaltbmesnyfrbezx.png" class="w-full aspect-video object-cover rounded-xl border border-gray-100 shadow-sm block" />
-                                            <button onclick="triggerMediaUpload('img-zalo-card-1')" class="admin-upload-btn hidden absolute top-2 right-2 bg-white text-[#9A161F] hover:bg-gray-100 p-1.5 rounded-full shadow-lg transition-all hover:scale-110 z-20 border border-gray-200 flex items-center justify-center cursor-pointer" title="Thay thế hình ảnh">
+                                            <button onclick="triggerMediaUpload('img-zalo-card-1')" class="admin-upload-btn hidden" title="Thay thế thiệp mẫu 1">
                                                 <i data-lucide="image" class="w-3.5 h-3.5"></i>
                                             </button>
                                         </div>
-                                        <div class="min-w-full snap-center relative group/img">
+                                        <div class="min-w-full snap-center relative group/media">
                                             <img id="img-zalo-card-2" src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776249187/dfbu1aapk8klvfnyfzq8.png" class="w-full aspect-video object-cover rounded-xl border border-gray-100 shadow-sm block" />
-                                            <button onclick="triggerMediaUpload('img-zalo-card-2')" class="admin-upload-btn hidden absolute top-2 right-2 bg-white text-[#9A161F] hover:bg-gray-100 p-1.5 rounded-full shadow-lg transition-all hover:scale-110 z-20 border border-gray-200 flex items-center justify-center cursor-pointer" title="Thay thế hình ảnh">
+                                            <button onclick="triggerMediaUpload('img-zalo-card-2')" class="admin-upload-btn hidden" title="Thay thế thiệp mẫu 2">
                                                 <i data-lucide="image" class="w-3.5 h-3.5"></i>
                                             </button>
                                         </div>
-                                        <div class="min-w-full snap-center relative group/img">
+                                        <div class="min-w-full snap-center relative group/media">
                                             <img id="img-zalo-card-3" src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776249186/wbe0ivywaaexppmg4izm.png" class="w-full aspect-video object-cover rounded-xl border border-gray-100 shadow-sm block" />
-                                            <button onclick="triggerMediaUpload('img-zalo-card-3')" class="admin-upload-btn hidden absolute top-2 right-2 bg-white text-[#9A161F] hover:bg-gray-100 p-1.5 rounded-full shadow-lg transition-all hover:scale-110 z-20 border border-gray-200 flex items-center justify-center cursor-pointer" title="Thay thế hình ảnh">
+                                            <button onclick="triggerMediaUpload('img-zalo-card-3')" class="admin-upload-btn hidden" title="Thay thế thiệp mẫu 3">
                                                 <i data-lucide="image" class="w-3.5 h-3.5"></i>
                                             </button>
                                         </div>
@@ -1045,11 +1083,36 @@
                             
                             <div class="bg-gray-50/50 p-4 rounded-[2rem] border border-gray-100 shadow-inner mt-6">
                                 <div class="flex flex-col gap-3">
-                                    <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-100 flex items-center justify-center min-h-[60px]"><img src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776076531/kvez8igf06wdf18lzoli.png" class="max-h-8 w-auto"></div>
-                                    <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-100 flex items-center justify-center min-h-[60px]"><img src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776076532/uijfwjpzdiu777yz9rxu.png" class="max-h-8 w-auto"></div>
-                                    <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-100 flex items-center justify-center min-h-[60px]"><img src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776250121/cdvbhygikdmapymxdpav.png" class="max-h-8 w-auto"></div>
-                                    <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-100 flex items-center justify-center min-h-[60px]"><img src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776250121/vytmlx50unyywfjiu0pn.png" class="max-h-8 w-auto"></div>
-                                    <div class="bg-white p-3 rounded-xl shadow-sm border border-pnjGold/20 flex items-center justify-center min-h-[140px]"><img src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776075155/zpw3nmwqd6ynu3hmodwc.png" class="max-h-20 w-auto"></div>
+                                    <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-100 flex items-center justify-center min-h-[60px] relative group/media">
+                                        <img id="img-sub-brand-1" src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776076531/kvez8igf06wdf18lzoli.png" class="max-h-8 w-auto">
+                                        <button onclick="triggerMediaUpload('img-sub-brand-1')" class="admin-upload-btn hidden" title="Thay thế Logo Disney">
+                                            <i data-lucide="image" class="w-3.5 h-3.5"></i>
+                                        </button>
+                                    </div>
+                                    <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-100 flex items-center justify-center min-h-[60px] relative group/media">
+                                        <img id="img-sub-brand-2" src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776076532/uijfwjpzdiu777yz9rxu.png" class="max-h-8 w-auto">
+                                        <button onclick="triggerMediaUpload('img-sub-brand-2')" class="admin-upload-btn hidden" title="Thay thế Logo Style">
+                                            <i data-lucide="image" class="w-3.5 h-3.5"></i>
+                                        </button>
+                                    </div>
+                                    <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-100 flex items-center justify-center min-h-[60px] relative group/media">
+                                        <img id="img-sub-brand-3" src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776250121/cdvbhygikdmapymxdpav.png" class="max-h-8 w-auto">
+                                        <button onclick="triggerMediaUpload('img-sub-brand-3')" class="admin-upload-btn hidden" title="Thay thế Logo Mancode">
+                                            <i data-lucide="image" class="w-3.5 h-3.5"></i>
+                                        </button>
+                                    </div>
+                                    <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-100 flex items-center justify-center min-h-[60px] relative group/media">
+                                        <img id="img-sub-brand-4" src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776250121/vytmlx50unyywfjiu0pn.png" class="max-h-8 w-auto">
+                                        <button onclick="triggerMediaUpload('img-sub-brand-4')" class="admin-upload-btn hidden" title="Thay thế Logo Gold">
+                                            <i data-lucide="image" class="w-3.5 h-3.5"></i>
+                                        </button>
+                                    </div>
+                                    <div class="bg-white p-3 rounded-xl shadow-sm border border-pnjGold/20 flex items-center justify-center min-h-[140px] relative group/media">
+                                        <img id="img-sub-brand-5" src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776075155/zpw3nmwqd6ynu3hmodwc.png" class="max-h-20 w-auto">
+                                        <button onclick="triggerMediaUpload('img-sub-brand-5')" class="admin-upload-btn hidden" title="Thay thế ảnh KV chủ đạo">
+                                            <i data-lucide="image" class="w-3.5 h-3.5"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1227,144 +1290,173 @@
                 </div>
             </section>
 
-            <!-- SUB-TAB 3: HỖ TRỢ TRUYỀN THÔNG GTM CHO BST MỚI & CTKM -->
+            <!-- SUB-TAB 3: HỖ TRỢ TRUYỀN THÔNG GTM CHO BST MỚI & CTKM (HỢP NHẤT HÀNH TRÌNH) -->
             <section id="sub-gtm" class="sub-content hidden fade-in-section">
                 <div class="text-center mb-10 px-2 max-w-4xl mx-auto">
                     <h2 class="font-serif-vi text-3xl md:text-5xl text-[#003366] font-bold uppercase mb-4 leading-tight">
                         HỖ TRỢ TRUYỀN THÔNG GTM CHO BST MỚI & CTKM
                     </h2>
                     <p class="font-sans text-gray-500 font-medium text-xs sm:text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
-                        Truyền thông CTKM <strong class="text-[#003366]">CT 8.3 và SN PNJ 38 năm</strong> từ Retail / OMNI và BST mới từ Brand / Sub - brand.
+                        Truyền thông chiến dịch <strong class="text-[#003366]">CT 8.3 và SN PNJ 38 năm</strong> đồng bộ hiệu quả trên cả 2 điểm chạm số Zalo Broadcast và Blog Website.
                     </p>
                 </div>
 
-                <!-- SUB-SUB TABS: BLOG / ZALO BROADCAST -->
-                <div class="flex justify-center mb-10">
-                    <div class="bg-white p-1 rounded-full border border-gray-200 inline-flex shadow-sm">
-                        <button onclick="toggleGtmType('blog')" id="btn-gtm-blog" class="sub-tab-active px-6 py-2.5 rounded-full text-xs md:text-sm font-bold flex items-center gap-2 transition-all">
-                            <i data-lucide="book-open" class="w-4 h-4"></i> Blog
-                        </button>
-                        <button onclick="toggleGtmType('zalo')" id="btn-gtm-zalo" class="bg-transparent text-gray-500 px-6 py-2.5 rounded-full text-xs md:text-sm font-bold flex items-center gap-2 transition-all">
-                            <i data-lucide="message-square" class="w-4 h-4"></i> Zalo Broadcast
-                        </button>
-                    </div>
-                </div>
-
-                <!-- GTM BLOG TAB -->
-                <div id="gtm-blog-section" class="space-y-8 block">
-                    <!-- Thẻ Tổng lượt xem & Bài viết -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-                        <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm flex items-center gap-5">
-                            <div class="w-14 h-14 bg-blue-50 text-blue-800 rounded-full flex items-center justify-center shrink-0">
-                                <i data-lucide="eye" class="w-7 h-7"></i>
-                            </div>
-                            <div>
-                                <span class="text-xs text-gray-400 font-bold uppercase tracking-wider block">TỔNG LƯỢT XEM NỘI DUNG</span>
-                                <span class="text-3xl font-serif-vi font-extrabold text-[#9A161F]">49.000+</span>
-                            </div>
-                        </div>
-                        <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm flex items-center gap-5">
-                            <div class="w-14 h-14 bg-amber-50 text-amber-600 rounded-full flex items-center justify-center shrink-0">
-                                <i data-lucide="file-text" class="w-7 h-7"></i>
-                            </div>
-                            <div>
-                                <span class="text-xs text-gray-400 font-bold uppercase tracking-wider block">BÀI BLOG</span>
-                                <span class="text-3xl font-serif-vi font-extrabold text-[#003366]">15 <span class="text-base font-sans font-medium text-gray-500 lowercase">bài</span></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- BÀI VIẾT BST -->
-                    <div class="max-w-6xl mx-auto">
+                <!-- BẢNG HIỆU QUẢ TRUYỀN THÔNG HỢP NHẤT -->
+                <div class="max-w-5xl mx-auto mb-12 px-4">
+                    <div class="bg-white rounded-3xl p-6 md:p-10 border border-gray-100 shadow-xl relative overflow-hidden">
+                        <!-- Decorative background elements -->
+                        <div class="absolute -right-10 -top-10 w-40 h-40 bg-amber-50 rounded-full blur-2xl -z-10 opacity-60"></div>
+                        
                         <div class="text-center mb-8">
-                            <h3 class="text-lg font-bold text-[#003366] uppercase tracking-[0.2em] inline-block border-b-2 border-[#B8860B] pb-1">
-                                BÀI VIẾT NỔI BẬT
-                            </h3>
+                            <span class="bg-[#F9F1E5] text-[#B8860B] text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-widest inline-block mb-3">HIỆU QUẢ TRUYỀN THÔNG ĐA KÊNH GTM</span>
+                            <h3 class="font-serif-vi text-xl md:text-2xl text-[#003366] font-extrabold uppercase">TỔNG HỢP SỐ LIỆU ĐIỂM CHẠM SỐ</h3>
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <!-- BST DISNEY -->
-                            <div class="bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 flex flex-col justify-between hover:-translate-y-1 transition-all h-full">
-                                <div class="bg-[#003366] text-white p-12 text-center flex items-center justify-center font-bold text-2xl uppercase tracking-widest font-sans min-h-[140px] relative group/img">
-                                    <span class="z-10">DISNEY</span>
-                                </div>
-                                <div class="p-6 flex flex-col justify-between flex-1 text-center">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 divide-y md:divide-y-0 md:divide-x divide-gray-200">
+                            <!-- Kênh Zalo Broadcast -->
+                            <div class="space-y-6 pb-6 md:pb-0">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-800 flex items-center justify-center shrink-0">
+                                        <i data-lucide="message-square" class="w-5 h-5"></i>
+                                    </div>
                                     <div>
-                                        <h4 class="font-extrabold text-sm text-[#003366] uppercase tracking-wider mb-2">DISNEY</h4>
-                                        <p class="text-xs text-gray-500 leading-relaxed font-semibold">Các bộ sưu tập trang sức độc quyền mang đậm tinh thần phép màu từ Disney, nhắm tới khách hàng yêu thích sự trẻ trung, kỳ diệu.</p>
+                                        <h4 class="font-extrabold text-[#003366] text-sm uppercase tracking-wider">ZALO BROADCAST</h4>
+                                        <p class="text-[10px] text-gray-400 font-bold uppercase">Kênh tiếp cận khách hàng trực tiếp</p>
                                     </div>
-                                    <div class="mt-4 pt-4 border-t border-gray-100">
-                                        <button class="text-xs font-bold text-[#B8860B] uppercase tracking-widest flex items-center gap-1.5 mx-auto"><span>CHI TIẾT</span> <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></button>
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="bg-[#FCF9F2] p-4 rounded-2xl border border-[#B8860B]/10 text-center relative group hover:shadow-md transition-all">
+                                        <span class="text-[10px] text-gray-400 font-bold uppercase block mb-1">REACH (FOLLOWERS)</span>
+                                        <span class="text-3xl sm:text-4xl font-serif-vi font-extrabold text-[#B8860B]">~490K</span>
                                     </div>
+                                    <div class="bg-[#FCF9F2] p-4 rounded-2xl border border-[#B8860B]/10 text-center relative group hover:shadow-md transition-all">
+                                        <span class="text-[10px] text-gray-400 font-bold uppercase block mb-1">LƯỢT XEM BÀI VIẾT</span>
+                                        <span class="text-3xl sm:text-4xl font-serif-vi font-extrabold text-[#9A161F]">46,643</span>
+                                    </div>
+                                </div>
+
+                                <div class="bg-green-50/70 p-4 rounded-xl border border-green-100 flex items-center gap-3">
+                                    <div class="bg-white p-1 rounded-full text-green-600 shadow-sm">
+                                        <i data-lucide="trending-up" class="w-4 h-4"></i>
+                                    </div>
+                                    <p class="text-xs font-bold text-green-800 uppercase tracking-tight">TĂNG TRƯỞNG +73% SO VỚI THÁNG 12/2025</p>
                                 </div>
                             </div>
 
-                            <!-- BST STYLE -->
-                            <div class="bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 flex flex-col justify-between hover:-translate-y-1 transition-all h-full">
-                                <div class="bg-[#111] text-white p-12 text-center flex items-center justify-center font-bold text-2xl uppercase tracking-widest font-sans min-h-[140px] relative group/img">
-                                    <span class="z-10">STYLE</span>
-                                </div>
-                                <div class="p-6 flex flex-col justify-between flex-1 text-center">
+                            <!-- Kênh Blog Website -->
+                            <div class="space-y-6 pt-6 md:pt-0 md:pl-8">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
+                                        <i data-lucide="book-open" class="w-5 h-5"></i>
+                                    </div>
                                     <div>
-                                        <h4 class="font-extrabold text-sm text-[#003366] uppercase tracking-wider mb-2">STYLE</h4>
-                                        <p class="text-xs text-gray-500 leading-relaxed font-semibold">Dòng sản phẩm thể hiện cá tính mạnh mẽ, thời thượng. Dành cho giới trẻ yêu thích thể hiện cái tôi qua ngôn ngữ thời trang.</p>
-                                    </div>
-                                    <div class="mt-4 pt-4 border-t border-gray-100">
-                                        <button class="text-xs font-bold text-[#B8860B] uppercase tracking-widest flex items-center gap-1.5 mx-auto"><span>CHI TIẾT</span> <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></button>
+                                        <h4 class="font-extrabold text-[#003366] text-sm uppercase tracking-wider">BLOG WEBSITE (ONSITE)</h4>
+                                        <p class="text-[10px] text-gray-400 font-bold uppercase">Nội dung chuyên sâu & SEO</p>
                                     </div>
                                 </div>
-                            </div>
 
-                            <!-- BST MANCODE -->
-                            <div class="bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 flex flex-col justify-between hover:-translate-y-1 transition-all h-full">
-                                <div class="bg-[#D97706] text-white p-12 text-center flex items-center justify-center font-bold text-2xl uppercase tracking-widest font-sans min-h-[140px] relative group/img">
-                                    <span class="z-10">MANCODE</span>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="bg-[#FCF9F2] p-4 rounded-2xl border border-[#B8860B]/10 text-center relative group hover:shadow-md transition-all">
+                                        <span class="text-[10px] text-gray-400 font-bold uppercase block mb-1">TỔNG LƯỢT XEM</span>
+                                        <span class="text-3xl sm:text-4xl font-serif-vi font-extrabold text-[#9A161F]">49,000+</span>
+                                    </div>
+                                    <div class="bg-[#FCF9F2] p-4 rounded-2xl border border-[#B8860B]/10 text-center relative group hover:shadow-md transition-all">
+                                        <span class="text-[10px] text-gray-400 font-bold uppercase block mb-1">SỐ LƯỢNG BÀI VIẾT</span>
+                                        <span class="text-3xl sm:text-4xl font-serif-vi font-extrabold text-[#003366]">15 <span class="text-xs text-gray-500 font-sans font-medium">bài</span></span>
+                                    </div>
                                 </div>
-                                <div class="p-6 flex flex-col justify-between flex-1 text-center">
-                                    <div>
-                                        <h4 class="font-extrabold text-sm text-[#D97706] uppercase tracking-wider mb-2">MANCODE</h4>
-                                        <p class="text-xs text-gray-500 leading-relaxed font-semibold">Bộ sưu tập trang sức nam tính, thanh lịch và cuốn hút. Khẳng định phong thái phái mạnh hiện đại.</p>
+
+                                <div class="bg-blue-50/70 p-4 rounded-xl border border-blue-100 flex items-center gap-3">
+                                    <div class="bg-white p-1 rounded-full text-blue-600 shadow-sm">
+                                        <i data-lucide="zap" class="w-4 h-4"></i>
                                     </div>
-                                    <div class="mt-4 pt-4 border-t border-gray-100">
-                                        <button class="text-xs font-bold text-[#B8860B] uppercase tracking-widest flex items-center gap-1.5 mx-auto"><span>CHI TIẾT</span> <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></button>
-                                    </div>
+                                    <p class="text-xs font-bold text-blue-800 uppercase tracking-tight">DUY TRÌ TƯƠNG TÁC CAO ĐIỂM SAU VALENTINE</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- GTM ZALO BROADCAST TAB -->
-                <div id="gtm-zalo-section" class="space-y-8 hidden">
-                    <div class="bg-white rounded-3xl p-8 max-w-4xl mx-auto border border-gray-100 shadow-xl">
-                        <div class="grid grid-cols-2 gap-4 border-b border-gray-100 pb-8 mb-8 text-center sm:text-left">
-                            <div class="space-y-1">
-                                <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Reach (Followers)</p>
-                                <span class="text-4xl sm:text-6xl lg:text-5xl font-serif-vi font-bold text-[#B8860B]">~490K</span>
+                <!-- BÀI VIẾT NỔI BẬT -->
+                <div class="max-w-6xl mx-auto">
+                    <div class="text-center mb-8">
+                        <h3 class="text-lg font-bold text-[#003366] uppercase tracking-[0.2em] inline-block border-b-2 border-[#B8860B] pb-1">
+                            BÀI VIẾT NỔI BẬT TRÊN BLOG
+                        </h3>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- BST DISNEY -->
+                        <div class="bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 flex flex-col justify-between hover:-translate-y-1 transition-all h-full relative">
+                            <div class="relative overflow-hidden min-h-[140px] group/media bg-[#003366] text-white p-12 text-center flex items-center justify-center font-bold text-2xl uppercase tracking-widest font-sans">
+                                <!-- Banner ảnh nền tùy chỉnh -->
+                                <img id="img-bst-disney" src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776075155/zpw3nmwqd6ynu3hmodwc.png" class="absolute inset-0 w-full h-full object-cover opacity-30 z-0">
+                                <span class="z-10 drop-shadow-md">DISNEY</span>
+                                <!-- Upload button cho banner bst disney -->
+                                <button onclick="triggerMediaUpload('img-bst-disney')" class="admin-upload-btn hidden" title="Thay thế hình nền BST Disney">
+                                    <i data-lucide="image" class="w-3.5 h-3.5"></i>
+                                </button>
                             </div>
-                            <div class="text-right space-y-1">
-                                <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Lượt xem bài viết</p>
-                                <span class="text-3xl sm:text-5xl lg:text-4xl font-serif-vi font-bold text-[#9A161F]">46,643</span>
+                            <div class="p-6 flex flex-col justify-between flex-1 text-center font-sans">
+                                <div>
+                                    <h4 class="font-extrabold text-sm text-[#003366] uppercase tracking-wider mb-2">DISNEY</h4>
+                                    <p class="text-xs text-gray-500 leading-relaxed font-semibold">Các bộ sưu tập trang sức độc quyền mang đậm tinh thần phép màu từ Disney, nhắm tới khách hàng yêu thích sự trẻ trung, kỳ diệu.</p>
+                                </div>
+                                <div class="mt-4 pt-4 border-t border-gray-100 font-sans">
+                                    <button class="text-xs font-bold text-[#B8860B] uppercase tracking-widest flex items-center gap-1.5 mx-auto"><span>CHI TIẾT</span> <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></button>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="space-y-4">
-                            <div class="bg-green-50 p-4 rounded-2xl border border-green-100 flex items-center justify-center gap-3 shadow-inner">
-                                <div class="bg-white p-1.5 rounded-full shadow-sm shrink-0">
-                                    <i data-lucide="trending-up" class="w-5 h-5 text-green-600"></i>
-                                </div>
-                                <span class="text-xs md:text-sm font-bold text-green-700 uppercase tracking-tight text-center">Tăng trưởng +73% so với Tháng 12/2025</span>
+                        <!-- BST STYLE -->
+                        <div class="bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 flex flex-col justify-between hover:-translate-y-1 transition-all h-full relative">
+                            <div class="relative overflow-hidden min-h-[140px] group/media bg-[#111] text-white p-12 text-center flex items-center justify-center font-bold text-2xl uppercase tracking-widest font-sans">
+                                <!-- Banner ảnh nền tùy chỉnh -->
+                                <img id="img-bst-style" src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776237272/rbe50nu8mlqjlzmkzyes.png" class="absolute inset-0 w-full h-full object-cover opacity-30 z-0">
+                                <span class="z-10 drop-shadow-md">STYLE</span>
+                                <!-- Upload button cho banner bst style -->
+                                <button onclick="triggerMediaUpload('img-bst-style')" class="admin-upload-btn hidden" title="Thay thế hình nền BST Style">
+                                    <i data-lucide="image" class="w-3.5 h-3.5"></i>
+                                </button>
                             </div>
+                            <div class="p-6 flex flex-col justify-between flex-1 text-center font-sans">
+                                <div>
+                                    <h4 class="font-extrabold text-sm text-[#003366] uppercase tracking-wider mb-2">STYLE</h4>
+                                    <p class="text-xs text-gray-500 leading-relaxed font-semibold">Dòng sản phẩm thể hiện cá tính mạnh mẽ, thời thượng. Dành cho giới trẻ yêu thích thể hiện cái tôi qua ngôn ngữ thời trang.</p>
+                                </div>
+                                <div class="mt-4 pt-4 border-t border-gray-100 font-sans">
+                                    <button class="text-xs font-bold text-[#B8860B] uppercase tracking-widest flex items-center gap-1.5 mx-auto"><span>CHI TIẾT</span> <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></button>
+                                </div>
+                            </div>
+                        </div>
 
-                            <p class="text-sm text-gray-600 leading-relaxed font-semibold px-2">• Ổn định tương tác sau cao điểm Xuân - Valentine - Thần Tài.</p>
-                            <p class="text-sm text-gray-600 leading-relaxed font-semibold px-2">• Hỗ trợ điều hướng traffic về website & thúc đẩy bán hàng trực tiếp.</p>
+                        <!-- BST MANCODE -->
+                        <div class="bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 flex flex-col justify-between hover:-translate-y-1 transition-all h-full relative font-sans">
+                            <div class="relative overflow-hidden min-h-[140px] group/media bg-[#D97706] text-white p-12 text-center flex items-center justify-center font-bold text-2xl uppercase tracking-widest font-sans">
+                                <!-- Banner ảnh nền tùy chỉnh -->
+                                <img id="img-bst-mancode" src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776229692/u3wwx6elgekf6lvzcwkx.jpg" class="absolute inset-0 w-full h-full object-cover opacity-30 z-0">
+                                <span class="z-10 drop-shadow-md">MANCODE</span>
+                                <!-- Upload button cho banner bst mancode -->
+                                <button onclick="triggerMediaUpload('img-bst-mancode')" class="admin-upload-btn hidden" title="Thay thế hình nền BST Mancode">
+                                    <i data-lucide="image" class="w-3.5 h-3.5"></i>
+                                </button>
+                            </div>
+                            <div class="p-6 flex flex-col justify-between flex-1 text-center font-sans">
+                                <div>
+                                    <h4 class="font-extrabold text-sm text-[#D97706] uppercase tracking-wider mb-2">MANCODE</h4>
+                                    <p class="text-xs text-gray-500 leading-relaxed font-semibold">Bộ sưu tập trang sức nam tính, thanh lịch và cuốn hút. Khẳng định phong thái phái mạnh hiện đại.</p>
+                                </div>
+                                <div class="mt-4 pt-4 border-t border-gray-100 font-sans">
+                                    <button class="text-xs font-bold text-[#B8860B] uppercase tracking-widest flex items-center gap-1.5 mx-auto"><span>CHI TIẾT</span> <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
 
         </main>
-    </div>
     </div>
     
     <!-- ========================================== -->
@@ -1373,7 +1465,7 @@
     <div id="upload-video-modal" class="fixed inset-0 bg-black/60 backdrop-blur-md z-[100] hidden items-center justify-center p-4 select-none">
         <div class="bg-white rounded-3xl max-w-md w-full overflow-hidden shadow-2xl border border-gray-100 transform transition-transform duration-300 scale-95">
             <!-- Modal Header -->
-            <div class="bg-[#003366] text-white p-5 flex justify-between items-center">
+            <div class="bg-[#003366] text-white p-5 flex justify-between items-center animate-fade-in">
                 <h3 id="modal-title-text" class="font-bold text-sm uppercase tracking-wider flex items-center gap-2">
                     <i data-lucide="lock-open" class="w-5 h-5 text-[#B8860B]"></i> Backend - Thay Thế Nội Dung
                 </h3>
@@ -1426,7 +1518,7 @@
     <!-- CUSTOM PASSWORD AUTHENTICATION MODAL -->
     <div id="password-modal" class="fixed inset-0 bg-black/60 backdrop-blur-md z-[110] hidden items-center justify-center p-4 select-none">
         <div class="bg-white rounded-3xl max-w-sm w-full overflow-hidden shadow-2xl border border-gray-100 p-6 space-y-4 transform transition-transform duration-200 scale-95">
-            <div class="flex items-center gap-3 border-b border-gray-100 pb-3">
+            <div class="flex items-center gap-3 border-b border-gray-100 pb-3 animate-fade-in">
                 <div class="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center text-pnjGold">
                     <i data-lucide="shield-check" class="w-6 h-6"></i>
                 </div>
@@ -1445,7 +1537,7 @@
     </div>
 
     <!-- Footer -->
-    <footer class="mt-8 md:mt-12 text-center pb-8 border-t border-gray-200 pt-6 md:pt-8 max-w-7xl mx-auto px-4">
+    <footer class="mt-8 md:mt-12 text-center pb-8 border-t border-gray-200 pt-6 md:pt-8 max-w-7xl mx-auto px-4 font-sans">
         <p class="text-gray-400 text-[10px] sm:text-xs md:text-sm font-sans-vi font-normal">
             © 2026 PNJ Creative Hub. Báo cáo nội bộ K.KHBL
         </p>
@@ -1482,27 +1574,48 @@
         // Định danh appId duy nhất cho dự án (Theo quy tắc 1)
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'report-2026';
 
+        // 🔍 KIỂM TRA MÔI TRƯỜNG HIỆN TẠI (GitHub Pages vs Sandbox preview)
+        const isGitHub = window.location.hostname.includes('github.io') || window.location.hostname.includes('github.com');
+
         // 1. Quản lý Đăng nhập & Lắng nghe thay đổi dữ liệu
         document.addEventListener("DOMContentLoaded", () => {
             lucide.createIcons();
+            
+            // Cập nhật giao diện huy hiệu hiển thị trạng thái môi trường
+            const envText = document.getElementById('env-status-text');
+            const envBadge = document.getElementById('env-status-badge');
+            
+            if (isGitHub) {
+                if (envText) envText.innerText = "CHẾ ĐỘ XEM TRÊN GITHUB";
+                if (envBadge) {
+                    envBadge.className = "flex items-center gap-1.5 text-xs font-bold text-gray-500 bg-gray-100 px-3 py-1.5 rounded-full border border-gray-200 shadow-sm";
+                }
+                console.log("🔒 Ứng dụng hoạt động ở chế độ Chỉ Xem (Read-only) trên GitHub Pages.");
+            } else {
+                if (envText) envText.innerText = "CHẾ ĐỘ THIẾT KẾ (SANDBOX)";
+                if (envBadge) {
+                    envBadge.className = "flex items-center gap-1.5 text-xs font-bold text-[#B8860B] bg-[#FCF9F2] px-3 py-1.5 rounded-full border border-[#B8860B]/30 shadow-sm animate-pulse";
+                }
+            }
             
             // Đăng nhập bảo mật trước khi truy vấn dữ liệu (Theo quy tắc 3)
             const initAuth = async () => {
                 try {
                     if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                        await signInWithCustomToken(auth, __initial_auth_token);
+                        try {
+                            await signInWithCustomToken(auth, __initial_auth_token);
+                        } catch (tokenErr) {
+                            console.warn("Không thể đăng nhập bằng custom token ban đầu, chuyển đổi sang đăng nhập ẩn danh...", tokenErr.message);
+                            await signInAnonymously(auth);
+                        }
                     } else {
                         await signInAnonymously(auth);
                     }
                 } catch (err) {
-                    console.error("Lỗi đăng nhập ban đầu, chuyển đổi phương thức...", err);
-                    if (err.code === 'auth/configuration-not-found') {
-                        console.warn("⚠️ CHÚ Ý: Bạn chưa bật tính năng 'Anonymous sign-in' (Đăng nhập vô danh) trong Firebase Console của mình.");
-                        showToast("Vui lòng kích hoạt 'Anonymous Sign-in' trong cấu hình Authentication của Firebase!", "error");
-                    }
+                    console.warn("⚠️ CHÚ Ý: Đăng nhập Firebase Auth không hoạt động (Anonymous Sign-In chưa được bật trên Firebase Console):", err.message);
                 }
-                // Dù Auth thành công hay lỗi, vẫn tiến hành lắng nghe đồng bộ Firestore
-                // Phòng trường hợp Security Rules của bạn đang cấu hình cho phép đọc Public (allow read: if true;)
+                
+                // Vẫn tiến hành lắng nghe dữ liệu từ Firestore bất kể trạng thái Auth để hiển thị thay đổi thời gian thực
                 listenToMediaChanges();
             };
             initAuth();
@@ -1511,21 +1624,21 @@
             onAuthStateChanged(auth, (user) => {
                 currentUser = user;
                 if (user) {
-                    // Cập nhật lại khi đăng nhập thành công
                     listenToMediaChanges();
                 }
             });
 
-            // Khôi phục trạng thái Backend từ LocalStorage
-            const savedState = localStorage.getItem('pnj_backend_active');
-            if (savedState === 'true') {
-                enableBackendMode(false);
+            // Chỉ khôi phục trạng thái quản lý nếu không phải môi trường GitHub
+            if (!isGitHub) {
+                const savedState = localStorage.getItem('pnj_backend_active');
+                if (savedState === 'true') {
+                    enableBackendMode(false);
+                }
             }
         });
 
         // Lắng nghe Real-time từ Firestore và cập nhật tất cả hình ảnh/video
         const listenToMediaChanges = () => {
-            // Không chặn bằng if (!currentUser) để cho phép đọc dữ liệu ngay cả khi Auth đang lỗi nhưng Rules của Firestore cho phép đọc công khai
             const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'media_sources', 'current');
             
             onSnapshot(docRef, (docSnap) => {
@@ -1542,15 +1655,18 @@
                     });
                 }
             }, (error) => {
-                console.error("Lỗi đồng bộ Firestore:", error);
-                if (error.code === 'permission-denied') {
-                    showToast("Lỗi phân quyền Firestore. Vui lòng bật Anonymous Auth và thiết lập Rules công khai!", "error");
-                }
+                console.warn("Đang chạy ở chế độ offline hoặc phân quyền Firestore bị giới hạn:", error.message);
             });
         };
 
         // Kích hoạt trạng thái quản lý (Backend Mode)
         function enableBackendMode(triggerToast = true) {
+            // Ngăn chặn kích hoạt Backend nếu đang nằm trên trang công khai GitHub Pages
+            if (isGitHub) {
+                showToast("Tính năng chỉnh sửa đã bị vô hiệu hóa trên môi trường GitHub Pages!", "error");
+                return;
+            }
+
             isBackendUser = true;
             localStorage.setItem('pnj_backend_active', 'true');
             
@@ -1589,6 +1705,12 @@
 
         // Custom Password Modal control
         function promptAdminAccess() {
+            // Chặn mở modal mật khẩu nếu trên môi trường GitHub Pages
+            if (isGitHub) {
+                showToast("Chế độ sửa bị khóa trên GitHub Pages. Hãy chỉnh sửa trong Sandbox của báo cáo!", "error");
+                return;
+            }
+
             const pwdModal = document.getElementById('password-modal');
             const pwdInput = document.getElementById('backend-password-input');
             pwdInput.value = '';
@@ -1625,6 +1747,11 @@
 
         // ----------------- THAY ĐỔI VIDEO / HÌNH ẢNH & ĐÁM MÂY -----------------
         function triggerMediaUpload(mediaId) {
+            if (isGitHub) {
+                showToast("Không thể chỉnh sửa trên GitHub Pages!", "error");
+                return;
+            }
+
             if (!isBackendUser) {
                 showToast("Chức năng chỉ dành cho quản trị viên Backend!", "error");
                 return;
@@ -1725,8 +1852,8 @@
                     showToast("Đã tải lên và đồng bộ dữ liệu đám mây thành công!");
                     closeUploadModal();
                 } catch (error) {
-                    console.error("Lỗi ghi Firestore:", error);
-                    showToast("Đồng bộ thất bại: " + error.message, "error");
+                    console.warn("Lỗi lưu liên kết phương tiện lên đám mây:", error.message);
+                    showToast("Đồng bộ trực tuyến thất bại (Dữ liệu tạm thời lưu tại máy này)", "error");
                 }
             }
         }
@@ -1828,35 +1955,6 @@
             }
         }
 
-        function toggleGtmType(type) {
-            const blogBtn = document.getElementById('btn-gtm-blog');
-            const zaloBtn = document.getElementById('btn-gtm-zalo');
-            const blogSec = document.getElementById('gtm-blog-section');
-            const zaloSec = document.getElementById('gtm-zalo-section');
-
-            if (type === 'blog') {
-                blogBtn.classList.add('sub-tab-active');
-                blogBtn.classList.remove('bg-transparent', 'text-gray-500');
-                zaloBtn.classList.remove('sub-tab-active');
-                zaloBtn.classList.add('bg-transparent', 'text-gray-500');
-
-                blogSec.classList.remove('hidden');
-                blogSec.classList.add('block');
-                zaloSec.classList.add('hidden');
-                zaloSec.classList.remove('block');
-            } else {
-                zaloBtn.classList.add('sub-tab-active');
-                zaloBtn.classList.remove('bg-transparent', 'text-gray-500');
-                blogBtn.classList.remove('sub-tab-active');
-                blogBtn.classList.add('bg-transparent', 'text-gray-500');
-
-                zaloSec.classList.remove('hidden');
-                zaloSec.classList.add('block');
-                blogSec.classList.add('hidden');
-                blogSec.classList.remove('block');
-            }
-        }
-
         function scrollSlider(id, direction) {
             const slider = document.getElementById(id);
             if (!slider) return;
@@ -1868,7 +1966,6 @@
         window.switchTeamTab = switchTeamTab;
         window.switchMainTab = switchMainTab;
         window.switchSubTab = switchSubTab;
-        window.toggleGtmType = toggleGtmType;
         window.scrollSlider = scrollSlider;
         window.promptAdminAccess = promptAdminAccess;
         window.logoutAdmin = logoutAdmin;
