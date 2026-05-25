@@ -282,7 +282,7 @@
                         </div>
                         <div class="relative group/media rounded-[1.25rem] overflow-hidden shadow-lg border-2 border-[#F9F1E5] p-1.5 bg-[#F9F1E5] h-[280px] sm:h-[320px] w-full">
                             <video id="video-zmp" controls autoplay muted loop playsinline class="w-full h-full object-cover rounded-xl bg-black shadow-sm">
-                                <source src="ZMP video (25mb)" type="video/mp4">
+                                <source src="ZMP video (25mb).mp4" type="video/mp4">
                             </video>
                             
                             <!-- Backend Upload Button -->
@@ -446,8 +446,8 @@
                                         </button>
                                     </div>
                                     <div class="relative shrink-0 snap-center group/media">
-                                        <img id="img-khcs-4" src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776231540/tkzby2mwihz5wb2koivy.jpg" alt="KHCS 4" class="w-[90vw] sm:w-auto h-auto sm:h-24 md:h-28 rounded-lg shadow-sm border border-gray-200 object-cover block">
-                                        <button onclick="triggerMediaUpload('img-khcs-4')" class="admin-upload-btn hidden" title="Thay thế hình ảnh KHCS 4">
+                                        <img id="img-pns-3" src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776237272/rbe50nu8mlqjlzmkzyes.png" alt="PNS 3" class="w-[90vw] sm:w-auto h-auto sm:h-24 md:h-28 rounded-lg shadow-sm border border-gray-200 object-cover block">
+                                        <button onclick="triggerMediaUpload('img-pns-3')" class="admin-upload-btn hidden" title="Thay thế hình ảnh PNS 3">
                                             <i data-lucide="image" class="w-3.5 h-3.5"></i>
                                         </button>
                                     </div>
@@ -635,8 +635,8 @@
                                         </button>
                                     </div>
                                     <div class="relative shrink-0 snap-center group/media">
-                                        <img id="img-pns-3" src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776237272/rbe50nu8mlqjlzmkzyes.png" alt="PNS 3" class="w-[90vw] sm:w-auto h-auto sm:h-24 md:h-28 rounded-lg shadow-sm border border-gray-200 object-cover block">
-                                        <button onclick="triggerMediaUpload('img-pns-3')" class="admin-upload-btn hidden" title="Thay thế hình ảnh PNS 3">
+                                        <img id="img-khcs-4" src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776231540/tkzby2mwihz5wb2koivy.jpg" alt="KHCS 4" class="w-[90vw] sm:w-auto h-auto sm:h-24 md:h-28 rounded-lg shadow-sm border border-gray-200 object-cover block">
+                                        <button onclick="triggerMediaUpload('img-khcs-4')" class="admin-upload-btn hidden" title="Thay thế hình ảnh KHCS 4">
                                             <i data-lucide="image" class="w-3.5 h-3.5"></i>
                                         </button>
                                     </div>
@@ -2034,6 +2034,7 @@
             }
         }
 
+        // Khởi động trượt slider
         function scrollSlider(id, direction) {
             const slider = document.getElementById(id);
             if (!slider) return;
