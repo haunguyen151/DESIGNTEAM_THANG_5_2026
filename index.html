@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> PNJ Creative Hub - DESIGN - CT 8.3 và SN PNJ 38 năm</title>
+    <title>PNJ Creative Hub - Báo cáo Chương trình 8.3 và Sinh nhật PNJ 38 năm</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- CẤU HÌNH TAILWIND ĐỂ ĐỒNG BỘ FONT CHỮ TOÀN TRANG -->
+    <!-- CẤU HÌNH TAILWIND ĐỂ ĐỒNG BỘ FONT CHỮ VÀ MÀU SẮC CHUẨN PNJ -->
     <script>
         tailwind.config = {
             theme: {
@@ -38,20 +38,20 @@
     <style>
         .font-serif-vi { font-family: 'Playfair Display', serif; }
         .font-sans-vi { font-family: 'Montserrat', sans-serif; }
-        .glass-panel { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px); }
+        .glass-panel { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(8px); }
         
-        /* Animation Classes */
+        /* Animation mượt mà cho việc chuyển đổi tabs */
         .fade-in-section {
             opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            transform: translateY(15px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
         }
         .fade-in-section.is-visible {
             opacity: 1;
             transform: translateY(0);
         }
         
-        /* Custom scrollbar */
+        /* Thiết kế thanh cuộn mượt */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #B8860B; border-radius: 10px; }
@@ -61,12 +61,12 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* Sub-tab active state */
+        /* Trạng thái tab phụ hoạt động */
         .sub-tab-active {
-            background-color: #003366 !important;
+            background-color: #B8860B !important;
             color: white !important;
-            border-color: #003366 !important;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            border-color: #B8860B !important;
+            box-shadow: 0 4px 6px -1px rgba(184, 134, 11, 0.2);
         }
 
         .zalo-card-btn {
@@ -107,29 +107,41 @@
     <!-- Toast Notification Box -->
     <div id="toast" class="fixed bottom-5 right-5 bg-emerald-600 text-white px-6 py-3 rounded-xl shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center gap-2 font-semibold">
         <i data-lucide="check-circle" class="w-5 h-5"></i>
-        <span id="toast-message">Đã lưu thành công!</span>
+        <span id="toast-message">Đã cập nhật cấu hình thành công!</span>
     </div>
 
     <!-- Top Navigation / Header -->
     <nav class="bg-white shadow-sm px-4 md:px-6 lg:px-8 py-3 md:py-4 flex justify-between items-center border-b-2 border-[#B8860B] sticky top-0 z-50">
-        <div class="flex items-center gap-3 md:gap-4">
-            <!-- LOGO KHỐI KHBL -->
+        <div class="flex items-center gap-3 md:gap-4 select-none">
+            <!-- LOGO KHỐI KHBL - Nhấp đúp để kích hoạt trạng thái Backend -->
             <img 
+                id="brand-logo"
                 src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776075291/d2evwb1jzgaizbo91wfc.png" 
                 alt="Logo KHBL" 
-                class="h-9 sm:h-12 md:h-14 lg:h-16 w-auto object-contain shrink-0"
-                title="Khối Khách Hàng Bán Lẻ"
+                class="h-9 sm:h-12 md:h-14 lg:h-16 w-auto object-contain shrink-0 cursor-pointer active:scale-95 transition-transform"
+                title="Double click để mở chế độ chỉnh sửa Backend"
+                ondblclick="promptAdminAccess()"
                 onerror="this.onerror=null; this.src='https://placehold.co/120x60/003366/FFFFFF?text=KHBL&font=Montserrat';"
             />
             
-            <div class="border-l-2 border-gray-200 pl-3 md:pl-4">
+            <div class="border-l-2 border-gray-200 pl-3 md:pl-4 cursor-pointer" ondblclick="promptAdminAccess()">
                 <h1 class="font-bold text-[#003366] text-sm md:text-lg lg:text-xl tracking-wider leading-tight uppercase">CREATIVE HUB</h1>
                 <p class="text-[9px] sm:text-[10px] md:text-xs text-gray-500 uppercase tracking-widest leading-tight mt-0.5">Supporting Center</p>
             </div>
         </div>
-        <div class="hidden md:flex items-center gap-2 text-sm text-[#9A161F] font-semibold bg-[#F9F1E5] px-4 py-2 rounded-full border border-[#B8860B]/20 shrink-0">
-            <i data-lucide="award" class="w-4 h-4"></i>
-            <span>Chương trình 8.3 và sinh nhật PNJ 38</span>
+        
+        <div class="flex items-center gap-2">
+            <!-- Admin indicator tag -->
+            <div id="admin-badge" class="hidden items-center gap-1 text-xs font-bold text-white bg-[#9A161F] px-3 py-1.5 rounded-full shadow-sm animate-pulse">
+                <i data-lucide="lock-open" class="w-3.5 h-3.5"></i>
+                <span>BACKEND ACTIVE</span>
+                <button onclick="logoutAdmin()" class="ml-1 text-white/80 hover:text-white font-extrabold">&times;</button>
+            </div>
+            
+            <div class="hidden md:flex items-center gap-2 text-sm text-[#9A161F] font-semibold bg-[#F9F1E5] px-4 py-2 rounded-full border border-[#B8860B]/20 shrink-0">
+                <i data-lucide="award" class="w-4 h-4"></i>
+                <span>Chương trình 8.3 và sinh nhật PNJ 38</span>
+            </div>
         </div>
     </nav>
 
@@ -207,9 +219,6 @@
                             <span class="text-5xl sm:text-6xl lg:text-7xl font-serif-vi font-bold text-[#9A161F] block drop-shadow-sm">8,535</span>
                             <span class="font-sans-vi text-sm font-semibold text-[#003366] mt-1 block">Lượt chia sẻ hoạt động</span>
                         </div>
-                         <div>
-                            <span class="font-sans-vi text-sm font-semibold text-[#9A161F] mt-1 block">Số liệu theo Chương Trình 8.3 </span>
-                        </div>
                     </div>
 
                     <div class="mt-auto pt-6 border-t border-gray-200">
@@ -238,9 +247,9 @@
                                 <source src="https://res.cloudinary.com/dhe7uziws/video/upload/v1776226195/qkblj54tkrwjd3bn2x7l.mp4" type="video/mp4">
                             </video>
                             
-                            <!-- Nút upload video ZMP -->
-                            <button onclick="triggerVideoUpload('video-zmp')" class="absolute top-4 right-4 bg-white/95 backdrop-blur-sm text-[#003366] hover:text-[#9A161F] p-2 rounded-full shadow-md transition-all hover:scale-110 z-20 border border-[#B8860B]/20 flex items-center justify-center cursor-pointer" title="Thay đổi video">
-                                <i data-lucide="video" class="w-4 h-4"></i>
+                            <!-- Backend Upload Button: chỉ hiển thị cho backend (image_bbdae1.png) -->
+                            <button onclick="triggerVideoUpload('video-zmp')" class="admin-upload-btn hidden absolute top-4 right-4 bg-white text-[#9A161F] hover:bg-gray-100 p-2.5 rounded-full shadow-lg transition-all hover:scale-110 z-20 border border-gray-200 flex items-center justify-center cursor-pointer" title="Thay thế video (Chỉ dành cho Backend)">
+                                <i data-lucide="video" class="w-5 h-5"></i>
                             </button>
                         </div>
                     </div>
@@ -256,10 +265,10 @@
                         </div>
                     </div>
 
-                    <!-- THAY THẾ LINK BẰNG THỐNG KÊ SỐ LIỆU SANG TRỌNG -->
+                    <!-- THỐNG KÊ SỐ LIỆU SANG TRỌNG THAY THẾ CHO CLICK XEM NGAY -->
                     <div class="flex-1 flex flex-col justify-center py-6 space-y-4">
                         <!-- Thống kê lượt xem -->
-                        <div class="bg-[#F9F1E5]/40 rounded-2xl p-4 border border-[#B8860B]/10 flex items-center gap-4 hover:bg-amber-50/40 transition-colors">
+                        <div class="bg-[#F9F1E5]/40 rounded-2xl p-4 border border-[#B8860B]/10 flex items-center gap-4 hover:bg-amber-50/40 transition-colors shadow-sm">
                             <div class="w-10 h-10 rounded-xl bg-[#B8860B]/10 flex items-center justify-center text-[#B8860B] shrink-0">
                                 <i data-lucide="eye" class="w-5 h-5"></i>
                             </div>
@@ -270,7 +279,7 @@
                         </div>
                         
                         <!-- Thống kê tỷ lệ click -->
-                        <div class="bg-[#F9F1E5]/40 rounded-2xl p-4 border border-[#B8860B]/10 flex items-center gap-4 hover:bg-amber-50/40 transition-colors">
+                        <div class="bg-[#F9F1E5]/40 rounded-2xl p-4 border border-[#B8860B]/10 flex items-center gap-4 hover:bg-amber-50/40 transition-colors shadow-sm">
                             <div class="w-10 h-10 rounded-xl bg-[#003366]/10 flex items-center justify-center text-[#003366] shrink-0">
                                 <i data-lucide="mouse-pointer-click" class="w-5 h-5"></i>
                             </div>
@@ -281,13 +290,13 @@
                         </div>
 
                         <!-- Thống kê chuyển hướng Web -->
-                        <div class="bg-red-50/40 rounded-2xl p-4 border border-red-100 flex items-center gap-4 hover:bg-red-50/80 transition-colors">
+                        <div class="bg-red-50/40 rounded-2xl p-4 border border-red-100 flex items-center gap-4 hover:bg-red-50/80 transition-colors shadow-sm">
                             <div class="w-10 h-10 rounded-xl bg-[#9A161F]/10 flex items-center justify-center text-[#9A161F] shrink-0">
                                 <i data-lucide="shopping-cart" class="w-5 h-5"></i>
                             </div>
                             <div>
                                 <span class="text-2xl font-serif-vi font-bold text-[#9A161F] block">171 <span class="text-xs font-sans-vi font-semibold text-[#9A161F] lowercase">Lượt click "Mua ngay"</span></span>
-                                <p class="text-xs font-semibold text-gray-500">Traffic điều hướng thẳng về Website</p>
+                                <p class="text-xs font-semibold text-gray-500">Traffic điều hướng thẳng về Website chính thức</p>
                             </div>
                         </div>
                     </div>
@@ -395,8 +404,8 @@
                                     <source src="https://res.cloudinary.com/dhe7uziws/video/upload/v1776233837/kxpc9ncmzm7tgxgcppus.mp4" type="video/mp4">
                                 </video>
                                 
-                                <!-- Nút upload video KHCS -->
-                                <button onclick="triggerVideoUpload('video-khcs')" class="absolute top-3 right-3 bg-white/95 backdrop-blur-sm text-[#003366] hover:text-[#9A161F] p-1.5 rounded-full shadow-md transition-all hover:scale-110 z-20 border border-[#B8860B]/20 flex items-center justify-center cursor-pointer" title="Thay đổi video">
+                                <!-- Backend Upload Button -->
+                                <button onclick="triggerVideoUpload('video-khcs')" class="admin-upload-btn hidden absolute top-3 right-3 bg-white text-[#9A161F] hover:bg-gray-100 p-1.5 rounded-full shadow-lg transition-all hover:scale-110 z-20 border border-gray-200 flex items-center justify-center cursor-pointer" title="Thay thế video (Chỉ dành cho Backend)">
                                     <i data-lucide="video" class="w-3.5 h-3.5"></i>
                                 </button>
                             </div>
@@ -429,7 +438,7 @@
                                     <i data-lucide="chevron-left" class="w-4 h-4 md:w-5 md:h-5"></i>
                                 </button>
 
-                                <div id="omni-scroll-container" class="w-full overflow-x-auto flex gap-4 pb-3 pt-1 px-1 custom-scrollbar-container scroll-smooth snap-x snap-mandatory">
+                                <div id="omni-scroll-container" class="w-full overflow-x-auto flex gap-4 pb-3 pt-1 px-1 custom-scrollbar-container scroll-smooth snap-x snap-mandatory font-sans">
                                     <img src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776234673/duduzjuzku8t3atle8aj.jpg" alt="OMNI MKT 1" class="w-[90%] sm:w-auto h-auto sm:h-24 md:h-28 rounded-lg shadow-sm border border-gray-200 object-cover shrink-0 snap-center">
                                     <img src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776234673/gcbgpgv9cfhpwfsrvukg.jpg" alt="OMNI MKT 2" class="w-[90%] sm:w-auto h-auto sm:h-24 md:h-28 rounded-lg shadow-sm border border-gray-200 object-cover shrink-0 snap-center">
                                     <img src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776234673/j1mevyvr46oww50m5doo.png" alt="OMNI MKT 3" class="w-[90%] sm:w-auto h-auto sm:h-24 md:h-28 rounded-lg shadow-sm border border-gray-200 object-cover shrink-0 snap-center">
@@ -450,8 +459,8 @@
                                         <source src="https://res.cloudinary.com/dhe7uziws/video/upload/v1776235016/t6df2rnnhlbu9sr5nsew.mp4" type="video/mp4">
                                     </video>
                                     
-                                    <!-- Nút upload video OMNI 1 -->
-                                    <button onclick="triggerVideoUpload('video-omni1')" class="absolute top-3 right-3 bg-white/95 backdrop-blur-sm text-[#003366] hover:text-[#9A161F] p-1.5 rounded-full shadow-md transition-all hover:scale-110 z-20 border border-[#B8860B]/20 flex items-center justify-center cursor-pointer" title="Thay đổi video">
+                                    <!-- Backend Upload Button -->
+                                    <button onclick="triggerVideoUpload('video-omni1')" class="admin-upload-btn hidden absolute top-3 right-3 bg-white text-[#9A161F] hover:bg-gray-100 p-1.5 rounded-full shadow-lg transition-all hover:scale-110 z-20 border border-gray-200 flex items-center justify-center cursor-pointer" title="Thay thế video (Chỉ dành cho Backend)">
                                         <i data-lucide="video" class="w-3.5 h-3.5"></i>
                                     </button>
                                 </div>
@@ -460,8 +469,8 @@
                                         <source src="https://res.cloudinary.com/dhe7uziws/video/upload/v1776234997/mq6kblmtqt15vmeqmmba.mp4" type="video/mp4">
                                     </video>
                                     
-                                    <!-- Nút upload video OMNI 2 -->
-                                    <button onclick="triggerVideoUpload('video-omni2')" class="absolute top-3 right-3 bg-white/95 backdrop-blur-sm text-[#003366] hover:text-[#9A161F] p-1.5 rounded-full shadow-md transition-all hover:scale-110 z-20 border border-[#B8860B]/20 flex items-center justify-center cursor-pointer" title="Thay đổi video">
+                                    <!-- Backend Upload Button -->
+                                    <button onclick="triggerVideoUpload('video-omni2')" class="admin-upload-btn hidden absolute top-3 right-3 bg-white text-[#9A161F] hover:bg-gray-100 p-1.5 rounded-full shadow-lg transition-all hover:scale-110 z-20 border border-gray-200 flex items-center justify-center cursor-pointer" title="Thay thế video (Chỉ dành cho Backend)">
                                         <i data-lucide="video" class="w-3.5 h-3.5"></i>
                                     </button>
                                 </div>
@@ -582,7 +591,7 @@
                             <h3 class="font-extrabold text-[#003366] text-lg md:text-2xl uppercase tracking-tight">CX - CS</h3>
                         </div>
                         <div class="flex-1 flex flex-col justify-between">
-                            <ul class="space-y-4 sm:space-y-6 mb-4">
+                            <ul class="space-y-4 sm:space-y-6 mb-4 font-sans">
                                 <li class="text-xs sm:text-sm lg:text-base text-gray-700 border-l-4 border-[#B8860B] pl-4 uppercase tracking-tight">
                                     <strong class="text-[#003366]">CX:</strong> Thiết kế 23 thông báo, chụp ảnh, video recap event, workshop 8.3 
                                 </li>
@@ -597,15 +606,15 @@
                                     <i data-lucide="chevron-left" class="w-4 h-4 md:w-5 md:h-5"></i>
                                 </button>
 
-                                <div id="cxcs-scroll-container" class="w-full overflow-x-auto flex gap-4 pb-3 pt-1 px-1 custom-scrollbar-container scroll-smooth snap-x snap-mandatory font-sans">
+                                <div id="cxcs-scroll-container" class="w-full overflow-x-auto flex gap-4 pb-3 pt-1 px-1 custom-scrollbar-container scroll-smooth snap-x snap-mandatory">
                                     <div class="relative group/vid w-[90%] sm:w-auto shrink-0 snap-center">
                                         <video id="video-cxcs" controls autoplay muted loop playsinline class="w-full h-[160px] sm:h-24 md:h-28 rounded-lg shadow-sm border border-gray-200 object-cover">
                                             <source src="https://res.cloudinary.com/dhe7uziws/video/upload/v1776236765/fxv8fj0pv75rnvxmj4yr.mp4" type="video/mp4">
                                         </video>
                                         
-                                        <!-- Nút upload video CXCS -->
-                                        <button onclick="triggerVideoUpload('video-cxcs')" class="absolute top-2 right-2 bg-white/95 backdrop-blur-sm text-[#003366] hover:text-[#9A161F] p-1 rounded-full shadow-md transition-all hover:scale-110 z-20 border border-[#B8860B]/20 flex items-center justify-center cursor-pointer" title="Thay đổi video">
-                                            <i data-lucide="video" class="w-3.5 h-3.5"></i>
+                                        <!-- Backend Upload Button -->
+                                        <button onclick="triggerVideoUpload('video-cxcs')" class="admin-upload-btn hidden absolute top-2 right-2 bg-white text-[#9A161F] hover:bg-gray-100 p-1.5 rounded-full shadow-lg transition-all hover:scale-110 z-20 border border-gray-200 flex items-center justify-center cursor-pointer" title="Thay thế video (Chỉ dành cho Backend)">
+                                            <i data-lucide="video" class="w-3 h-3"></i>
                                         </button>
                                     </div>
                                     <img src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776236668/dbte4gcksk5p65qyynpe.png" alt="CXCS 1" class="w-[90%] sm:w-auto h-auto sm:h-24 md:h-28 rounded-lg shadow-sm border border-gray-200 object-cover shrink-0 snap-center">
@@ -624,10 +633,10 @@
             </div>
         </div>
         
-        <!-- MÀN HÌNH 3: PRODUCT POWERHOUSE -->
+        <!-- MÀN HÌNH 3: PRODUCT POWERHOUSE (image_77b2ed.png & image_77b30a.png) -->
         <div id="main-product-powerhouse" class="main-tab-panel hidden fade-in-section">
             
-            <div class="text-center mb-8 md:mb-12">
+            <div class="text-center mb-8">
                 <div class="relative inline-block mb-3">
                     <h2 class="font-serif-vi text-2xl sm:text-4xl md:text-5xl text-[#9A161F] font-bold drop-shadow-lg relative z-10 px-2 leading-tight uppercase">
                         PRODUCT POWERHOUSE
@@ -635,85 +644,106 @@
                     <div class="absolute -bottom-1 md:-bottom-2 left-[10%] right-[10%] h-2 md:h-4 bg-[#B8860B]/20 rounded-full blur-md -z-10"></div>
                 </div>
                 
-                <div class="flex items-center justify-center mb-4">
+                <div class="flex flex-col items-center justify-center mb-4 space-y-2">
                     <div class="bg-gradient-to-r from-[#B8860B]/5 via-[#F9F1E5] to-[#B8860B]/5 px-6 py-2 rounded-full border border-[#B8860B]/20 shadow-sm">
-                        <p class="font-sans-vi text-[#003366] text-[10px] sm:text-xs md:text-sm font-bold tracking-[0.2em] uppercase text-center">
+                        <p class="font-sans-vi text-[#003366] text-xs md:text-sm font-extrabold tracking-[0.2em] uppercase text-center">
                             ONSITE - PNJ.COM.VN
                         </p>
                     </div>
-                </div>
-                <div class="flex items-center justify-center mb-2">
-                    <p class="font-sans-vi text-[#003366] text-xs font-bold uppercase tracking-wider text-center">NÂNG CẤP HÌNH ẢNH SẢN PHẨM MỚI: <span class="text-[#9A161F]">TĂNG TỶ LỆ CHUYỂN ĐỔI MUA HÀNG</span></p>
+                    <p class="font-sans text-xs md:text-sm font-bold text-[#003366] uppercase">
+                        Nâng cấp hình ảnh sản phẩm mới: <span class="text-[#9A161F]">Tăng tỷ lệ chuyển đổi mua hàng.</span>
+                    </p>
                 </div>
             </div>
 
-            <!-- TIẾN ĐỘ SẢN XUẤT - BỐ CỤC NGANG -->
-            <div class="max-w-7xl mx-auto mb-10">
-                <div class="glass-panel rounded-3xl p-6 md:p-8 border border-gray-100 shadow-xl bg-white/90">
-                    <div class="text-center mb-8">
-                        <h3 class="font-serif-vi text-lg md:text-2xl text-[#003366] font-extrabold uppercase tracking-widest inline-block relative">
+            <!-- TIẾN ĐỘ SẢN XUẤT (SKU) - THIẾT KẾ CHUẨN XUẤT SẮC THEO ẢNH THAM CHIẾU (image_77b2ed.png) -->
+            <div class="max-w-4xl mx-auto mb-10 px-4">
+                <div class="bg-white rounded-3xl p-6 md:p-10 border border-gray-100 shadow-xl">
+                    <div class="text-center mb-8 border-b border-gray-100 pb-6">
+                        <h3 class="font-serif-vi text-xl md:text-3xl text-[#003366] font-extrabold uppercase tracking-wider inline-block relative">
                             TIẾN ĐỘ SẢN XUẤT (SKU)
-                            <div class="absolute -bottom-3 left-0 w-full h-1 bg-[#B8860B] rounded-full"></div>
+                            <div class="absolute -bottom-2 left-0 w-full h-1 bg-[#B8860B] rounded-full"></div>
                         </h3>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
-                        <!-- Khối 1: Hình ảnh -->
-                        <div class="bg-gray-50/80 p-5 rounded-2xl border border-gray-100 flex flex-col justify-between hover:bg-blue-50/50 transition-colors shadow-sm">
-                            <div class="flex items-center justify-between mb-3">
-                                <div class="flex items-center gap-2">
-                                    <div class="bg-white p-2 rounded-lg shadow-sm"><i data-lucide="image" class="w-5 h-5 text-blue-800"></i></div>
-                                    <span class="font-bold text-xs md:text-sm text-gray-800 uppercase">Hình ảnh sản phẩm</span>
+                    <div class="space-y-6">
+                        <!-- Khối 1: HÌNH ẢNH SẢN PHẨM -->
+                        <div class="bg-white p-4 rounded-2xl border border-gray-100/80 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center mb-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="bg-blue-50 p-3 rounded-xl"><i data-lucide="image" class="w-6 h-6 text-blue-800"></i></div>
+                                    <span class="font-bold text-sm text-[#003366] uppercase tracking-wide">HÌNH ẢNH SẢN PHẨM</span>
                                 </div>
-                                <span class="font-bold text-blue-800 text-sm md:text-base">30.47%</span>
-                            </div>
-                            <div class="mb-4">
-                                <div class="flex justify-between items-baseline mb-1">
-                                    <span class="text-[9px] text-gray-400 font-bold uppercase">ĐÃ CHỤP (HIỆN TẠI) / TARGET</span>
-                                    <div class="text-[#003366]"><span class="font-serif-vi font-bold text-xl">2,133 SKU</span> <span class="text-[10px]">/ 7,000 SKU</span></div>
+                                <div class="text-center md:text-left">
+                                    <span class="text-[10px] text-gray-400 font-bold uppercase block mb-0.5">TARGET 2026 (DỰ KIẾN)</span>
+                                    <span class="font-serif-vi text-xl font-bold text-[#003366]">7,000 <span class="text-xs text-gray-500 font-sans">SKU</span></span>
                                 </div>
-                                <div class="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden shadow-inner">
-                                    <div class="bg-gradient-to-r from-blue-500 to-blue-800 h-full transition-all duration-1000" style="width: 30.47%"></div>
+                                <div class="text-center md:text-right">
+                                    <span class="text-[10px] text-gray-400 font-bold uppercase block mb-0.5">ĐÃ CHỤP (HIỆN TẠI)</span>
+                                    <span class="font-serif-vi text-xl font-bold text-[#003366]">2,133 <span class="text-xs text-gray-500 font-sans">SKU</span></span>
                                 </div>
                             </div>
-                        </div>
-
-                        <!-- Khối 2: Video 360 -->
-                        <div class="bg-gray-50/80 p-5 rounded-2xl border border-gray-100 flex flex-col justify-between hover:bg-amber-50/50 transition-colors shadow-sm">
-                            <div class="flex items-center justify-between mb-3">
-                                <div class="flex items-center gap-2">
-                                    <div class="bg-white p-2 rounded-lg shadow-sm"><i data-lucide="rotate-3d" class="w-5 h-5 text-amber-600"></i></div>
-                                    <span class="font-bold text-xs md:text-sm text-gray-800 uppercase">Video 360 độ</span>
+                            <div>
+                                <div class="flex justify-between items-center text-xs font-bold text-blue-800 mb-1">
+                                    <span class="uppercase text-[9px] tracking-wider text-gray-400">TIẾN ĐỘ</span>
+                                    <span>30.47%</span>
                                 </div>
-                                <span class="font-bold text-amber-600 text-sm md:text-base">39%</span>
-                            </div>
-                            <div class="mb-4">
-                                <div class="flex justify-between items-baseline mb-1">
-                                    <span class="text-[9px] text-gray-400 font-bold uppercase">ĐÃ QUAY (HIỆN TẠI) / TARGET</span>
-                                    <div class="text-[#003366]"><span class="font-serif-vi font-bold text-xl">187 SKU</span> <span class="text-[10px]">/ 480 SKU</span></div>
-                                </div>
-                                <div class="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden shadow-inner">
-                                    <div class="bg-gradient-to-r from-amber-400 to-[#B8860B] h-full transition-all duration-1000" style="width: 39%"></div>
+                                <div class="w-full bg-gray-100 rounded-full h-3 overflow-hidden shadow-inner">
+                                    <div class="bg-gradient-to-r from-blue-500 to-blue-800 h-full transition-all duration-1000 shadow-md" style="width: 30.47%"></div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Khối 3: Video Review -->
-                        <div class="bg-red-50/40 p-5 rounded-2xl border border-red-100 flex flex-col justify-between hover:bg-red-50/80 transition-colors shadow-sm">
-                            <div class="flex items-center justify-between mb-3">
-                                <div class="flex items-center gap-2">
-                                    <div class="bg-white p-2 rounded-lg shadow-sm"><i data-lucide="play-circle" class="w-5 h-5 text-[#9A161F]"></i></div>
-                                    <span class="font-bold text-xs md:text-sm text-gray-800 uppercase">Video Review</span>
+                        <!-- Khối 2: VIDEO 360 ĐỘ -->
+                        <div class="bg-white p-4 rounded-2xl border border-gray-100/80 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center mb-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="bg-amber-50 p-3 rounded-xl"><i data-lucide="rotate-3d" class="w-6 h-6 text-amber-600"></i></div>
+                                    <span class="font-bold text-sm text-[#003366] uppercase tracking-wide">VIDEO 360 ĐỘ</span>
                                 </div>
-                                <span class="font-bold text-green-600 text-[10px] md:text-xs uppercase font-sans">ĐẠT 100%</span>
+                                <div class="text-center md:text-left">
+                                    <span class="text-[10px] text-gray-400 font-bold uppercase block mb-0.5">TARGET 2026 (DỰ KIẾN)</span>
+                                    <span class="font-serif-vi text-xl font-bold text-[#003366]">480 <span class="text-xs text-gray-500 font-sans">SKU</span></span>
+                                </div>
+                                <div class="text-center md:text-right">
+                                    <span class="text-[10px] text-gray-400 font-bold uppercase block mb-0.5">ĐÃ QUAY (HIỆN TẠI)</span>
+                                    <span class="font-serif-vi text-xl font-bold text-amber-600">187 <span class="text-xs text-gray-500 font-sans">SKU</span></span>
+                                </div>
                             </div>
-                            <div class="mb-4">
-                                <div class="flex justify-between items-baseline mb-1">
-                                    <span class="text-[9px] text-gray-400 font-bold uppercase">ĐÃ QUAY (HIỆN TẠI) / TARGET</span>
-                                    <div class="text-[#9A161F]"><span class="font-serif-vi font-bold text-xl">400 SKU</span> <span class="text-[10px]">/ 400 SKU</span></div>
+                            <div>
+                                <div class="flex justify-between items-center text-xs font-bold text-amber-600 mb-1">
+                                    <span class="uppercase text-[9px] tracking-wider text-gray-400">TIẾN ĐỘ</span>
+                                    <span>39%</span>
                                 </div>
-                                <div class="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden shadow-inner">
-                                    <div class="bg-green-600 h-full transition-all duration-1000" style="width: 100%"></div>
+                                <div class="w-full bg-gray-100 rounded-full h-3 overflow-hidden shadow-inner">
+                                    <div class="bg-gradient-to-r from-amber-400 to-[#B8860B] h-full transition-all duration-1000 shadow-md" style="width: 39%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Khối 3: VIDEO REVIEW -->
+                        <div class="bg-white p-4 rounded-2xl border border-red-100 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center mb-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="bg-red-50 p-3 rounded-xl"><i data-lucide="play-circle" class="w-6 h-6 text-[#9A161F]"></i></div>
+                                    <span class="font-bold text-sm text-[#003366] uppercase tracking-wide">VIDEO REVIEW</span>
+                                </div>
+                                <div class="text-center md:text-left">
+                                    <span class="text-[10px] text-gray-400 font-bold uppercase block mb-0.5">TARGET 2026 (DỰ KIẾN)</span>
+                                    <span class="font-serif-vi text-xl font-bold text-[#003366]">400 <span class="text-xs text-gray-500 font-sans">SKU</span></span>
+                                </div>
+                                <div class="text-center md:text-right">
+                                    <span class="text-[10px] text-gray-400 font-bold uppercase block mb-0.5">ĐÃ QUAY (HIỆN TẠI)</span>
+                                    <span class="font-serif-vi text-xl font-bold text-[#9A161F]">400 <span class="text-xs text-gray-500 font-sans">SKU</span></span>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between items-center text-xs font-bold text-green-600 mb-1">
+                                    <span class="uppercase text-[9px] tracking-wider text-gray-400">TIẾN ĐỘ</span>
+                                    <span>ĐẠT 100%</span>
+                                </div>
+                                <div class="w-full bg-gray-100 rounded-full h-3 overflow-hidden shadow-inner">
+                                    <div class="bg-green-600 h-full transition-all duration-1000 shadow-md" style="width: 100%"></div>
                                 </div>
                             </div>
                         </div>
@@ -721,66 +751,79 @@
                 </div>
             </div>
 
-            <!-- TỐI ƯU QUY TRÌNH - BỐ CỤC NGANG GỌN -->
-            <div class="max-w-7xl mx-auto pb-12">
+            <!-- TỐI ƯU QUY TRÌNH SẢN XUẤT HÌNH ẢNH (image_77b30a.png) -->
+            <div class="max-w-4xl mx-auto pb-12 px-4">
                 <div class="text-center mb-10">
-                    <h3 class="font-serif-vi text-lg md:text-2xl text-[#003366] font-extrabold uppercase tracking-widest inline-block relative">
+                    <h3 class="font-serif-vi text-xl md:text-3xl text-[#003366] font-extrabold uppercase tracking-widest inline-block relative">
                         TỐI ƯU QUY TRÌNH SẢN XUẤT HÌNH ẢNH
-                        <div class="absolute -bottom-3 left-0 w-full h-1 bg-[#B8860B] rounded-full"></div>
+                        <div class="absolute -bottom-2 left-0 w-full h-1 bg-[#B8860B] rounded-full"></div>
                     </h3>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch relative px-4 sm:px-0">
-                    <!-- Icon Mũi tên chuyển đổi giữa 2 khối trên desktop -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch relative">
+                    <!-- Nút chuyển đổi quy trình -->
                     <div class="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-white border border-gray-200 rounded-full items-center justify-center shadow-md">
                         <i data-lucide="arrow-right" class="w-5 h-5 text-[#B8860B]"></i>
                     </div>
 
                     <!-- Quy trình cũ -->
-                    <div class="bg-gray-50/50 rounded-2xl border border-gray-100 p-6 flex flex-row items-center gap-6 shadow-sm">
-                        <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center shrink-0">
+                    <div class="bg-gray-50/50 rounded-3xl border border-gray-100 p-8 flex flex-col items-center justify-between text-center relative">
+                        <div class="w-12 h-12 bg-gray-200/80 rounded-full flex items-center justify-center mb-4">
                             <i data-lucide="history" class="w-6 h-6 text-gray-500"></i>
                         </div>
-                        <div class="flex-1 grid grid-cols-2 gap-4">
-                            <div>
-                                <span class="text-[10px] text-gray-400 font-bold uppercase block mb-1">Thời gian sản xuất</span>
-                                <p class="font-serif-vi text-xl font-bold text-gray-600">Mất <span class="text-2xl font-black">14</span> ngày</p>
-                                <span class="text-[10px] text-gray-400 italic block">(Chụp ảnh + Retouch)</span>
+                        <span class="font-bold text-[#003366] uppercase text-sm tracking-widest mb-6">QUY TRÌNH CŨ</span>
+                        
+                        <div class="space-y-4 w-full">
+                            <div class="bg-white p-4 rounded-xl border border-gray-100">
+                                <span class="text-[10px] text-gray-400 font-bold uppercase block mb-1">THỜI GIAN SẢN XUẤT</span>
+                                <p class="text-sm font-medium text-gray-600">MẤT <span class="text-2xl font-bold text-gray-800">14</span> NGÀY</p>
+                                <span class="text-[10px] text-gray-400 italic block">(CHỤP ẢNH + RETOUCH)</span>
                             </div>
-                            <div>
-                                <span class="text-[10px] text-gray-400 font-bold uppercase block mb-1">Số lượng sản xuất</span>
-                                <p class="font-serif-vi text-2xl font-bold text-gray-600">120 <span class="text-xs">SKU</span></p>
+                            <div class="bg-white p-4 rounded-xl border border-gray-100">
+                                <span class="text-[10px] text-gray-400 font-bold uppercase block mb-1">SỐ LƯỢNG SẢN XUẤT</span>
+                                <p class="text-sm font-medium text-gray-600"><span class="text-2xl font-bold text-gray-800">120</span> SKU</p>
                             </div>
                         </div>
                     </div>
 
                     <!-- Quy trình mới -->
-                    <div class="bg-gradient-to-r from-[#F9F1E5] to-white rounded-2xl border border-[#B8860B]/30 p-6 flex flex-row items-center gap-6 shadow-lg transform transition-transform hover:scale-[1.02]">
-                        <div class="w-12 h-12 bg-[#003366] rounded-full flex items-center justify-center shrink-0 shadow-sm">
+                    <div class="bg-gradient-to-br from-amber-50/30 to-white rounded-3xl border-2 border-[#B8860B]/30 p-8 flex flex-col items-center justify-between text-center relative">
+                        <div class="w-12 h-12 bg-[#003366] rounded-full flex items-center justify-center mb-4 shadow-md">
                             <i data-lucide="zap" class="w-6 h-6 text-white"></i>
                         </div>
-                        <div class="flex-1 grid grid-cols-2 gap-4">
-                            <div>
-                                <span class="text-[10px] text-[#003366] font-bold uppercase block mb-1">Thời gian sản xuất</span>
-                                <p class="font-serif-vi text-xl font-bold text-[#003366]">Chỉ <span class="text-2xl font-black text-pnjRed">10</span> ngày</p>
-                                <span class="text-[10px] text-[#003366] italic block">(Chụp ảnh + Retouch)</span>
+                        <span class="font-bold text-[#003366] uppercase text-sm tracking-widest mb-6">QUY TRÌNH MỚI</span>
+                        
+                        <div class="space-y-4 w-full">
+                            <div class="bg-white p-4 rounded-xl border border-amber-100 shadow-sm">
+                                <span class="text-[10px] text-[#003366] font-bold uppercase block mb-1">THỜI GIAN SẢN XUẤT</span>
+                                <p class="text-sm font-medium text-gray-600">CHỈ <span class="text-2xl font-bold text-[#003366]">10</span> NGÀY</p>
+                                <span class="text-[10px] text-gray-400 italic block">(CHỤP ẢNH + RETOUCH)</span>
                             </div>
-                            <div>
-                                <span class="text-[10px] text-[#003366] font-bold uppercase block mb-1">Số lượng sản xuất</span>
-                                <p class="font-serif-vi text-3xl font-bold text-[#9A161F]">160 <span class="text-xs text-[#003366]">SKU</span></p>
+                            <div class="bg-white p-4 rounded-xl border border-amber-100 shadow-sm">
+                                <span class="text-[10px] text-[#003366] font-bold uppercase block mb-1">SỐ LƯỢNG SẢN XUẤT</span>
+                                <p class="text-sm font-medium text-[#9A161F]"><span class="text-3xl font-bold text-[#9A161F]">160</span> SKU</p>
                             </div>
                         </div>
-                        <div class="hidden lg:block bg-[#9A161F] text-white text-[9px] font-bold px-2.5 py-1 rounded-full absolute -top-3 -right-3 shadow-md animate-pulse uppercase">Tối ưu hơn!</div>
+                        
+                        <div class="bg-[#9A161F] text-white text-[10px] font-bold px-3 py-1 rounded-full absolute -top-3 -right-3 shadow-md animate-pulse uppercase tracking-wider">TỐI ƯU HƠN!</div>
                     </div>
                 </div>
 
-                <!-- Tổng kết hiệu quả -->
+                <!-- Banner tổng kết hiệu quả tối ưu vượt trội -->
                 <div class="mt-8 max-w-3xl mx-auto px-4">
-                    <div class="bg-emerald-50/50 border border-emerald-200 rounded-2xl p-5 flex items-center gap-4 justify-center shadow-sm">
-                        <i data-lucide="trending-up" class="w-6 h-6 text-emerald-600 shrink-0"></i>
-                        <p class="text-gray-700 text-sm md:text-base font-medium text-center uppercase tracking-tight">
-                            Tăng <strong class="text-emerald-600 text-xl font-serif-vi px-1">33%</strong> số lượng SKU và rút ngắn <strong class="text-emerald-600 text-xl font-serif-vi px-1">28.5%</strong> thời gian sản xuất.
-                        </p>
+                    <div class="bg-emerald-50/60 border border-emerald-200 rounded-3xl p-6 flex flex-col sm:flex-row items-center gap-4 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+                        <div class="absolute right-0 bottom-0 translate-x-4 translate-y-4 text-emerald-100/30">
+                            <i data-lucide="trending-up" class="w-24 h-24"></i>
+                        </div>
+                        <div class="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
+                            <i data-lucide="award" class="w-6 h-6 text-emerald-600"></i>
+                        </div>
+                        <div class="text-center sm:text-left">
+                            <span class="inline-block bg-emerald-100 text-emerald-700 text-[10px] font-bold px-2.5 py-1 rounded-full mb-2 uppercase tracking-widest">★ ĐIỂM TỐI ƯU VƯỢT TRỘI</span>
+                            <p class="text-gray-800 text-base md:text-lg font-semibold leading-relaxed">
+                                TĂNG <strong class="text-emerald-600 font-bold text-2xl font-serif-vi">33%</strong> SỐ LƯỢNG SKU VÀ RÚT NGẮN <strong class="text-emerald-600 font-bold text-2xl font-serif-vi">28.5%</strong> THỜI GIAN SẢN XUẤT.
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -908,7 +951,7 @@
 
                             <div class="pt-6 border-t border-[#B8860B]/20">
                                 <p class="text-[#9A161F] font-bold text-[10px] md:text-xs italic tracking-tight mb-5">Số liệu theo Chương trình 8.3</p>
-                                <div class="flex flex-col items-start w-full px-2 space-y-4">
+                                <div class="flex flex-col items-start w-full px-2 space-y-4 font-sans text-left">
                                     <div class="flex items-center gap-2.5 text-pnjBlue font-bold bg-white/50 px-4 py-2 rounded-full border border-pnjGold/10">
                                         <i data-lucide="trending-up" class="w-5 h-5 text-pnjRed"></i>
                                         <span class="uppercase tracking-[0.15em] text-xs">Organic Growth</span>
@@ -921,10 +964,6 @@
                                         <div class="flex items-start gap-2.5">
                                             <div class="w-1.5 h-1.5 rounded-full bg-pnjRed mt-1.5 shrink-0"></div>
                                             <p class="text-[11px] md:text-sm text-gray-700 font-semibold leading-relaxed">Đảm bảo tính nhất quán & phù hợp across brands.</p>
-                                        </div>
-                                        <div class="flex items-start gap-2.5">
-                                            <div class="w-1.5 h-1.5 rounded-full bg-pnjRed mt-1.5 shrink-0"></div>
-                                            <p class="text-[11px] md:text-sm text-gray-700 font-semibold leading-relaxed">Góp phần trực tiếp vào hiệu quả lan tỏa và tương tác của campaign.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -955,7 +994,7 @@
                             <!-- Connecting SVG Lines Overlay -->
                             <svg class="absolute inset-0 w-full h-full pointer-events-none hidden md:block" style="z-index: 10;" viewBox="0 0 1000 1000">
                                 <defs>
-                                    <linearGradient id="lineGradHub" x1="0%" y1="0%" x2="100%" x2="100%">
+                                    <linearGradient id="lineGradHub" x1="0%" y1="0%" x2="100%" y2="100%">
                                         <stop offset="0%" stop-color="#003366" />
                                         <stop offset="100%" stop-color="#B8860B" />
                                     </linearGradient>
@@ -1059,118 +1098,122 @@
                                 </div>
                                 <span class="font-number text-[#003366] text-3xl md:text-4xl">14.2%</span>
                             </div>
-                            <div class="group flex items-center justify-between p-6 bg-white rounded-3xl shadow-sm border border-gray-100 transition-all hover:border-gray-300 hover:shadow-md">
-                                <div class="flex items-center gap-6">
-                                    <div class="w-5 h-5 rounded-full bg-[#9ca3af] shadow-sm"></div>
-                                    <div>
-                                        <span class="text-sm md:text-base font-bold text-gray-600 uppercase">Retail & Omni Growth</span>
-                                        <p class="text-[10px] md:text-xs text-gray-400 font-medium mt-1">Tối ưu hóa dữ liệu khách hàng & Cá nhân hóa trải nghiệm (CDP)</p>
-                                    </div>
-                                </div>
-                                <span class="font-number text-gray-500 text-3xl md:text-4xl">5.6%</span>
-                            </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- SUB-TAB 3: HỖ TRỢ TRUYỀN THÔNG GTM -->
+            <!-- SUB-TAB 3: HỖ TRỢ TRUYỀN THÔNG GTM CHO BST MỚI & CTKM (image_fa4c89.png) -->
             <section id="sub-gtm" class="sub-content hidden fade-in-section">
-                <div class="text-center mb-10 px-2">
-                    <h2 class="font-serif-vi text-2xl md:text-4xl text-[#003366] font-bold uppercase mb-2">HỖ TRỢ TRUYỀN THÔNG GTM</h2>
-                    <p class="font-sans-vi text-[#B8860B] font-bold text-[10px] md:text-sm tracking-widest uppercase leading-tight italic">Go-to-market BST mới & Chiến dịch trọng điểm</p>
+                <div class="text-center mb-10 px-2 max-w-4xl mx-auto">
+                    <h2 class="font-serif-vi text-3xl md:text-5xl text-[#003366] font-bold uppercase mb-4 leading-tight">
+                        HỖ TRỢ TRUYỀN THÔNG GTM CHO BST MỚI & CTKM
+                    </h2>
+                    <p class="font-sans text-gray-500 font-medium text-xs sm:text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
+                        Truyền thông CTKM <strong class="text-[#003366]">CT 8.3 và SN PNJ 38 năm</strong> từ Retail / OMNI và BST mới từ Brand / Sub - brand.
+                    </p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
-                    <!-- PNJ BLOG CARD -->
-                    <div class="bg-white rounded-[3rem] p-8 md:p-10 shadow-xl border border-gray-100 flex flex-col transition-all hover:shadow-2xl">
-                        <div class="bg-blue-50/50 rounded-2xl p-6 mb-8 text-center border border-blue-100">
-                            <h3 class="font-bold text-[#003366] text-4xl font-number italic mb-1 tracking-tight">PNJ Blog</h3>
-                        </div>
-                        <ul class="space-y-4 mb-6 px-2">
-                            <li class="flex items-start gap-3">
-                                <i data-lucide="check-circle" class="w-5 h-5 text-[#B8860B] shrink-0 mt-0.5"></i>
-                                <p class="text-sm text-gray-600 leading-relaxed font-medium">Phủ nội dung cho 5 sub-brand (<span class="text-pnjBlue font-bold italic">STYLE by PNJ, Disney|PNJ, PNJ &lt;3 Hello Kitty, PNJ Watch, MANCODE by PNJ</span>).</p>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <i data-lucide="check-circle" class="w-5 h-5 text-[#B8860B] shrink-0 mt-0.5"></i>
-                                <p class="text-sm text-gray-600 leading-relaxed font-medium">Duy trì traffic nền tảng ổn định, chuyển đổi từ <span class="text-pnjBlue font-bold">'peak traffic'</span> sang <span class="text-pnjBlue font-bold">'xây nền nội dung'</span>.</p>
-                            </li>
-                        </ul>
-                        <div class="mb-8 px-2">
-                            <div class="relative group/blog">
-                                <button onclick="scrollSlider('blog-slider', 'left')" class="floating-nav-btn absolute -left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center text-[#003366]">
-                                    <i data-lucide="chevron-left" class="w-4 h-4"></i>
-                                </button>
-                                <div id="blog-slider" class="flex gap-3 overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-smooth">
-                                    <div class="min-w-[85%] md:min-w-[75%] snap-center"><img src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776249186/ke1xdhefgh73vhzygmd0.png" class="w-full aspect-[4/3] object-cover rounded-2xl border border-gray-100 shadow-sm"></div>
-                                    <div class="min-w-[85%] md:min-w-[75%] snap-center"><img src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776249185/pvub4pwz8b17pkqp9mb9.png" class="w-full aspect-[4/3] object-cover rounded-2xl border border-gray-100 shadow-sm"></div>
-                                    <div class="min-w-[85%] md:min-w-[75%] snap-center"><img src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776249186/mcnahtsqr4sb7acqek4o.jpg" class="w-full aspect-[4/3] object-cover rounded-2xl border border-gray-100 shadow-sm"></div>
-                                    <div class="min-w-[85%] md:min-w-[75%] snap-center"><img src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776249186/ofc9hit7kfvkobtwck9c.png" class="w-full aspect-[4/3] object-cover rounded-2xl border border-gray-100 shadow-sm"></div>
-                                </div>
-                                <button onclick="scrollSlider('blog-slider', 'right')" class="floating-nav-btn absolute -right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center text-[#003366]">
-                                    <i data-lucide="chevron-right" class="w-4 h-4"></i>
-                                </button>
+                <!-- SUB-SUB TABS: BLOG / ZALO BROADCAST -->
+                <div class="flex justify-center mb-10">
+                    <div class="bg-white p-1 rounded-full border border-gray-200 inline-flex shadow-sm">
+                        <button onclick="toggleGtmType('blog')" id="btn-gtm-blog" class="sub-tab-active px-6 py-2.5 rounded-full text-xs md:text-sm font-bold flex items-center gap-2 transition-all">
+                            <i data-lucide="book-open" class="w-4 h-4"></i> Blog
+                        </button>
+                        <button onclick="toggleGtmType('zalo')" id="btn-gtm-zalo" class="bg-transparent text-gray-500 px-6 py-2.5 rounded-full text-xs md:text-sm font-bold flex items-center gap-2 transition-all">
+                            <i data-lucide="message-square" class="w-4 h-4"></i> Zalo Broadcast
+                        </button>
+                    </div>
+                </div>
+
+                <!-- GTM BLOG TAB -->
+                <div id="gtm-blog-section" class="space-y-8 block">
+                    <!-- Thẻ Tổng lượt xem & Bài viết -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                        <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm flex items-center gap-5">
+                            <div class="w-14 h-14 bg-blue-50 text-blue-800 rounded-full flex items-center justify-center shrink-0">
+                                <i data-lucide="eye" class="w-7 h-7"></i>
                             </div>
+                            <div>
+                                <span class="text-xs text-gray-400 font-bold uppercase tracking-wider block">TỔNG LƯỢT XEM NỘI DUNG</span>
+                                <span class="text-3xl font-serif-vi font-extrabold text-[#9A161F]">49.000+</span>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm flex items-center gap-5">
+                            <div class="w-14 h-14 bg-amber-50 text-amber-600 rounded-full flex items-center justify-center shrink-0">
+                                <i data-lucide="file-text" class="w-7 h-7"></i>
+                            </div>
+                            <div>
+                                <span class="text-xs text-gray-400 font-bold uppercase tracking-wider block">BÀI BLOG</span>
+                                <span class="text-3xl font-serif-vi font-extrabold text-[#003366]">15 <span class="text-base font-sans font-medium text-gray-500 lowercase">bài</span></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BÀI VIẾT BST (image_fa4c89.png) -->
+                    <div class="max-w-6xl mx-auto">
+                        <div class="text-center mb-8">
+                            <h3 class="text-lg font-bold text-[#003366] uppercase tracking-[0.2em] inline-block border-b-2 border-[#B8860B] pb-1">
+                                BÀI VIẾT NỔI BẬT
+                            </h3>
                         </div>
 
-                        <!-- FOOTER STATS PNJ BLOG -->
-                        <div class="border-t border-gray-100 pt-6 mt-auto flex flex-col gap-6">
-                            <!-- Duy trì Traffic (Centered, Single Line) -->
-                            <div class="w-full flex justify-center">
-                                <div class="bg-[#F9F1E5] px-6 py-3 rounded-2xl text-lg md:text-xl font-bold text-[#003366] border-2 border-[#B8860B]/30 shadow-sm text-center whitespace-nowrap overflow-hidden">
-                                    Duy trì 82% traffic so với tháng 12/2025
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <!-- BST DISNEY -->
+                            <div class="bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 flex flex-col justify-between hover:-translate-y-1 transition-all h-full">
+                                <div class="bg-[#003366] text-white p-12 text-center flex items-center justify-center font-bold text-2xl uppercase tracking-widest font-sans min-h-[140px]">
+                                    DISNEY
+                                </div>
+                                <div class="p-6 flex flex-col justify-between flex-1 text-center">
+                                    <div>
+                                        <h4 class="font-extrabold text-sm text-[#003366] uppercase tracking-wider mb-2">DISNEY</h4>
+                                        <p class="text-xs text-gray-500 leading-relaxed font-semibold">Các bộ sưu tập trang sức độc quyền mang đậm tinh thần phép màu từ Disney, nhắm tới khách hàng yêu thích sự trẻ trung, kỳ diệu.</p>
+                                    </div>
+                                    <div class="mt-4 pt-4 border-t border-gray-100">
+                                        <button class="text-xs font-bold text-[#B8860B] uppercase tracking-widest flex items-center gap-1.5 mx-auto"><span>CHI TIẾT</span> <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></button>
+                                    </div>
                                 </div>
                             </div>
-                            
-                            <!-- Detailed Stats -->
-                            <div class="flex items-end justify-between px-2">
-                                <div class="space-y-1">
-                                    <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Tổng lượt xem nội dung</p>
-                                    <span class="text-4xl sm:text-6xl lg:text-6xl font-serif-vi font-bold text-[#B8860B]">13,575</span>
+
+                            <!-- BST STYLE -->
+                            <div class="bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 flex flex-col justify-between hover:-translate-y-1 transition-all h-full">
+                                <div class="bg-[#111] text-white p-12 text-center flex items-center justify-center font-bold text-2xl uppercase tracking-widest font-sans min-h-[140px]">
+                                    STYLE
                                 </div>
-                                <div class="text-right space-y-1">
-                                    <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Hiệu suất sản xuất</p>
-                                    <div class="flex items-center justify-end gap-2 text-pnjGold">
-                                        <i data-lucide="file-text" class="w-6 h-6"></i>
-                                        <span class="text-2xl md:text-3xl font-serif-vi font-bold text-[#B8860B]">11 Bài Blog</span>
+                                <div class="p-6 flex flex-col justify-between flex-1 text-center">
+                                    <div>
+                                        <h4 class="font-extrabold text-sm text-[#003366] uppercase tracking-wider mb-2">STYLE</h4>
+                                        <p class="text-xs text-gray-500 leading-relaxed font-semibold">Dòng sản phẩm thể hiện cá tính mạnh mẽ, thời thượng. Dành cho giới trẻ yêu thích thể hiện cái tôi qua ngôn ngữ thời trang.</p>
+                                    </div>
+                                    <div class="mt-4 pt-4 border-t border-gray-100">
+                                        <button class="text-xs font-bold text-[#B8860B] uppercase tracking-widest flex items-center gap-1.5 mx-auto"><span>CHI TIẾT</span> <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- BST MANCODE -->
+                            <div class="bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 flex flex-col justify-between hover:-translate-y-1 transition-all h-full">
+                                <div class="bg-[#D97706] text-white p-12 text-center flex items-center justify-center font-bold text-2xl uppercase tracking-widest font-sans min-h-[140px]">
+                                    MANCODE
+                                </div>
+                                <div class="p-6 flex flex-col justify-between flex-1 text-center">
+                                    <div>
+                                        <h4 class="font-extrabold text-sm text-[#D97706] uppercase tracking-wider mb-2">MANCODE</h4>
+                                        <p class="text-xs text-gray-500 leading-relaxed font-semibold">Bộ sưu tập trang sức nam tính, thanh lịch và cuốn hút. Khẳng định phong thái phái mạnh hiện đại.</p>
+                                    </div>
+                                    <div class="mt-4 pt-4 border-t border-gray-100">
+                                        <button class="text-xs font-bold text-[#B8860B] uppercase tracking-widest flex items-center gap-1.5 mx-auto"><span>CHI TIẾT</span> <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <!-- ZALO BROADCAST CARD -->
-                    <div class="bg-white rounded-[3rem] p-8 md:p-10 shadow-xl border border-gray-100 flex flex-col transition-all hover:shadow-2xl">
-                        <div class="bg-[#FDF6E9] rounded-2xl p-6 mb-8 text-center border border-[#FBE9D0]">
-                            <h3 class="font-bold text-[#B8860B] text-4xl font-number italic mb-1 tracking-tight">Zalo Broadcast</h3>
-                        </div>
-                        <ul class="space-y-5 mb-10 flex-grow px-2">
-                            <li class="flex items-start gap-4">
-                                <i data-lucide="check-circle" class="w-5 h-5 text-[#003366] shrink-0 mt-0.5"></i>
-                                <p class="text-sm md:text-base text-gray-600 leading-relaxed font-medium"><span class="text-pnjBlue font-bold italic">Ổn định tương tác sau cao điểm </span>Xuân - Valetine - Thần Tài.</p>
-                            </li>
-                            <li class="flex items-start gap-4">
-                                <i data-lucide="check-circle" class="w-5 h-5 text-[#003366] shrink-0 mt-0.5"></i>
-                                <p class="text-sm md:text-base text-gray-600 leading-relaxed font-medium">Hỗ trợ điều hướng traffic về website & thúc đẩy bán hàng.</p>
-                            </li>
-                        </ul>
-                        <div class="mb-8 px-2">
-                            <div class="relative group/zalo">
-                                <button onclick="scrollSlider('zalo-slider', 'left')" class="floating-nav-btn absolute -left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center text-[#003366]">
-                                    <i data-lucide="chevron-left" class="w-4 h-4"></i>
-                                </button>
-                                <div id="zalo-slider" class="flex gap-3 overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-smooth">
-                                    <div class="min-w-[85%] md:min-w-[75%] snap-center"><img src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776249187/hfvdxcupakvuxzqjzpx4.jpg" class="w-full aspect-[4/3] object-cover rounded-2xl border border-gray-100 shadow-sm"></div>
-                                    <div class="min-w-[85%] md:min-w-[75%] snap-center"><img src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776249186/xoxnr1oe0dpdaohjfgzb.jpg" class="w-full aspect-[4/3] object-cover rounded-2xl border border-gray-100 shadow-sm"></div>
-                                    <div class="min-w-[85%] md:min-w-[75%] snap-center"><img src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776249186/q8idiibzz7c2ql4fteil.jpg" class="w-full aspect-[4/3] object-cover rounded-2xl border border-gray-100 shadow-sm"></div>
-                                </div>
-                                <button onclick="scrollSlider('zalo-slider', 'right')" class="floating-nav-btn absolute -right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center text-[#003366]">
-                                    <i data-lucide="chevron-right" class="w-4 h-4"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-2 gap-4 border-t border-gray-100 pt-8 mt-auto">
+                <!-- GTM ZALO BROADCAST TAB -->
+                <div id="gtm-zalo-section" class="space-y-8 hidden">
+                    <div class="bg-white rounded-3xl p-8 max-w-4xl mx-auto border border-gray-100 shadow-xl">
+                        <div class="grid grid-cols-2 gap-4 border-b border-gray-100 pb-8 mb-8 text-center sm:text-left">
                             <div class="space-y-1">
                                 <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Reach (Followers)</p>
                                 <span class="text-4xl sm:text-6xl lg:text-5xl font-serif-vi font-bold text-[#B8860B]">~490K</span>
@@ -1180,11 +1223,17 @@
                                 <span class="text-3xl sm:text-5xl lg:text-4xl font-serif-vi font-bold text-[#9A161F]">46,643</span>
                             </div>
                         </div>
-                        <div class="mt-6 bg-green-50 p-4 rounded-2xl border border-green-100 flex items-center justify-center gap-3">
-                            <div class="bg-white p-1.5 rounded-full shadow-sm">
-                                <i data-lucide="trending-up" class="w-5 h-5 text-green-600"></i>
+
+                        <div class="space-y-4">
+                            <div class="bg-green-50 p-4 rounded-2xl border border-green-100 flex items-center justify-center gap-3 shadow-inner">
+                                <div class="bg-white p-1.5 rounded-full shadow-sm shrink-0">
+                                    <i data-lucide="trending-up" class="w-5 h-5 text-green-600"></i>
+                                </div>
+                                <span class="text-xs md:text-sm font-bold text-green-700 uppercase tracking-tight text-center">Tăng trưởng +73% so với Tháng 12/2025</span>
                             </div>
-                            <span class="text-xs md:text-sm font-bold text-green-700 uppercase tracking-tight">Tăng trưởng +73% so với Tháng 12/2025</span>
+
+                            <p class="text-sm text-gray-600 leading-relaxed font-semibold px-2">• Ổn định tương tác sau cao điểm Xuân - Valentine - Thần Tài.</p>
+                            <p class="text-sm text-gray-600 leading-relaxed font-semibold px-2">• Hỗ trợ điều hướng traffic về website & thúc đẩy bán hàng trực tiếp.</p>
                         </div>
                     </div>
                 </div>
@@ -1197,12 +1246,12 @@
     <!-- ========================================== -->
     <!-- DYNAMIC VIDEO UPLOAD MODAL -->
     <!-- ========================================== -->
-    <div id="upload-video-modal" class="fixed inset-0 bg-black/60 backdrop-blur-md z-[100] hidden items-center justify-center p-4">
+    <div id="upload-video-modal" class="fixed inset-0 bg-black/60 backdrop-blur-md z-[100] hidden items-center justify-center p-4 select-none">
         <div class="bg-white rounded-3xl max-w-md w-full overflow-hidden shadow-2xl border border-gray-100 transform transition-transform duration-300 scale-95">
             <!-- Modal Header -->
             <div class="bg-[#003366] text-white p-5 flex justify-between items-center">
                 <h3 class="font-bold text-sm uppercase tracking-wider flex items-center gap-2">
-                    <i data-lucide="video" class="w-5 h-5 text-[#B8860B]"></i> Thay Thế Video Mới
+                    <i data-lucide="lock-open" class="w-5 h-5 text-[#B8860B]"></i> Backend - Thay Thế Video
                 </h3>
                 <button onclick="closeUploadModal()" class="text-white/80 hover:text-white transition-colors cursor-pointer">
                     <i data-lucide="x" class="w-6 h-6"></i>
@@ -1213,11 +1262,11 @@
             <div class="p-6 space-y-6">
                 <!-- Method 1: Local File Selection -->
                 <div class="space-y-2">
-                    <label class="block text-xs font-extrabold text-gray-500 uppercase tracking-widest">Cách 1: Chọn video từ máy tính / điện thoại</label>
+                    <label class="block text-xs font-extrabold text-gray-500 uppercase tracking-widest">Cách 1: Chọn video từ thiết bị của bạn</label>
                     <label class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-2xl cursor-pointer hover:bg-gray-50 hover:border-[#003366] transition-all p-4 text-center">
                         <i data-lucide="upload-cloud" class="w-8 h-8 text-[#B8860B] mb-2"></i>
                         <span class="text-xs font-semibold text-gray-600">Click chọn tệp tin (.mp4, .webm)</span>
-                        <span class="text-[10px] text-gray-400 mt-1">Video sẽ chạy lập tức trên trang</span>
+                        <span class="text-[10px] text-gray-400 mt-1">Hệ thống sẽ cập nhật video ngay lập tức</span>
                         <input type="file" id="video-file-input" accept="video/*" class="hidden" onchange="handleLocalVideoUpload(event)">
                     </label>
                 </div>
@@ -1230,7 +1279,7 @@
                 
                 <!-- Method 2: Online Link -->
                 <div class="space-y-2">
-                    <label class="block text-xs font-extrabold text-gray-500 uppercase tracking-widest">Cách 2: Nhập địa chỉ Video trực tuyến</label>
+                    <label class="block text-xs font-extrabold text-gray-500 uppercase tracking-widest">Cách 2: Nhập địa chỉ URL Video online</label>
                     <div class="relative">
                         <input type="url" id="video-url-input" class="w-full p-3 pl-4 pr-10 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-[#003366] focus:outline-none placeholder-gray-400 font-medium" placeholder="https://res.cloudinary.com/.../video.mp4">
                         <div class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
@@ -1244,48 +1293,113 @@
             <div class="bg-gray-50 p-4 flex justify-end gap-3 border-t border-gray-100">
                 <button onclick="closeUploadModal()" class="px-4 py-2 text-xs font-bold text-gray-500 hover:text-gray-700 uppercase cursor-pointer">Hủy bỏ</button>
                 <button onclick="saveVideoUrl()" class="bg-[#003366] text-white px-5 py-2.5 rounded-xl text-xs font-bold shadow-md hover:bg-opacity-95 transition-all flex items-center gap-1.5 uppercase cursor-pointer">
-                    <i data-lucide="save" class="w-4 h-4"></i> Lưu đường dẫn
+                    <i data-lucide="save" class="w-4 h-4"></i> Lưu & Đồng bộ
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="mt-8 md:mt-12 text-center pb-8 border-t border-gray-200 pt-6 md:pt-8 max-w-7xl mx-auto px-4">
-        <p class="text-gray-400 text-[10px] sm:text-xs md:text-sm font-sans-vi font-normal">
-            © 2026 PNJ Creative Hub. Báo cáo nội bộ K.KHBL
-        </p>
-    </footer>
-
-    <!-- Khởi tạo Icons và Animation -->
+    <!-- SCRIPT ĐIỀU KHIỂN LOGIC PHÂN QUYỀN VÀ TRẠNG THÁI -->
     <script>
-        lucide.createIcons();
+        let isBackendUser = false; // Trạng thái người dùng Backend
+        let activeVideoTargetId = null;
 
         document.addEventListener("DOMContentLoaded", () => {
+            // Khởi tạo các Icons Lucide
+            lucide.createIcons();
+
+            // Kiểm tra tham số URL ?admin=true
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('admin') === 'true' || urlParams.get('mode') === 'backend') {
+                enableBackendMode(false); // Kích hoạt không hiển thị thông báo ban đầu
+            } else {
+                // Khôi phục từ localStorage nếu đã đăng nhập trước đó
+                const savedState = localStorage.getItem('pnj_backend_active');
+                if (savedState === 'true') {
+                    enableBackendMode(false);
+                }
+            }
+
+            // Tải lại các video đã lưu nguồn tùy biến
+            loadSavedVideos();
+
+            // Hiệu ứng mượt khi hiển thị các section
             setTimeout(() => {
                 document.querySelectorAll('.fade-in-section').forEach(el => {
                     el.classList.add('is-visible');
                 });
             }, 100);
-            
-            // Tự động khôi phục các video đã lưu từ trước trong localStorage
-            loadSavedVideos();
         });
 
-        // ----------------- VIDEO UPLOAD & SYNC STATE LOGIC -----------------
-        let activeVideoTargetId = null;
+        // HÀM KÍCH HOẠT CHẾ ĐỘ QUẢN TRỊ VIÊN (BACKEND)
+        function enableBackendMode(triggerToast = true) {
+            isBackendUser = true;
+            localStorage.setItem('pnj_backend_active', 'true');
+            
+            // Hiển thị huy hiệu Admin Active
+            const badge = document.getElementById('admin-badge');
+            if (badge) {
+                badge.classList.remove('hidden');
+                badge.classList.add('flex');
+            }
 
+            // Hiển thị tất cả các nút upload video đỏ (Backend Only)
+            document.querySelectorAll('.admin-upload-btn').forEach(btn => {
+                btn.classList.remove('hidden');
+            });
+
+            if (triggerToast) {
+                showToast("Đã kích hoạt chế độ quản trị Backend thành công!");
+            }
+        }
+
+        // HÀM TẮT CHẾ ĐỘ QUẢN TRỊ VIÊN (BACKEND)
+        function logoutAdmin() {
+            isBackendUser = false;
+            localStorage.removeItem('pnj_backend_active');
+
+            // Ẩn huy hiệu Admin Active
+            const badge = document.getElementById('admin-badge');
+            if (badge) {
+                badge.classList.remove('flex');
+                badge.classList.add('hidden');
+            }
+
+            // Ẩn toàn bộ nút upload video
+            document.querySelectorAll('.admin-upload-btn').forEach(btn => {
+                btn.classList.add('hidden');
+            });
+
+            showToast("Đã đăng xuất chế độ quản trị!");
+        }
+
+        // POPUP YÊU CẦU NHẬP MẬT MÃ KHI DOUBLE CLICK LOGO
+        function promptAdminAccess() {
+            const password = prompt("Vui lòng nhập mật mã quản trị để kích hoạt trạng thái Backend:");
+            if (password === null) return; // Nhấn Hủy
+
+            if (password === 'pnj38') {
+                enableBackendMode();
+            } else {
+                showToast("Mật mã chưa chính xác. Vui lòng thử lại!", "error");
+            }
+        }
+
+        // ----------------- CHỨC NĂNG THAY ĐỔI VIDEO -----------------
         function triggerVideoUpload(videoId) {
+            if (!isBackendUser) {
+                showToast("Chức năng chỉ dành cho quản trị viên Backend!", "error");
+                return;
+            }
+
             activeVideoTargetId = videoId;
             const modal = document.getElementById('upload-video-modal');
             const urlInput = document.getElementById('video-url-input');
             const fileInput = document.getElementById('video-file-input');
             
-            // Xóa rỗng các trường nhập liệu trước khi mở
             urlInput.value = '';
             fileInput.value = '';
 
-            // Prefill URL hiện tại nếu là url online bên ngoài
             const videoEl = document.getElementById(videoId);
             if (videoEl && videoEl.src && !videoEl.src.startsWith('blob:')) {
                 urlInput.value = videoEl.src;
@@ -1320,9 +1434,9 @@
                 videoEl.src = objectURL;
                 videoEl.load();
                 
-                // Lưu trạng thái tạm thời trong LocalStorage
+                // Lưu tạm trạng thái trong LocalStorage
                 saveToLocalStorage(activeVideoTargetId, objectURL);
-                showToast("Đã tải tệp video thành công!");
+                showToast("Đã nạp tệp video thành công!");
                 closeUploadModal();
             }
         }
@@ -1340,7 +1454,7 @@
                 videoEl.src = url;
                 videoEl.load();
                 saveToLocalStorage(activeVideoTargetId, url);
-                showToast("Đã đồng bộ đường dẫn video trực tuyến thành công!");
+                showToast("Đã cập nhật liên kết video thành công!");
                 closeUploadModal();
             }
         }
@@ -1356,18 +1470,17 @@
                 let sources = JSON.parse(localStorage.getItem('pnj_video_sources') || '{}');
                 Object.keys(sources).forEach(id => {
                     const videoEl = document.getElementById(id);
-                    // Chỉ tải lại nguồn nếu nó không phải là blob URL đã bị mất liên kết vùng nhớ sau khi tải lại trang
                     if (videoEl && sources[id] && !sources[id].startsWith('blob:')) {
                         videoEl.src = sources[id];
                         videoEl.load();
                     }
                 });
             } catch(e) {
-                console.error("Không thể khôi phục trạng thái video:", e);
+                console.error("Không thể khôi phục video:", e);
             }
         }
 
-        // Thông báo Toast đẹp mắt
+        // Thông báo Toast mượt mà
         function showToast(message, type = 'success') {
             const toast = document.getElementById('toast');
             const toastMsg = document.getElementById('toast-message');
@@ -1389,7 +1502,7 @@
             }, 3000);
         }
 
-        // ----------------- TABS CONTROLS -----------------
+        // ----------------- ĐIỀU KHIỂN TABS -----------------
         function switchTeamTab(teamTabId) {
             document.querySelectorAll('.team-panel').forEach(panel => {
                 panel.classList.add('hidden');
@@ -1436,19 +1549,16 @@
         }
 
         function switchSubTab(subTabId) {
-            // Hide all sub-content panels
             document.querySelectorAll('.sub-content').forEach(panel => {
                 panel.classList.add('hidden');
                 panel.classList.remove('block', 'is-visible');
             });
 
-            // Reset sub-tab buttons style
             document.querySelectorAll('#btn-sub-zalo, #btn-sub-hub, #btn-sub-gtm').forEach(btn => {
                 btn.classList.remove('sub-tab-active');
                 btn.classList.add('bg-white', 'text-[#003366]');
             });
 
-            // Show active sub-content
             const activePanel = document.getElementById(subTabId);
             if (activePanel) {
                 activePanel.classList.remove('hidden');
@@ -1456,11 +1566,39 @@
                 setTimeout(() => activePanel.classList.add('is-visible'), 50);
             }
 
-            // Highlight active button
             const activeBtn = document.getElementById('btn-' + subTabId);
             if (activeBtn) {
                 activeBtn.classList.add('sub-tab-active');
                 activeBtn.classList.remove('bg-white', 'text-[#003366]');
+            }
+        }
+
+        function toggleGtmType(type) {
+            const blogBtn = document.getElementById('btn-gtm-blog');
+            const zaloBtn = document.getElementById('btn-gtm-zalo');
+            const blogSec = document.getElementById('gtm-blog-section');
+            const zaloSec = document.getElementById('gtm-zalo-section');
+
+            if (type === 'blog') {
+                blogBtn.classList.add('sub-tab-active');
+                blogBtn.classList.remove('bg-transparent', 'text-gray-500');
+                zaloBtn.classList.remove('sub-tab-active');
+                zaloBtn.classList.add('bg-transparent', 'text-gray-500');
+
+                blogSec.classList.remove('hidden');
+                blogSec.classList.add('block');
+                zaloSec.classList.add('hidden');
+                zaloSec.classList.remove('block');
+            } else {
+                zaloBtn.classList.add('sub-tab-active');
+                zaloBtn.classList.remove('bg-transparent', 'text-gray-500');
+                blogBtn.classList.remove('sub-tab-active');
+                blogBtn.classList.add('bg-transparent', 'text-gray-500');
+
+                zaloSec.classList.remove('hidden');
+                zaloSec.classList.add('block');
+                blogSec.classList.add('hidden');
+                blogSec.classList.remove('block');
             }
         }
 
