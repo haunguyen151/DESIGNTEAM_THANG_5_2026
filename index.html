@@ -948,7 +948,7 @@
                             </div>
                             <div class="bg-white p-4 rounded-xl border border-amber-100 shadow-sm">
                                 <span class="text-[10px] text-[#003366] font-bold uppercase block mb-1">SỐ LƯỢNG SẢN XUẤT</span>
-                                <p class="text-sm font-medium text-[#9A161F]"><span class="text-3xl font-bold text-[#9A161F]">160</span> SKU</p>
+                                <p class="text-sm font-medium text-gray-600"><span class="text-3xl font-bold text-[#9A161F]">160</span> SKU</p>
                             </div>
                         </div>
                         
@@ -1482,7 +1482,7 @@
                     <label class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-2xl cursor-pointer hover:bg-gray-50 hover:border-[#003366] transition-all p-4 text-center">
                         <i data-lucide="upload-cloud" class="w-8 h-8 text-[#B8860B] mb-2"></i>
                         <span class="text-xs font-semibold text-gray-600">Click chọn tệp từ máy của bạn</span>
-                        <span id="file-desc-text" class="text-[10px] text-gray-400 mt-1">Hệ thống sẽ cập nhật ngay lập tức</span>
+                        <span id="file-desc-text" class="text-[10px] text-gray-400 mt-1">Nội dung sẽ tải lên Firebase Storage tự động</span>
                         <input type="file" id="video-file-input" accept="video/*,image/*" class="hidden" onchange="handleLocalMediaUpload(event)">
                     </label>
                 </div>
@@ -1517,7 +1517,7 @@
 
     <!-- CUSTOM PASSWORD AUTHENTICATION MODAL -->
     <div id="password-modal" class="fixed inset-0 bg-black/60 backdrop-blur-md z-[110] hidden items-center justify-center p-4 select-none">
-        <div class="bg-white rounded-3xl max-w-sm w-full overflow-hidden shadow-2xl border border-gray-100 p-6 space-y-4 transform transition-transform duration-200 scale-95">
+        <div class="bg-white rounded-3xl max-sm w-full overflow-hidden shadow-2xl border border-gray-100 p-6 space-y-4 transform transition-transform duration-200 scale-95">
             <div class="flex items-center gap-3 border-b border-gray-100 pb-3 animate-fade-in">
                 <div class="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center text-pnjGold">
                     <i data-lucide="shield-check" class="w-6 h-6"></i>
@@ -1549,8 +1549,10 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
 
-        // Cấu hình lưu trữ Firebase do bạn cung cấp
+        // Cấu hình lưu trữ Firebase của bạn
         const firebaseConfig = {
             apiKey: "AIzaSyAbuBdhZuHN4s5BlgeazY5mXXLdvo6x2N0",
             authDomain: "report-2026-6affd.firebaseapp.com",
@@ -1565,6 +1567,8 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
+        const storage = getStorage(app);
+        const analytics = getAnalytics(app);
 
         // Biến trạng thái
         let isBackendUser = false;
@@ -1812,21 +1816,53 @@
             }, 150);
         }
 
-        function handleLocalMediaUpload(event) {
+        // TẢI LÊN TIỆN ÍCH LÊN CLOUD STORAGE (ĐƯỢC NÂNG CẤP)
+        async function handleLocalMediaUpload(event) {
             const file = event.target.files[0];
             if (!file) return;
 
-            const objectURL = URL.createObjectURL(file);
-            const el = document.getElementById(activeVideoTargetId);
-            if (el) {
-                el.src = objectURL;
-                if (el.tagName === 'VIDEO') {
-                    el.load();
-                    showToast("Đã xem thử video cục bộ thành công! (Chỉ hiển thị tại máy này)");
-                } else {
-                    showToast("Đã xem thử hình ảnh cục bộ thành công! (Chỉ hiển thị tại máy này)");
+            if (isGitHub) {
+                showToast("Không thể chỉnh sửa trên GitHub Pages!", "error");
+                return;
+            }
+
+            if (!isBackendUser) {
+                showToast("Chức năng chỉ dành cho quản trị viên Backend!", "error");
+                return;
+            }
+
+            showToast("Đang tải tệp lên Firebase Storage...", "success");
+            closeUploadModal();
+
+            try {
+                // Tạo một đường dẫn duy nhất cho tệp tin trên Firebase Storage
+                const fileExtension = file.name.split('.').pop();
+                const storagePath = `artifacts/${appId}/uploads/${activeVideoTargetId}_${Date.now()}.${fileExtension}`;
+                const storageRef = ref(storage, storagePath);
+
+                // Thực hiện upload tệp nhị phân
+                const snapshot = await uploadBytes(storageRef, file);
+                
+                // Lấy Download URL công khai từ Firebase Storage
+                const downloadURL = await getDownloadURL(snapshot.ref);
+
+                // Cập nhật nguồn cục bộ của thẻ HTML (ảnh/video)
+                const el = document.getElementById(activeVideoTargetId);
+                if (el) {
+                    el.src = downloadURL;
+                    if (el.tagName === 'VIDEO') {
+                        el.load();
+                    }
                 }
-                closeUploadModal();
+
+                // Lưu liên kết mới vào Firestore để đồng bộ hóa real-time cho tất cả client khác
+                const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'media_sources', 'current');
+                await setDoc(docRef, { [activeVideoTargetId]: downloadURL }, { merge: true });
+
+                showToast("Đã upload lên Firebase Storage & đồng bộ thành công!");
+            } catch (error) {
+                console.error("Lỗi Upload Storage: ", error);
+                showToast("Upload thất bại: " + error.message, "error");
             }
         }
 
