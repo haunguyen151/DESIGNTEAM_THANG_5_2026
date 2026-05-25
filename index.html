@@ -300,7 +300,7 @@
                             <div class="w-full h-full overflow-y-auto custom-scrollbar-container rounded-lg bg-white">
                                 <img 
                                     id="img-ebrochure-1"
-                                    src="e brochure.png" 
+                                    src="e brochure.jpg" 
                                     alt="Giao diện E-Brochure" 
                                     class="w-full h-auto block"
                                 >
@@ -387,7 +387,7 @@
                         <div class="mt-auto pt-2 border-t border-gray-100">
                             <div class="relative group/media rounded-xl overflow-hidden shadow-sm border border-[#B8860B]/20 bg-[#F9F1E5] p-1 mt-2">
                                 <video id="video-khcs" controls autoplay muted loop playsinline class="w-full h-auto max-h-[160px] sm:max-h-[180px] object-cover rounded-lg">
-                                    <source src="Japan Trip 2026 20MB.mp4" type="video/mp4">
+                                    <source src="Japan Trip 2026.mp4" type="video/mp4">
                                 </video>
                             </div>
                         </div>
@@ -579,7 +579,7 @@
                         </div>
                     </div>
 
-                    <!-- Box 6: CX-CS -->
+                    <!-- Box 6: CX-CS (CÂN CHỈNH LẠI CHỈ CÓ 1 VIDEO RECAP DỌC TUYỆT ĐẸP) -->
                     <div class="bg-white rounded-2xl shadow-lg border-t-4 border-[#B8860B] p-5 sm:p-6 lg:p-8 hover:-translate-y-2 transition-transform duration-300 flex flex-col h-full relative font-sans">
                         <div class="flex items-center gap-3 md:gap-4 mb-5 pb-5 border-b border-gray-100">
                             <div class="w-10 h-10 md:w-14 md:h-14 rounded-full bg-[#B8860B] flex items-center justify-center text-white shadow-md shrink-0">
@@ -597,30 +597,13 @@
                                 </li>
                             </ul>
                             
-                            <div class="relative w-full mt-2 group">
-                                <button onclick="scrollSlider('cxcs-scroll-container', 'left')" 
-                                    class="absolute left-[-12px] sm:left-[-16px] top-[40%] -translate-y-1/2 z-10 bg-white border border-gray-200 shadow-[0_2px_8px_rgba(0,0,0,0.15)] rounded-full p-1.5 text-[#003366] hover:bg-[#003366] hover:text-white transition-all focus:outline-none opacity-90 hover:opacity-100 flex items-center justify-center cursor-pointer">
-                                    <i data-lucide="chevron-left" class="w-4 h-4 md:w-5 md:h-5"></i>
-                                </button>
-
-                                <div id="cxcs-scroll-container" class="w-full overflow-x-auto flex gap-4 pb-3 pt-1 px-1 custom-scrollbar-container scroll-smooth snap-x snap-mandatory">
-                                    <div class="relative group/media w-[90%] sm:w-auto shrink-0 snap-center">
-                                        <video id="video-cxcs" controls autoplay muted loop playsinline class="w-full h-[160px] sm:h-24 md:h-28 object-cover rounded-lg border border-gray-200">
-                                            <source src="https://res.cloudinary.com/dhe7uziws/video/upload/v1776236765/fxv8fj0pv75rnvxmj4yr.mp4" type="video/mp4">
-                                        </video>
-                                    </div>
-                                    <div class="relative shrink-0 snap-center group/media">
-                                        <img id="img-cxcs-1" src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776236668/dbte4gcksk5p65qyynpe.png" alt="CXCS 1" class="w-[90vw] sm:w-auto h-auto sm:h-24 md:h-28 rounded-lg shadow-sm border border-gray-200 object-cover block">
-                                    </div>
-                                    <div class="relative shrink-0 snap-center group/media">
-                                        <img id="img-cxcs-2" src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776237280/umztrcdhhdzuabahq89g.jpg" alt="CXCS 2" class="w-[90vw] sm:w-auto h-auto sm:h-24 md:h-28 rounded-lg shadow-sm border border-gray-200 object-cover block">
-                                    </div>
+                            <!-- Video Container - CÂN CHỈNH HOÀN HẢO THEO TỈ LỆ KHỔ DỌC (9:16) -->
+                            <div class="mt-auto pt-4 border-t border-gray-100 flex flex-col items-center">
+                                <div class="relative w-full max-w-[150px] sm:max-w-[170px] aspect-[9/16] rounded-2xl overflow-hidden shadow-lg border-2 border-[#B8860B]/30 bg-black group/video">
+                                    <video id="video-cxcs" controls autoplay muted loop playsinline class="w-full h-full object-cover rounded-xl bg-black">
+                                        <source src="recapWS 15MB.mp4" type="video/mp4">
+                                    </video>
                                 </div>
-
-                                <button onclick="scrollSlider('cxcs-scroll-container', 'right')" 
-                                    class="absolute right-[-12px] sm:right-[-16px] top-[40%] -translate-y-1/2 z-10 bg-white border border-gray-200 shadow-[0_2px_8px_rgba(0,0,0,0.15)] rounded-full p-1.5 text-[#003366] hover:bg-[#003366] hover:text-white transition-all focus:outline-none opacity-90 hover:opacity-100 flex items-center justify-center cursor-pointer">
-                                    <i data-lucide="chevron-right" class="w-4 h-4 md:w-5 md:h-5"></i>
-                                </button>
                             </div>
                         </div>
                     </div>
