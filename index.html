@@ -282,7 +282,7 @@
                         </div>
                         <div class="relative group/media rounded-[1.25rem] overflow-hidden shadow-lg border-2 border-[#F9F1E5] p-1.5 bg-[#F9F1E5] h-[280px] sm:h-[320px] w-full">
                             <video id="video-zmp" controls autoplay muted loop playsinline class="w-full h-full object-cover rounded-xl bg-black shadow-sm">
-                                <source src="https://res.cloudinary.com/dhe7uziws/video/upload/v1776226195/qkblj54tkrwjd3bn2x7l.mp4" type="video/mp4">
+                                <source src="ZMP video (25mb)" type="video/mp4">
                             </video>
                             
                             <!-- Backend Upload Button -->
@@ -1570,6 +1570,10 @@
         const storage = getStorage(app);
         const analytics = getAnalytics(app);
 
+        // TỐI ƯU THỜI GIAN CHỜ LỖI ĐỂ TRÁNH BỊ TREO (GIỚI HẠN RETRY TIME XUỐNG 6 GIÂY)
+        storage.maxUploadRetryTime = 6000; 
+        storage.maxOperationRetryTime = 6000;
+
         // Biến trạng thái
         let isBackendUser = false;
         let activeVideoTargetId = null;
@@ -1816,7 +1820,7 @@
             }, 150);
         }
 
-        // TẢI LÊN TIỆN ÍCH LÊN CLOUD STORAGE (ĐƯỢC NÂNG CẤP)
+        // TẢI LÊN TIỆN ÍCH LÊN CLOUD STORAGE (ĐƯỢC NÂNG CẤP XỬ LÝ LỖI RETRY VÀ PHÂN QUYỀN)
         async function handleLocalMediaUpload(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -1831,8 +1835,21 @@
                 return;
             }
 
-            showToast("Đang tải tệp lên Firebase Storage...", "success");
+            showToast("Đang chuẩn bị phiên tải lên...", "success");
             closeUploadModal();
+
+            // CHỦ ĐỘNG KIỂM TRA & XÁC THỰC LẠI PHIÊN ĐĂNG NHẬP ẨN DANH TRƯỚC KHI THAO TÁC UPLOAD (THEO RULE 3)
+            if (!auth.currentUser) {
+                try {
+                    await signInAnonymously(auth);
+                } catch (authErr) {
+                    console.error("Lỗi xác thực trước khi tải lên: ", authErr);
+                    showToast("Lỗi Auth: Vui lòng bật Anonymous Authentication trong Firebase Console!", "error");
+                    return;
+                }
+            }
+
+            showToast("Đang tải tệp lên Firebase Storage...", "success");
 
             try {
                 // Tạo một đường dẫn duy nhất cho tệp tin trên Firebase Storage
@@ -1861,8 +1878,33 @@
 
                 showToast("Đã upload lên Firebase Storage & đồng bộ thành công!");
             } catch (error) {
-                console.error("Lỗi Upload Storage: ", error);
-                showToast("Upload thất bại: " + error.message, "error");
+                console.error("Lỗi chi tiết khi kết nối Firebase Storage: ", error);
+                
+                let errorFriendlyMsg = "Không thể lưu file lên Storage. ";
+                if (error.code === 'storage/retry-limit-exceeded') {
+                    errorFriendlyMsg += "Lỗi phân quyền hoặc cấu hình Storage Rules chưa được kích hoạt.";
+                } else if (error.code === 'storage/unauthorized') {
+                    errorFriendlyMsg += "Bạn không có quyền ghi! Hãy kiểm tra quy tắc Rules trong Storage.";
+                } else {
+                    errorFriendlyMsg += error.message;
+                }
+                
+                showToast(errorFriendlyMsg, "error");
+
+                // Đưa ra log chi tiết cách cấu hình Rules giúp khắc phục lỗi này ngay tại Firebase Console
+                console.group("🛠️ HƯỚNG DẪN KHẮC PHỤC LỖI THAO TÁC STORAGE");
+                console.log("1. Hãy chắc chắn rằng bạn đã khởi tạo dịch vụ Storage tại Tab Storage trên Firebase Console.");
+                console.log("2. Kiểm tra phần 'Rules' (Quy tắc) của Storage. Để chạy thử nghiệm không lỗi, đổi rules thành:");
+                console.log(`   rules_version = '2';
+   service firebase.storage {
+     match /b/{bucket}/o {
+       match /{allPaths=**} {
+         allow read, write: if true;
+       }
+     }
+   }`);
+                console.log("3. Đảm bảo rằng Anonymous Sign-In đã được bật trong Authentication -> Sign-in Method.");
+                console.groupEnd();
             }
         }
 
@@ -1945,6 +1987,7 @@
             activeBtn.classList.add('bg-[#9A161F]', 'text-white', 'shadow-md');
         }
 
+        // ... các hàm switch và điều hướng slider giữ nguyên cấu trúc
         function switchMainTab(mainTabId) {
             document.querySelectorAll('.main-tab-panel').forEach(panel => {
                 panel.classList.add('hidden');
