@@ -380,7 +380,7 @@
                             </p>
                         </div>
                         
-                        <!-- Slider banner chứa tổng cộng 7 hình ảnh có 2 nút điều hướng trái phải -->
+                        <!-- Slider banner chứa tổng cộng 6 hình ảnh chia thành 3 slide đôi tỉ lệ aspect-video -->
                         <div class="relative mx-auto w-full max-w-lg group">
                             <!-- Nút di chuyển trái -->
                             <button onclick="scrollSlider('vm-banner-scroll-container', 'left')" 
@@ -388,35 +388,24 @@
                                 <i data-lucide="chevron-left" class="w-4 h-4"></i>
                             </button>
 
-                            <!-- Khung chứa ảnh slider cuộn mượt ngang -->
-                            <div id="vm-banner-scroll-container" class="w-full overflow-x-auto flex gap-4 pb-2 pt-1 px-1 custom-scrollbar-container scroll-smooth snap-x snap-mandatory">
-                                <!-- Banner 1: Landscape (1200 x 628_2) -->
-                                <div class="relative shrink-0 snap-center w-full aspect-[1200/628] rounded-2xl overflow-hidden shadow-xl border-4 border-white ring-4 ring-[#003366]/15 bg-white">
-                                    <img id="img-vm-landscape" src="1200 x 628_2.png" alt="Vàng Mini Banner" class="w-full h-full object-cover rounded-lg bg-black shadow-sm">
-                                </div>
-                                <!-- Banner 2: Square (1200 x 1200 KPN) -->
-                                <div class="relative shrink-0 snap-center w-full aspect-[1200/628] rounded-2xl overflow-hidden shadow-xl border-4 border-white ring-4 ring-[#003366]/15 bg-white">
-                                    <img id="img-vm-kpn-square" src="1200 x 1200 (KPN).png" alt="Vàng Mini KPN" class="w-full h-full object-cover rounded-lg bg-black shadow-sm">
-                                </div>
-                                <!-- Banner 3: Kim (1200 x 1200 KIM) -->
-                                <div class="relative shrink-0 snap-center w-full aspect-[1200/628] rounded-2xl overflow-hidden shadow-xl border-4 border-white ring-4 ring-[#003366]/15 bg-white">
-                                    <img id="img-vm-kim" src="1200 x 1200 KIM.png" alt="Vàng Mini Mệnh Kim" class="w-full h-full object-cover rounded-lg bg-black shadow-sm">
-                                </div>
-                                <!-- Banner 4: Mộc (1200 x 1200 MỘC) -->
-                                <div class="relative shrink-0 snap-center w-full aspect-[1200/628] rounded-2xl overflow-hidden shadow-xl border-4 border-white ring-4 ring-[#003366]/15 bg-white">
-                                    <img id="img-vm-moc" src="1200 x 1200 MỘC.png" alt="Vàng Mini Mệnh Mộc" class="w-full h-full object-cover rounded-lg bg-black shadow-sm">
-                                </div>
-                                <!-- Banner 5: Thủy (1200 x 1200 THỦY) -->
-                                <div class="relative shrink-0 snap-center w-full aspect-[1200/628] rounded-2xl overflow-hidden shadow-xl border-4 border-white ring-4 ring-[#003366]/15 bg-white">
-                                    <img id="img-vm-thuy" src="1200 x 1200 THỦY.png" alt="Vàng Mini Mệnh Thủy" class="w-full h-full object-cover rounded-lg bg-black shadow-sm">
-                                </div>
-                                <!-- Banner 6: Hỏa (1200 x 1200 HỎA) -->
-                                <div class="relative shrink-0 snap-center w-full aspect-[1200/628] rounded-2xl overflow-hidden shadow-xl border-4 border-white ring-4 ring-[#003366]/15 bg-white">
-                                    <img id="img-vm-hoa" src="1200 x 1200 HỎA.png" alt="Vàng Mini Mệnh Hỏa" class="w-full h-full object-cover rounded-lg bg-black shadow-sm">
-                                </div>
-                                <!-- Banner 7: Thổ (1200 x 1200 THỔ) -->
-                                <div class="relative shrink-0 snap-center w-full aspect-[1200/628] rounded-2xl overflow-hidden shadow-xl border-4 border-white ring-4 ring-[#003366]/15 bg-white">
-                                    <img id="img-vm-tho" src="1200 x 1200 THỔ.png" alt="Vàng Mini Mệnh Thổ" class="w-full h-full object-cover rounded-lg bg-black shadow-sm">
+                            <!-- Khung chứa ảnh slider tỉ lệ aspect-video đồng bộ với 2 tab bên -->
+                            <div class="relative rounded-2xl shadow-xl overflow-hidden aspect-video bg-white ring-4 ring-[#003366]/15 border-4 border-white">
+                                <div id="vm-banner-scroll-container" class="w-full h-full overflow-x-auto flex custom-scrollbar-container scroll-smooth snap-x snap-mandatory">
+                                    <!-- Slide 1: KPN & KIM -->
+                                    <div class="min-w-full h-full shrink-0 snap-center flex gap-2 p-1 bg-white">
+                                        <img id="img-vm-kpn-square" src="1200 x 1200 (KPN)_2.jpg" alt="Vàng Mini KPN" class="w-1/2 h-full object-cover rounded-xl border border-gray-100 shadow-sm">
+                                        <img id="img-vm-kim" src="1200 x 1200 KIM_2.jpg" alt="Vàng Mini Mệnh Kim" class="w-1/2 h-full object-cover rounded-xl border border-gray-100 shadow-sm">
+                                    </div>
+                                    <!-- Slide 2: MỘC & THỦY -->
+                                    <div class="min-w-full h-full shrink-0 snap-center flex gap-2 p-1 bg-white">
+                                        <img id="img-vm-moc" src="1200 x 1200 MỘC_2.jpg" alt="Vàng Mini Mệnh Mộc" class="w-1/2 h-full object-cover rounded-xl border border-gray-100 shadow-sm">
+                                        <img id="img-vm-thuy" src="1200 x 1200 THỦY_2.jpg" alt="Vàng Mini Mệnh Thủy" class="w-1/2 h-full object-cover rounded-xl border border-gray-100 shadow-sm">
+                                    </div>
+                                    <!-- Slide 3: HỎA & THỔ -->
+                                    <div class="min-w-full h-full shrink-0 snap-center flex gap-2 p-1 bg-white">
+                                        <img id="img-vm-hoa" src="1200 x 1200 HỎA_2.jpg" alt="Vàng Mini Mệnh Hỏa" class="w-1/2 h-full object-cover rounded-xl border border-gray-100 shadow-sm">
+                                        <img id="img-vm-tho" src="1200 x 1200 THỔ_2.jpg" alt="Vàng Mini Mệnh Thổ" class="w-1/2 h-full object-cover rounded-xl border border-gray-100 shadow-sm">
+                                    </div>
                                 </div>
                             </div>
 
