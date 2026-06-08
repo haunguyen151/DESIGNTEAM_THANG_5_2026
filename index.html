@@ -125,7 +125,7 @@
         </div>
         
         <div class="flex items-center gap-2">
-            <!-- Huy hiệu chương trình chính (đã tối ưu hiển thị linh hoạt trên cả mobile) -->
+            <!-- Huy hiệu chương trình chính -->
             <div class="flex items-center gap-1.5 text-[10px] sm:text-xs md:text-sm text-[#9A161F] font-bold bg-[#F9F1E5] px-3 py-1.5 sm:px-4 sm:py-2 rounded-full border border-[#B8860B]/20 shrink-0">
                 <i data-lucide="award" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i>
                 <span>HOẠT ĐỘNG THÁNG 5 và CT SN PNJ 38 năm</span>
@@ -231,7 +231,6 @@
                             </p>
                         </div>
                         
-                        <!-- Khung hình chữ nhật tỉ lệ 16:9 cao cấp và mượt mà, vừa vặn hoàn hảo với video -->
                         <div class="relative mx-auto rounded-2xl shadow-xl overflow-hidden w-full max-w-lg aspect-video bg-black ring-4 ring-[#B8860B]/15 border-4 border-white">
                             <video id="video-zmp" controls autoplay muted loop playsinline class="w-full h-full object-cover rounded-lg bg-black shadow-sm">
                                 <source src="ZMP video (25mb).mp4" type="video/mp4">
@@ -252,15 +251,12 @@
                         </div>
                     </div>
 
-                    <!-- THỐNG KÊ SỐ LIỆU SẢN XUẤT HIỆU QUẢ CAO - ĐÃ ĐỒNG BỘ KÍCH THƯỚC VỚI ZMP -->
                     <div class="grid grid-cols-1 gap-6 mb-8 text-center flex-1 items-center justify-center">
-                        <!-- Nhóm 1: Lượt xem được phóng to cực đại -->
                         <div>
                             <span class="text-5xl sm:text-6xl lg:text-7xl font-serif-vi font-bold text-[#9A161F] block drop-shadow-sm">2,547</span>
                             <span class="font-sans-vi text-sm font-semibold text-[#003366] mt-1 block">Lượt xem E-Brochure <span class="text-xs text-gray-500 font-medium font-sans-vi">(1,340 Users)</span></span>
                         </div>
                         
-                        <!-- Nhóm 2: Bảng phân tích chi tiết dọc -->
                         <div class="bg-[#F9F1E5]/60 rounded-3xl p-5 border border-[#B8860B]/20 mx-auto w-full max-w-sm shadow-sm transition-all hover:bg-amber-50/55 min-h-[310px] flex flex-col justify-between">
                             <span class="font-sans-vi text-xs font-bold text-[#B8860B] uppercase tracking-[0.2em] block mb-4 text-center">HIỆU QUẢ TƯƠNG TÁC & CHUYỂN ĐỔI</span>
                             
@@ -305,7 +301,6 @@
                             </p>
                         </div>
                         
-                        <!-- Khung hình chữ nhật tỉ lệ 16:9 mượt mà, đồng bộ chiều cao tuyệt đối với video ZMP -->
                         <div class="relative mx-auto rounded-2xl shadow-xl overflow-hidden w-full max-w-lg aspect-video bg-white ring-4 ring-[#9A161F]/15 border-4 border-white">
                             <div class="w-full h-full overflow-y-auto custom-scrollbar-container rounded-lg bg-white">
                                 <img 
@@ -329,15 +324,12 @@
                         </div>
                     </div>
 
-                    <!-- THỐNG KÊ SỐ LIỆU SẢN XUẤT HIỆU QUẢ CAO - PHONG CÁCH VÀNG MINI -->
                     <div class="grid grid-cols-1 gap-6 mb-8 text-center flex-1 items-center justify-center">
-                        <!-- Nhóm 1: Doanh thu phóng to cực đại -->
                         <div>
                             <span class="text-5xl sm:text-6xl lg:text-7xl font-serif-vi font-bold text-[#9A161F] block drop-shadow-sm">7.8 Tỷ</span>
                             <span class="font-sans-vi text-sm font-semibold text-[#003366] mt-1 block">Doanh thu KBNH <span class="text-xs text-gray-500 font-medium font-sans-vi">(Sau 22 ngày)</span></span>
                         </div>
                         
-                        <!-- Nhóm 2: Bảng phân tích chi tiết dọc -->
                         <div class="bg-[#F9F1E5]/60 rounded-3xl p-5 border border-[#B8860B]/20 mx-auto w-full max-w-sm shadow-sm transition-all hover:bg-amber-50/55 min-h-[310px] flex flex-col justify-between">
                             <span class="font-sans-vi text-xs font-bold text-[#B8860B] uppercase tracking-[0.2em] block mb-4 text-center">HIỆU QUẢ HOẠT ĐỘNG CHI TIẾT</span>
                             
@@ -388,9 +380,51 @@
                             </p>
                         </div>
                         
-                        <!-- 1 hình size 1200x628 bên dưới -->
-                        <div class="relative mx-auto rounded-2xl shadow-xl overflow-hidden w-full max-w-lg aspect-[1200/628] bg-white ring-4 ring-[#003366]/15 border-4 border-white mt-4">
-                            <img id="img-vm-landscape" src="1200 x 628_2.png" alt="Vàng Mini Banner" class="w-full h-full object-cover rounded-lg bg-black shadow-sm">
+                        <!-- Slider banner chứa tổng cộng 7 hình ảnh có 2 nút điều hướng trái phải -->
+                        <div class="relative mx-auto w-full max-w-lg group">
+                            <!-- Nút di chuyển trái -->
+                            <button onclick="scrollSlider('vm-banner-scroll-container', 'left')" 
+                                class="absolute left-[-12px] sm:left-[-16px] top-1/2 -translate-y-1/2 z-10 bg-white border border-gray-200 shadow-[0_2px_8px_rgba(0,0,0,0.15)] rounded-full p-1.5 text-[#003366] hover:bg-[#003366] hover:text-white transition-all focus:outline-none opacity-90 hover:opacity-100 flex items-center justify-center cursor-pointer">
+                                <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                            </button>
+
+                            <!-- Khung chứa ảnh slider cuộn mượt ngang -->
+                            <div id="vm-banner-scroll-container" class="w-full overflow-x-auto flex gap-4 pb-2 pt-1 px-1 custom-scrollbar-container scroll-smooth snap-x snap-mandatory">
+                                <!-- Banner 1: Landscape (1200 x 628_2) -->
+                                <div class="relative shrink-0 snap-center w-full aspect-[1200/628] rounded-2xl overflow-hidden shadow-xl border-4 border-white ring-4 ring-[#003366]/15 bg-white">
+                                    <img id="img-vm-landscape" src="1200 x 628_2.png" alt="Vàng Mini Banner" class="w-full h-full object-cover rounded-lg bg-black shadow-sm">
+                                </div>
+                                <!-- Banner 2: Square (1200 x 1200 KPN) -->
+                                <div class="relative shrink-0 snap-center w-full aspect-[1200/628] rounded-2xl overflow-hidden shadow-xl border-4 border-white ring-4 ring-[#003366]/15 bg-white">
+                                    <img id="img-vm-kpn-square" src="1200 x 1200 (KPN).png" alt="Vàng Mini KPN" class="w-full h-full object-cover rounded-lg bg-black shadow-sm">
+                                </div>
+                                <!-- Banner 3: Kim (1200 x 1200 KIM) -->
+                                <div class="relative shrink-0 snap-center w-full aspect-[1200/628] rounded-2xl overflow-hidden shadow-xl border-4 border-white ring-4 ring-[#003366]/15 bg-white">
+                                    <img id="img-vm-kim" src="1200 x 1200 KIM.png" alt="Vàng Mini Mệnh Kim" class="w-full h-full object-cover rounded-lg bg-black shadow-sm">
+                                </div>
+                                <!-- Banner 4: Mộc (1200 x 1200 MỘC) -->
+                                <div class="relative shrink-0 snap-center w-full aspect-[1200/628] rounded-2xl overflow-hidden shadow-xl border-4 border-white ring-4 ring-[#003366]/15 bg-white">
+                                    <img id="img-vm-moc" src="1200 x 1200 MỘC.png" alt="Vàng Mini Mệnh Mộc" class="w-full h-full object-cover rounded-lg bg-black shadow-sm">
+                                </div>
+                                <!-- Banner 5: Thủy (1200 x 1200 THỦY) -->
+                                <div class="relative shrink-0 snap-center w-full aspect-[1200/628] rounded-2xl overflow-hidden shadow-xl border-4 border-white ring-4 ring-[#003366]/15 bg-white">
+                                    <img id="img-vm-thuy" src="1200 x 1200 THỦY.png" alt="Vàng Mini Mệnh Thủy" class="w-full h-full object-cover rounded-lg bg-black shadow-sm">
+                                </div>
+                                <!-- Banner 6: Hỏa (1200 x 1200 HỎA) -->
+                                <div class="relative shrink-0 snap-center w-full aspect-[1200/628] rounded-2xl overflow-hidden shadow-xl border-4 border-white ring-4 ring-[#003366]/15 bg-white">
+                                    <img id="img-vm-hoa" src="1200 x 1200 HỎA.png" alt="Vàng Mini Mệnh Hỏa" class="w-full h-full object-cover rounded-lg bg-black shadow-sm">
+                                </div>
+                                <!-- Banner 7: Thổ (1200 x 1200 THỔ) -->
+                                <div class="relative shrink-0 snap-center w-full aspect-[1200/628] rounded-2xl overflow-hidden shadow-xl border-4 border-white ring-4 ring-[#003366]/15 bg-white">
+                                    <img id="img-vm-tho" src="1200 x 1200 THỔ.png" alt="Vàng Mini Mệnh Thổ" class="w-full h-full object-cover rounded-lg bg-black shadow-sm">
+                                </div>
+                            </div>
+
+                            <!-- Nút di chuyển phải -->
+                            <button onclick="scrollSlider('vm-banner-scroll-container', 'right')" 
+                                class="absolute right-[-12px] sm:right-[-16px] top-1/2 -translate-y-1/2 z-10 bg-white border border-gray-200 shadow-[0_2px_8px_rgba(0,0,0,0.15)] rounded-full p-1.5 text-[#003366] hover:bg-[#003366] hover:text-white transition-all focus:outline-none opacity-90 hover:opacity-100 flex items-center justify-center cursor-pointer">
+                                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -437,7 +471,6 @@
                                 <li class="pl-6 text-xs sm:text-sm lg:text-base text-gray-600 list-disc list-inside uppercase">Poster thông báo</li>
                             </ul>
                             
-                            <!-- Thư viện ảnh - CHÈN 5 ẢNH MỚI CỦA KHCS -->
                             <div class="relative w-full mt-auto mb-4 group">
                                 <button onclick="scrollSlider('khcs-scroll-container', 'left')" 
                                     class="absolute left-[-12px] sm:left-[-16px] top-[40%] -translate-y-1/2 z-10 bg-white border border-gray-200 shadow-[0_2px_8px_rgba(0,0,0,0.15)] rounded-full p-1.5 text-[#003366] hover:bg-[#003366] hover:text-white transition-all focus:outline-none opacity-90 hover:opacity-100 flex items-center justify-center cursor-pointer">
@@ -469,7 +502,6 @@
                             </div>
                         </div>
                         
-                        <!-- Video dưới đống hình ảnh - CHÈN VIDEO JAPAN TRIP 2026 -->
                         <div class="mt-auto pt-2 border-t border-gray-100">
                             <div class="relative group/media rounded-xl overflow-hidden shadow-sm border border-[#B8860B]/20 bg-[#F9F1E5] p-1 mt-2">
                                 <video id="video-khcs" controls autoplay muted loop playsinline class="w-full h-auto max-h-[160px] sm:max-h-[180px] object-cover rounded-lg">
@@ -492,7 +524,7 @@
                             <ul class="space-y-3 mb-4">
                                 <li class="flex items-start gap-2 text-xs sm:text-sm lg:text-base text-gray-600"><i data-lucide="chevron-right" class="w-4 h-4 lg:w-5 lg:h-5 text-[#B8860B] mt-0.5 shrink-0"></i>TAB SALE tháng 5-6</li>
                                 <li class="flex items-start gap-2 text-xs sm:text-sm lg:text-base text-gray-600"><i data-lucide="chevron-right" class="w-4 h-4 lg:w-5 lg:h-5 text-[#B8860B] mt-0.5 shrink-0"></i>Chương trình SN PNJ 38, CT SUMMER và Dự án KIM BẢO NGŨ HÀNH</li>
-                                <li class="flex items-start gap-2 text-xs sm:text-sm lg:text-base text-gray-600"><i data-lucide="chevron-right" class="w-4 h-4 lg:w-5 lg:h-5 text-[#B8860B] mt-0.5 shrink-0"></i>Chương trình Thu HThu Hút Khách Hàng Tiềm Năng</li>
+                                <li class="flex items-start gap-2 text-xs sm:text-sm lg:text-base text-gray-600"><i data-lucide="chevron-right" class="w-4 h-4 lg:w-5 lg:h-5 text-[#B8860B] mt-0.5 shrink-0"></i>Chương trình Thu Hút Khách Hàng Tiềm Năng</li>
                                 <li class="flex items-start gap-2 text-xs sm:text-sm lg:text-base text-gray-600 italic">
                                     <i data-lucide="chevron-right" class="w-4 h-4 lg:w-5 lg:h-5 text-[#B8860B] mt-0.5 shrink-0"></i>
                                     <span>PRODUCT DRIVEN<br/><span class="text-[10px] sm:text-xs lg:text-sm text-gray-500 uppercase">(TS Ý, CZ, ECZ, TS cưới...)</span></span>
@@ -615,7 +647,6 @@
                                 </button>
                             </div>
 
-                            <!-- Video PNS đặt bên dưới 3 tấm hình -->
                             <div class="mt-auto pt-4 border-t border-gray-100">
                                 <div class="relative group/media rounded-xl overflow-hidden shadow-sm border border-[#B8860B]/20 bg-[#F9F1E5] p-1 mt-2">
                                     <video id="video-pns" controls autoplay muted loop playsinline class="w-full aspect-video object-cover rounded-lg bg-black">
@@ -672,7 +703,6 @@
                                 </button>
                             </div>
 
-                            <!-- Video RETAIL MKT đặt bên dưới 5 tấm hình -->
                             <div class="mt-auto pt-4 border-t border-gray-100">
                                 <div class="grid grid-cols-2 gap-2 mt-2">
                                     <div class="relative group/media rounded-xl overflow-hidden shadow-sm border border-[#B8860B]/20 bg-[#F9F1E5] p-1">
@@ -690,7 +720,7 @@
                         </div>
                     </div>
 
-                    <!-- Box 6: CX-CS (CÂN CHỈNH LẠI CHỈ CÓ 1 VIDEO RECAP DỌC TUYỆT ĐẸP) -->
+                    <!-- Box 6: CX-CS -->
                     <div class="bg-white rounded-2xl shadow-lg border-t-4 border-[#B8860B] p-5 sm:p-6 lg:p-8 hover:-translate-y-2 transition-transform duration-300 flex flex-col h-full relative font-sans">
                         <div class="flex items-center gap-3 md:gap-4 mb-5 pb-5 border-b border-gray-100">
                             <div class="w-10 h-10 md:w-14 md:h-14 rounded-full bg-[#B8860B] flex items-center justify-center text-white shadow-md shrink-0">
@@ -700,13 +730,11 @@
                         </div>
                         <div class="flex-1 flex flex-col justify-between">
                             <ul class="space-y-4 sm:space-y-6 mb-4 font-sans">
-                               
                                 <li class="text-xs sm:text-sm lg:text-base text-gray-700 border-l-4 border-[#9A161F] pl-4 uppercase tracking-tight">
                                     <strong class="text-[#9A161F]">CS:</strong> Thiết kế thông báo chính sách thu đổi ecz, VOC...
                                 </li>
                             </ul>
                             
-                            <!-- Hình ảnh đánh giá chất lượng dịch vụ VOC đứng cực đẹp -->
                             <div class="mt-auto pt-4 border-t border-gray-100 flex flex-col items-center">
                                 <div class="relative w-full max-w-[160px] sm:max-w-[180px] aspect-[3/4] rounded-2xl overflow-hidden shadow-lg border-2 border-[#B8860B]/30 bg-white group/image">
                                     <img id="img-cxcs-voc" src="Voc-cuahang-01.jpg" alt="Đánh giá chất lượng dịch vụ VOC" class="w-full h-full object-cover rounded-xl">
@@ -1129,7 +1157,7 @@
                 </div>
             </section>
 
-            <!-- SUB-TAB 3: HỖ TRỢ TRUYỀN THÔNG GTM CHO BST MỚI & CTKM (HỢP NHẤT HÀNH TRÌNH) -->
+            <!-- SUB-TAB 3: HỖ TRỢ TRUYỀN THÔNG GTM FOR NEW BST -->
             <section id="sub-gtm" class="sub-content hidden fade-in-section">
                 <div class="text-center mb-10 px-2 max-w-4xl mx-auto">
                     <h2 class="font-serif-vi text-3xl md:text-5xl text-[#003366] font-bold uppercase mb-4 leading-tight">
@@ -1143,7 +1171,6 @@
                 <!-- BẢNG HIỆU QUẢ TRUYỀN THÔNG HỢP NHẤT -->
                 <div class="max-w-5xl mx-auto mb-12 px-4">
                     <div class="bg-white rounded-3xl p-6 md:p-10 border border-gray-100 shadow-xl relative overflow-hidden">
-                        <!-- Decorative background elements -->
                         <div class="absolute -right-10 -top-10 w-40 h-40 bg-amber-50 rounded-full blur-2xl -z-10 opacity-60"></div>
                         
                         <div class="text-center mb-8">
@@ -1229,7 +1256,6 @@
                         <!-- BST DISNEY -->
                         <div class="bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 flex flex-col justify-between hover:-translate-y-1 transition-all h-full relative">
                             <div class="relative overflow-hidden min-h-[140px] bg-[#003366] text-white p-12 text-center flex items-center justify-center font-bold text-2xl uppercase tracking-widest font-sans">
-                                <!-- Banner ảnh nền tùy chỉnh -->
                                 <img id="img-bst-disney" src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776075155/zpw3nmwqd6ynu3hmodwc.png" class="absolute inset-0 w-full h-full object-cover opacity-30 z-0">
                                 <span class="z-10 drop-shadow-md">DISNEY</span>
                             </div>
@@ -1247,7 +1273,6 @@
                         <!-- BST STYLE -->
                         <div class="bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 flex flex-col justify-between hover:-translate-y-1 transition-all h-full relative">
                             <div class="relative overflow-hidden min-h-[140px] bg-[#111] text-white p-12 text-center flex items-center justify-center font-bold text-2xl uppercase tracking-widest font-sans">
-                                <!-- Banner ảnh nền tùy chỉnh -->
                                 <img id="img-bst-style" src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776237272/rbe50nu8mlqjlzmkzyes.png" class="absolute inset-0 w-full h-full object-cover opacity-30 z-0">
                                 <span class="z-10 drop-shadow-md">STYLE</span>
                             </div>
@@ -1265,7 +1290,6 @@
                         <!-- BST MANCODE -->
                         <div class="bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 flex flex-col justify-between hover:-translate-y-1 transition-all h-full relative font-sans">
                             <div class="relative overflow-hidden min-h-[140px] bg-[#D97706] text-white p-12 text-center flex items-center justify-center font-bold text-2xl uppercase tracking-widest font-sans">
-                                <!-- Banner ảnh nền tùy chỉnh -->
                                 <img id="img-bst-mancode" src="https://res.cloudinary.com/dhe7uziws/image/upload/v1776229692/u3wwx6elgekf6lvzcwkx.jpg" class="absolute inset-0 w-full h-full object-cover opacity-30 z-0">
                                 <span class="z-10 drop-shadow-md">MANCODE</span>
                             </div>
@@ -1295,13 +1319,11 @@
 
     <!-- SDK FIREBASE CONFIG & SYSTEM LOGIC MODULE -->
     <script type="module">
-        // Import APIs từ CDN v11
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
 
-        // Cấu hình lưu trữ Firebase của bạn
         const firebaseConfig = {
             apiKey: "AIzaSyAbuBdhZuHN4s5BlgeazY5mXXLdvo6x2N0",
             authDomain: "report-2026-6affd.firebaseapp.com",
@@ -1312,20 +1334,16 @@
             measurementId: "G-PNTCSFE26H"
         };
 
-        // Khởi tạo các ứng dụng Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
         const analytics = getAnalytics(app);
 
-        // Định danh appId duy nhất cho dự án (Theo quy tắc 1)
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'report-2026';
 
-        // Quản lý Đăng nhập & Lắng nghe thay đổi dữ liệu
         document.addEventListener("DOMContentLoaded", () => {
             lucide.createIcons();
             
-            // Đăng nhập bảo mật trước khi truy vấn dữ liệu (Theo quy tắc 3)
             const initAuth = async () => {
                 try {
                     if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
@@ -1345,7 +1363,6 @@
             };
             initAuth();
 
-            // Trạng thái xác thực thành công
             onAuthStateChanged(auth, (user) => {
                 if (user) {
                     listenToMediaChanges();
@@ -1353,7 +1370,6 @@
             });
         });
 
-        // Lắng nghe Real-time từ Firestore và cập nhật tất cả hình ảnh/video
         const listenToMediaChanges = () => {
             const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'media_sources', 'current');
             
@@ -1375,7 +1391,6 @@
             });
         };
 
-        // ----------------- ĐIỀU KHIỂN TABS & TIỆN ÍCH -----------------
         function switchTeamTab(teamTabId) {
             document.querySelectorAll('.team-panel').forEach(panel => {
                 panel.classList.add('hidden');
@@ -1446,7 +1461,6 @@
             }
         }
 
-        // Khởi động trượt slider
         function scrollSlider(id, direction) {
             const slider = document.getElementById(id);
             if (!slider) return;
@@ -1454,7 +1468,6 @@
             slider.scrollBy({ left: scrollAmount, behavior: 'smooth' });
         }
 
-        // Xuất các hàm ra ngoài window để các phần tử HTML inline onclick có thể gọi được trực tiếp
         window.switchTeamTab = switchTeamTab;
         window.switchMainTab = switchMainTab;
         window.switchSubTab = switchSubTab;
