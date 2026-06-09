@@ -1015,9 +1015,7 @@
                 <button onclick="switchSubTab('sub-gtm')" id="btn-sub-gtm" class="bg-white text-[#003366] flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-xs md:text-sm transition-all border border-gray-200 hover:border-[#003366] hover:shadow-sm">
                     <i data-lucide="trending-up" class="w-4 h-4"></i> HỖ TRỢ TRUYỀN THÔNG GTM
                 </button>
-                <button onclick="switchSubTab('sub-ld')" id="btn-sub-ld" class="bg-white text-[#003366] flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-xs md:text-sm transition-all border border-gray-200 hover:border-[#003366] hover:shadow-sm">
-                    <i data-lucide="book-open" class="w-4 h-4"></i> HOẠT ĐỘNG LEARNING & DEVELOPMENT
-                </button>
+                
             </div>
 
             <!-- SUB-TAB 1: DỰ ÁN NỔI BẬT -->
@@ -1261,30 +1259,88 @@
             </section>
             <!-- SUB-TAB 2: VAI TRÒ CREATIVE HUB -->
             <section id="sub-hub" class="sub-content hidden fade-in-section">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <!-- Biểu đồ -->
-                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
-                        <h3 class="text-xl font-bold text-[#003366] mb-6">Phân bổ nguồn lực Content</h3>
-                        <!-- Biểu đồ cột giả lập -->
-                        <div class="space-y-4">
-                            <div class="flex items-center gap-4"><span class="w-24 text-xs font-bold">OMNI-MKT</span><div class="h-6 bg-[#003366] w-[80%] rounded"></div><span class="text-xs font-bold">80</span></div>
-                            <div class="flex items-center gap-4"><span class="w-24 text-xs font-bold">Brand</span><div class="h-6 bg-[#003366] w-[35%] rounded"></div><span class="text-xs font-bold">35</span></div>
-                            <div class="flex items-center gap-4"><span class="w-24 text-xs font-bold">KHBL</span><div class="h-6 bg-[#003366] w-[18%] rounded"></div><span class="text-xs font-bold">18</span></div>
+                <div class="max-w-5xl mx-auto px-4">
+                    
+                    <!-- Phần Biểu đồ (Giữ nguyên) -->
+                    <div class="bg-white p-6 md:p-8 rounded-3xl shadow-xl border border-gray-100 mb-8">
+                        <h2 class="text-xl font-bold text-[#003366] text-center mb-8 uppercase tracking-wider">Phân bổ nguồn lực Content</h2>
+                        
+                        <!-- Biểu đồ -->
+                        <div class="space-y-4 mb-8">
+                            <div class="flex items-center gap-4">
+                                <div class="w-24 text-xs font-bold text-gray-700 text-right shrink-0 uppercase">OMNI-MKT</div>
+                                <div class="h-6 bg-[#003366] w-[80%] rounded-r-sm"></div>
+                                <div class="w-8 font-bold text-[#003366]">80</div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="w-24 text-xs font-bold text-gray-700 text-right shrink-0 uppercase">Brand</div>
+                                <div class="h-6 bg-[#003366] w-[35%] rounded-r-sm"></div>
+                                <div class="w-8 font-bold text-[#003366]">35</div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="w-24 text-xs font-bold text-gray-700 text-right shrink-0 uppercase">KHBL</div>
+                                <div class="h-6 bg-[#003366] w-[18%] rounded-r-sm"></div>
+                                <div class="w-8 font-bold text-[#003366]">18</div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="w-24 text-xs font-bold text-gray-700 text-right shrink-0 uppercase">Growth</div>
+                                <div class="h-6 bg-[#003366] w-[12%] rounded-r-sm"></div>
+                                <div class="w-8 font-bold text-[#003366]">12</div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="w-24 text-xs font-bold text-gray-700 text-right shrink-0 uppercase">PNS</div>
+                                <div class="h-6 bg-[#003366] w-[8%] rounded-r-sm"></div>
+                                <div class="w-8 font-bold text-[#003366]">8</div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="w-24 text-xs font-bold text-gray-700 text-right shrink-0 uppercase">Retail/Khác</div>
+                                <div class="h-6 bg-[#003366] w-[3%] rounded-r-sm"></div>
+                                <div class="w-8 font-bold text-[#003366]">3</div>
+                            </div>
+                        </div>
+
+                        <!-- Trọng điểm -->
+                        <div class="bg-[#F9F1E5] p-5 rounded-2xl border-l-4 border-[#9A161F]">
+                            <p class="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1">TRỌNG ĐIỂM:</p>
+                            <p class="font-bold text-[#003366] text-sm md:text-base">BRAND/SUB-BRAND, KHỐI KHBL, OMNI – MKT</p>
                         </div>
                     </div>
-                    <!-- 6 khung phòng ban -->
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="p-4 border border-blue-200 bg-blue-50 rounded-xl"><h4 class="font-bold text-sm">BRAND/SUB-BRAND</h4><p class="text-[10px]">Triển khai nội dung Go-to-Market cho BST mới.</p></div>
-                        <div class="p-4 border border-blue-200 bg-blue-50 rounded-xl"><h4 class="font-bold text-sm">RETAIL</h4><p class="text-[10px]">Truyền thông campaign trọng điểm (Sinh nhật PNJ 38 năm).</p></div>
-                        <div class="p-4 border border-blue-200 bg-blue-50 rounded-xl"><h4 class="font-bold text-sm">OMNI - MKT</h4><p class="text-[10px]">Định hướng & sản xuất nội dung phục vụ chuyển đổi.</p></div>
-                        <div class="p-4 border border-blue-200 bg-blue-50 rounded-xl"><h4 class="font-bold text-sm">OMNI - GROWTH</h4><p class="text-[10px]">Cá nhân hóa nội dung theo từng nhóm khách hàng.</p></div>
-                        <div class="p-4 border border-blue-200 bg-blue-50 rounded-xl"><h4 class="font-bold text-sm">OMNI - PNS</h4><p class="text-[10px]">Hỗ trợ truyền thông chương trình ưu đãi trả góp.</p></div>
-                        <div class="p-4 border border-blue-200 bg-blue-50 rounded-xl"><h4 class="font-bold text-sm">OMNI - CM</h4><p class="text-[10px]">Sản xuất key message cho content sàn.</p></div>
+
+                    <!-- Phần 6 phòng ban (Layout 2 cột, lề thẳng hàng với biểu đồ) -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white p-5 rounded-xl shadow border border-gray-100 hover:shadow-md transition">
+                            <h4 class="font-bold text-[#A31D1D] text-sm mb-1">BRAND/SUB-BRAND</h4>
+                            <p class="text-xs text-slate-600 italic">Triển khai nội dung Go-to-Market cho BST mới</p>
+                            <p class="text-xs text-slate-800 mt-1">Thông qua Blog & Zalo Broadcast, đảm bảo đúng định vị – đúng tệp khách hàng – đúng thông điệp</p>
+                        </div>
+                        <div class="bg-white p-5 rounded-xl shadow border border-gray-100 hover:shadow-md transition">
+                            <h4 class="font-bold text-[#A31D1D] text-sm mb-1">OMNI – GROWTH – CDP</h4>
+                            <p class="text-xs text-slate-600 italic">Cá nhân hóa nội dung theo từng nhóm khách hàng</p>
+                            <p class="text-xs text-slate-800 mt-1">Sản xuất content may đo theo từng Persona để tiếp cận lại KHC</p>
+                        </div>
+                        <div class="bg-white p-5 rounded-xl shadow border border-gray-100 hover:shadow-md transition">
+                            <h4 class="font-bold text-[#A31D1D] text-sm mb-1">RETAIL</h4>
+                            <p class="text-xs text-slate-600 italic">Truyền thông campaign trọng điểm (Sinh nhật PNJ 38 năm)</p>
+                            <p class="text-xs text-slate-800 mt-1">Đồng bộ nội dung trên các kênh PNJ Blog và Zalo OA PNJ</p>
+                        </div>
+                        <div class="bg-white p-5 rounded-xl shadow border border-gray-100 hover:shadow-md transition">
+                            <h4 class="font-bold text-[#A31D1D] text-sm mb-1">OMNI – PNS</h4>
+                            <p class="text-xs text-slate-600 italic">Hỗ trợ truyền thông chương trình ưu đãi trả góp</p>
+                            <p class="text-xs text-slate-800 mt-1">Sản xuất content Blog và Zalo Broadcast để truyền thông ưu đãi trả góp</p>
+                        </div>
+                        <div class="bg-white p-5 rounded-xl shadow border border-gray-100 hover:shadow-md transition">
+                            <h4 class="font-bold text-[#A31D1D] text-sm mb-1">OMNI – MKT</h4>
+                            <p class="text-xs text-slate-600 italic">Định hướng & sản xuất nội dung phục vụ chuyển đổi</p>
+                            <p class="text-xs text-slate-800 mt-1">Phát triển key message cho campaign, triển khai đa kênh và hỗ trợ chiến dịch</p>
+                        </div>
+                        <div class="bg-white p-5 rounded-xl shadow border border-gray-100 hover:shadow-md transition">
+                            <h4 class="font-bold text-[#A31D1D] text-sm mb-1">OMNI – CM</h4>
+                            <p class="text-xs text-slate-600 italic">Sản xuất key message cho content sàn</p>
+                        </div>
                     </div>
                 </div>
             </section>
-
-            <!-- SUB-TAB 3: HỖ TRỢ TRUYỀN THÔNG GTM FOR NEW BST -->
+<!-- SUB-TAB 3: HỖ TRỢ TRUYỀN THÔNG GTM FOR NEW BST -->
             <section id="sub-gtm" class="sub-content hidden fade-in-section">
                 <div class="text-center mb-10 px-2 max-w-4xl mx-auto">
                     <h2 class="font-serif-vi text-3xl md:text-5xl text-[#003366] font-bold uppercase mb-4 leading-tight">
@@ -1434,7 +1490,6 @@
                     </div>
                 </div>
             </section>
-
         </main>
     </div>
 
